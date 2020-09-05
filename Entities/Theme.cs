@@ -26,4 +26,20 @@ namespace Entities
 
         public int[] Media { get; }
     }
+
+    public class ThemeHeader
+    {
+        public ThemeHeader(int id, string name, User author)
+        {
+            Id = id;
+            Name = name;
+            Author = author;
+        }
+
+        public int Id { get; }
+
+        public string Name { get; }
+
+        public User Author { get; }
+    }
 }

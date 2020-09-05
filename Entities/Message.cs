@@ -2,21 +2,24 @@ namespace Entities
 {
     public class Message
     {
-        public Message(int id, User author, string content, int[] media)
+        public Message(int id, User author, string content, int[] media, int theme)
         {
             Id = id;
             Author = author;
             Content = content;
             Media = media;
+            Theme = theme;
         }
 
         public int Id { get; }
 
         public User Author { get; }
         
-        public string Content { get; }
+        public string Content { get; set; }
 
-        public int[] Media { get; }
+        public int[] Media { get; set; }
+        
+        public int Theme { get; }
 
     }
 }
