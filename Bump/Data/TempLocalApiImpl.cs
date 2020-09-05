@@ -71,7 +71,7 @@ namespace Bump.Data
 
         public void UpdateMessage(Message message) => _messages
             .Find(it => it.Id == message.Id)
-            ?.Run(it =>
+            ?.Also(it =>
             {
                 it.Content = message.Content;
                 it.Media = message.Media;

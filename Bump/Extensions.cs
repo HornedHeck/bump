@@ -4,21 +4,20 @@ namespace Bump
 {
     public static class Extensions
     {
-        public static void Run<T>(this T subject, Action<T> block)
+        public static R Run<R>(Func<R> block)
         {
-            block(subject);
+            return block();
         }
 
-        public static void RunNullable<T>(this T subject, Action<T> block, Action onNull)
+        public static R Run<T, R>(this T subject, Func<T, R> block)
         {
-            if (subject != null)
-            {
-                block(subject);
-            }
-            else
-            {
-                onNull();
-            }
+            return block(subject);
+        }
+
+        public static T Also<T>(this T subject, Action<T> block)
+        {
+            block(subject);
+            return subject;
         }
     }
 }

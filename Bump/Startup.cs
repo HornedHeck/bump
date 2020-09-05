@@ -48,7 +48,7 @@ namespace Bump
             {
                 endpoints.MapControllerRoute(
                     "default",
-                    "{controller=Home}/{action=Index}/{id?}");
+                    "{controller=User}/{action=Start}");
             });
         }
     }
