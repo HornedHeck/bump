@@ -10,7 +10,9 @@ namespace Data
 
         void Logout();
 
-        void Login();
+        bool Login(string username , string password);
+
+        void Register(string name , string password , string visibleName);
 
         Media LoadMedia(int id);
 
@@ -23,6 +25,8 @@ namespace Data
         void UpdateMessage(Message message);
 
         void DeleteMessage(int id);
+
+        Message GetMessage(int id);
 
     }
 }

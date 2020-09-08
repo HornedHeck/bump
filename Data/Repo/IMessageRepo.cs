@@ -8,6 +8,8 @@ namespace Data.Repo
 
         void DeleteMessage(int id);
 
-        void UpdateMessage(Message message);
+        void UpdateMessage(int id, string content, int[] media);
+
+        Message GetMessage(int id);
     }
 }

@@ -17,7 +17,9 @@ namespace Bump.Data.Repo
 
         public void Logout() => _local.Logout();
 
-        public void Login() => _local.Login();
+        public bool Login(string username, string password) => _local.Login(username, password);
 
+        public void Register(string username, string password, string visibleName) =>
+            _local.Register(username, password, visibleName);
     }
 }

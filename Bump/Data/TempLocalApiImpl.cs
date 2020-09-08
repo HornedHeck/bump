@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
@@ -7,20 +8,29 @@ namespace Bump.Data
 {
     public class TempLocalApiImpl : ILocalApi
     {
+        private List<User> _users = new List<User>
+        {
+            new User(1, "Test"),
+            new User(2, "Test2"),
+            new User(3, "Test3"),
+        };
+
         private User _user;
 
         private readonly List<Message> _messages = new List<Message>();
 
         public TempLocalApiImpl()
         {
-            for (var i = 0; i < 10; i++)
+            var rand = new Random();
+
+            for (var i = 0; i < 100; i++)
             {
                 _messages.Add(new Message(
                     id: i,
-                    author: _user,
+                    author: _users.First(),
                     content: $"Test message {i}",
                     media: new int[0],
-                    theme: i / 3 + 1
+                    theme: rand.Next(1, 4)
                 ));
             }
         }
@@ -32,9 +42,19 @@ namespace Bump.Data
             _user = null;
         }
 
-        public void Login()
+        public bool Login(string username, string password)
         {
-            _user = new User(1, "Test user");
+            return _users.Find(user => user.Name == username)?.Run(user =>
+            {
+                _user = user;
+                return true;
+            }) ?? false;
+        }
+
+        public void Register(string name , string password , string visibleName)
+        {
+            _user = new User(_users.Count + 1, name);
+            _users.Add(_user);
         }
 
         public Media LoadMedia(int id)
@@ -46,10 +66,10 @@ namespace Bump.Data
         {
             return new Theme(
                 id: id,
-                author: _user,
+                author: _users.First(),
                 name: $"Test theme {id}",
                 content: $"Test content {id}",
-                messages: _messages.ToArray(),
+                messages: _messages.Where(it => it.Theme == id).ToArray(),
                 media: new int[0]
             );
         }
@@ -80,5 +100,12 @@ namespace Bump.Data
         public void DeleteMessage(int id) => _messages
             .Find(it => it.Id == id)
             ?.Run(it => _messages.Remove(it));
+
+        public Message GetMessage(int id)
+        {
+            return _messages.Find(it => it.Id == id);
+        }
+        
+        
     }
 }

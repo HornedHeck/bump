@@ -2,6 +2,7 @@ using Bump.Data;
 using Bump.Data.Repo;
 using Data;
 using Data.Repo;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bump
@@ -11,15 +12,25 @@ namespace Bump
     {
         public static void RegisterRepos(this IServiceCollection services)
         {
-            services.AddTransient<IThemeRepo, ThemeRepoImpl>();
-            services.AddTransient<IUserRepo, UserRepoImpl>();
-            services.AddTransient<IMediaRepo, MediaRepoImpl>();
-            services.AddTransient<IMessageRepo, MessageRepoImpl>();
+            services.AddSingleton<IThemeRepo, ThemeRepoImpl>();
+            services.AddSingleton<IUserRepo, UserRepoImpl>();
+            services.AddSingleton<IMediaRepo, MediaRepoImpl>();
+            services.AddSingleton<IMessageRepo, MessageRepoImpl>();
         }
 
         public static void RegisterApi(this IServiceCollection services)
         {
-            services.AddTransient<ILocalApi, TempLocalApiImpl>();
+            services.AddSingleton<ILocalApi, TempLocalApiImpl>();
         }
+
+        public static void RegisterAuth(this IServiceCollection services)
+        {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
+                });
+        }
+
     }
 }

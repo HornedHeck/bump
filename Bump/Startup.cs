@@ -20,6 +20,7 @@ namespace Bump
         {
             services.RegisterApi();
             services.RegisterRepos();
+            services.RegisterAuth();
             services.AddControllersWithViews();
         }
 
@@ -42,6 +43,7 @@ namespace Bump
 
             app.UseRouting();
 
+            app.UseAuthentication();    
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
