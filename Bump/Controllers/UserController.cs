@@ -1,6 +1,13 @@
+using System.Collections.Generic;
+using System.Security.Claims;
+using Bump.Models;
 using Data.Repo;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Bump.Extensions;
+using LoginModel = Bump.Models.LoginModel;
 
 namespace Bump.Controllers
 {
@@ -13,10 +20,33 @@ namespace Bump.Controllers
             _userRepo = userRepo;
         }
 
-        public RedirectResult Login()
+        [HttpPost]
+        public IActionResult Login(LoginModel login)
         {
-            _userRepo.Login();
+            _userRepo.Login(login.Convert());
+            Authenticate(login.Login);
             return Redirect("~/User/Profile");
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        private void Authenticate(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            var id = new ClaimsIdentity(
+                claims,
+                "ApplicationCookie",
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType
+            );
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         public RedirectResult Logout()
@@ -25,12 +55,26 @@ namespace Bump.Controllers
             return Redirect("~/User/Start");
         }
 
-        public IActionResult Start()
+        [HttpGet]
+        public IActionResult Register()
         {
             return View();
         }
 
-        public IActionResult Profile() => _userRepo.GetCurrentUser()
-            ?.Run(View) ?? Run(() => new BadRequestResult() as IActionResult);
+        [HttpPost]
+        public IActionResult Register(RegistrationModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            Authenticate(model.Name);
+            _userRepo.Register(model.Name);
+            return Redirect(new PathString("/User/Profile"));
+        }
+
+        [Authorize]
+        public IActionResult Profile()
+        {
+            return View(_userRepo.GetCurrentUser());
+        }
     }
 }

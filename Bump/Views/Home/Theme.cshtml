@@ -1,0 +1,51 @@
+﻿@model Entities.Theme
+
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<script>
+    
+    function deleteMessage(id) {
+      $.ajax({
+          url: '@Url.Action("DeleteMessage", "Message")',
+          type: 'DELETE',
+          data: { 'id': id},
+          success: function(result) {
+              location.reload();
+          }
+      });
+    }
+
+</script>
+
+<div style="margin: 40px">
+    <h2>@Model.Name</h2>
+</div>
+
+<div>
+    <p>@Model.Content</p>
+</div>
+
+@if (Model.Messages.Length > 0)
+{
+    <div style="display: flex; flex-direction: column; background: #ccf">
+        @foreach (var message in Model.Messages)
+        {
+            <div id="@message.Id" style="margin: 5px;padding: 10px; background: white">
+                <p>@message.Content</p>
+                <p align="right">@message.Author.Name</p>
+                <div style="display: flex;flex-direction: row;">
+                    <button onclick="deleteMessage(@message.Id)">Delete</button>
+                    <a style="text-decoration: none" href="@Url.Action("UpdateMessage", "Message", new {id = message.Id})">
+                        <button>Edit</button>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No messages yet</p>
+}

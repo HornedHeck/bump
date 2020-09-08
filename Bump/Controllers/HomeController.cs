@@ -4,28 +4,29 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Bump.Models;
+using Data.Repo;
+using Entities;
 
 namespace Bump.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IThemeRepo _themeRepo;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IThemeRepo themeRepo)
         {
-            _logger = logger;
+            _themeRepo = themeRepo;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_themeRepo.GetThemeHeaders());
         }
 
-        public IActionResult Privacy()
+        public IActionResult Theme(int themeId)
         {
-            return View();
+            return View(_themeRepo.GetTheme(themeId));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

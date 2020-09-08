@@ -4,4 +4,19 @@
     ViewData["Title"] = "Profile Page";
 }
 
-<p>Hello @Model.Name</p>
+<style>
+    .flex-row{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }   
+</style>
+
+<div class="flex-row">
+    <img height="100px" width="100px" src="favicon.ico" alt="" style="background-color: #0b2e13"/>
+    <h1 style="margin-left: 10px">Hello @Model.Name</h1>
+</div>
+
+<form action="/User/Logout">
+    <input type="submit" value="Logout"/>
+</form>

@@ -1,0 +1,28 @@
+@model RegistrationModel
+<h2>Регистрация нового пользователя</h2>
+<form method="post" asp-controller="User" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Login"></label><br />
+        <input asp-for="Login" />
+        <span asp-validation-for="Login"></span>
+    </div>
+    <div>
+        <label asp-for="Name"></label><br />
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="Password2"></label><br />
+        <input asp-for="Password2" />
+        <span asp-validation-for="Password2"></span>
+    </div>
+    <div>
+        <input type="submit" value="Register" />
+    </div>
+</form>

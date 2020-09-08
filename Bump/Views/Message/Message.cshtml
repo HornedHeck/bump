@@ -1,0 +1,14 @@
+@model Message
+
+<form method="post" asp-controller="Message" asp-action="@Model.Method">
+    <div>
+        <label asp-for="Content"></label><br/>
+        <input asp-for="Content" value="@Model.Content"/>
+        <span asp-validation-for="Content"></span>
+    </div>
+    <input type="hidden" asp-for="Theme">
+    <input type="hidden" asp-for="Id">
+    <div>
+        <input type="submit" value="Submit"/>
+    </div>
+</form>

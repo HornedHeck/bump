@@ -1,6 +1,5 @@
-using System;
+using Bump.Models;
 using Data.Repo;
-using Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bump.Controllers
@@ -14,22 +13,50 @@ namespace Bump.Controllers
             _messageRepo = messageRepo;
         }
 
-        public string DeleteMessage(int id)
+        [HttpDelete]
+        public IActionResult DeleteMessage(int id)
         {
+            var message = _messageRepo.GetMessage(id);
             _messageRepo.DeleteMessage(id);
-            return "Deleted";
+            return Redirect(Url.Action("Theme", "Home", new {themeId = message.Theme}));
         }
 
-        public string UpdateMessage(Message message)
+
+        public IActionResult UpdateMessage(int id)
         {
-            _messageRepo.UpdateMessage(message);
-            return "Updated";
+            var message = new Message(_messageRepo.GetMessage(id)) {Method = "UpdateMessage"};
+            return View("Message", message);
         }
 
-        public string CreateMessage(Message message)
+        [ActionName("UpdateMessage")]
+        [HttpPost]
+        public IActionResult UpdatePost(Message message)
         {
-            _messageRepo.CreateMessage(message);
-            return "Created";
+            _messageRepo.UpdateMessage(message.Id, message.Content, new int[0]);
+            return Redirect(Url.Action(
+                "Theme",
+                "Home",
+                new {themeId = message.Theme}
+            ));
+        }
+
+
+        public IActionResult CreateMessage(int id)
+        {
+            var message = new Message(_messageRepo.GetMessage(id)) {Method = "CreateMessage"};
+            return View("Message", message);
+        }
+
+        [ActionName("CreateMessage")]
+        [HttpPost]
+        public IActionResult CreatePost(Message message)
+        {
+            _messageRepo.CreateMessage(message.Convert());
+            return Redirect(Url.Action(
+                "Theme",
+                "Home",
+                new {themeId = message.Theme}
+            ));
         }
     }
 }
