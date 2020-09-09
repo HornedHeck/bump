@@ -22,20 +22,20 @@ namespace Tests
         public void DeleteCalledTest()
         {
             _controller.DeleteMessage(1);
-            _messageRepo.Verify(repo => repo.DeleteMessage(It.IsAny<int>()));
+            _messageRepo.Verify(repo => repo.DeleteMessage(1));
         }
 
         [Test]
         public void UpdateCalledTest()
         {
-            _controller.UpdateMessage(_message);
-            _messageRepo.Verify(repo => repo.UpdateMessage(_message));
+            _controller.UpdatePost(new Bump.Models.Message(_message));
+            _messageRepo.Verify(repo => repo.UpdateMessage(_message.Id, _message.Content, _message.Media));
         }
 
         [Test]
         public void CreateCalledTest()
         {
-            _controller.CreateMessage(_message);
+            _controller.CreateMessage(_message.Theme);
             _messageRepo.Verify(repo => repo.CreateMessage(_message));
         }
     }

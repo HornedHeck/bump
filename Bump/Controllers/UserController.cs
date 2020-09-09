@@ -23,9 +23,9 @@ namespace Bump.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel login)
         {
-            _userRepo.Login(login.Convert());
+            _userRepo.Login(login.Login, login.Password);
             Authenticate(login.Login);
-            return Redirect("~/User/Profile");
+            return Redirect("/User/Profile");
         }
 
         [HttpGet]
@@ -52,7 +52,7 @@ namespace Bump.Controllers
         public RedirectResult Logout()
         {
             _userRepo.Logout();
-            return Redirect("~/User/Start");
+            return Redirect("/User/Login");
         }
 
         [HttpGet]
@@ -67,8 +67,8 @@ namespace Bump.Controllers
             if (!ModelState.IsValid) return View(model);
 
             Authenticate(model.Name);
-            _userRepo.Register(model.Name);
-            return Redirect(new PathString("/User/Profile"));
+            _userRepo.Register(model.Login, model.Password, model.Name);
+            return Redirect("/User/Profile");
         }
 
         [Authorize]

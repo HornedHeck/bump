@@ -1,4 +1,5 @@
 using Bump.Controllers;
+using Bump.Models;
 using Data.Repo;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,19 +20,60 @@ namespace Tests
         }
 
         [Test]
-        public void TestLogin()
+        public void LoginPostTeswt()
         {
-            var res = _controller.Login();
-            _userRepo.Verify(it => it.Login());
-            Assert.AreEqual(res.Url, "~/User/Profile");
+            var model = new LoginModel()
+            {
+                Login = "Login",
+                Password = "Password"
+            };
+            _controller.ControllerContext = Utils.GetAuthContext();
+
+            var res = _controller.Login(model);
+
+            _userRepo.Verify(it => it.Login(model.Login, model.Password));
+            Assert.IsInstanceOf<RedirectResult>(res);
+            Assert.AreEqual(Utils.GenerateUrl("User", "Profile"), (res as RedirectResult)?.Url);
         }
 
         [Test]
-        public void TestLogout()
+        public void LoginGetTest()
+        {
+            var res = _controller.Login();
+            Assert.NotNull(res);
+        }
+
+        [Test]
+        public void RegisterPostTest()
+        {
+            var model = new RegistrationModel()
+            {
+                Login = "Login",
+                Password = "Password",
+                Name = "Name"
+            };
+            _controller.ControllerContext = Utils.GetAuthContext();
+
+            var res = _controller.Register(model);
+
+            _userRepo.Verify(it => it.Register(model.Login, model.Password, model.Name));
+            Assert.IsInstanceOf<RedirectResult>(res);
+            Assert.AreEqual(Utils.GenerateUrl("User", "Profile"), (res as RedirectResult)?.Url);
+        }
+
+        [Test]
+        public void RegisterGetTest()
+        {
+            var res = _controller.Register();
+            Assert.NotNull(res);
+        }
+
+        [Test]
+        public void LogoutTest()
         {
             var res = _controller.Logout();
             _userRepo.Verify(it => it.Logout());
-            Assert.AreEqual(res.Url, "~/User/Start");
+            Assert.AreEqual(Utils.GenerateUrl("User", "Login"), res.Url);
         }
 
         [Test]
@@ -43,19 +85,6 @@ namespace Tests
 
             var res = _controller.Profile();
             Assert.IsInstanceOf<ViewResult>(res);
-        }
-
-        [Test]
-        public void ProfileTestFail()
-        {
-            var res = _controller.Profile();
-            Assert.IsInstanceOf<BadRequestResult>(res);
-        }
-
-        [Test]
-        public void TestStart()
-        {
-            Assert.NotNull(_controller.Start());
         }
     }
 }
