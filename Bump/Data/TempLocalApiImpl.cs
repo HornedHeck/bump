@@ -8,11 +8,16 @@ namespace Bump.Data
 {
     public class TempLocalApiImpl : ILocalApi
     {
-        private List<User> _users = new List<User>
+        public void CreateTheme(Theme theme)
         {
-            new User(1, "Test"),
-            new User(2, "Test2"),
-            new User(3, "Test3"),
+            
+        }
+
+        private readonly List<User> _users = new List<User>
+        {
+            new User(1, "Test" , "Login1"),
+            new User(2, "Test2" , "Login2"),
+            new User(3, "Test3" , "Login3"),
         };
 
         private User _user;
@@ -42,18 +47,18 @@ namespace Bump.Data
             _user = null;
         }
 
-        public bool Login(string username, string password)
+        public bool Login(string login, string password)
         {
-            return _users.Find(user => user.Name == username)?.Run(user =>
+            return _users.Find(user => user.Login == login)?.Run(user =>
             {
                 _user = user;
                 return true;
             }) ?? false;
         }
 
-        public void Register(string name , string password , string visibleName)
+        public void Register(string login , string password , string name)
         {
-            _user = new User(_users.Count + 1, name);
+            _user = new User(_users.Count + 1, name , login);
             _users.Add(_user);
         }
 

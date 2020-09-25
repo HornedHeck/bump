@@ -10,14 +10,16 @@ namespace Data
 
         void Logout();
 
-        bool Login(string username , string password);
+        bool Login(string login , string password);
 
-        void Register(string name , string password , string visibleName);
+        void Register(string login , string password , string name);
 
         Media LoadMedia(int id);
 
         Theme GetTheme(int id);
 
+        void CreateTheme(Theme theme);
+        
         List<ThemeHeader> GetThemeHeaders();
 
         void CreateMessage(Message message);

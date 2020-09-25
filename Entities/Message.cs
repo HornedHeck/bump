@@ -2,6 +2,8 @@ namespace Entities
 {
     public class Message
     {
+        public Message() { }
+
         public Message(int id, User author, string content, int[] media, int theme)
         {
             Id = id;

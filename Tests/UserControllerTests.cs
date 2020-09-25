@@ -81,7 +81,7 @@ namespace Tests
         {
             _userRepo
                 .Setup(it => it.GetCurrentUser())
-                .Returns(new User(1, "name"));
+                .Returns(new User(1, "name" , "login"));
 
             var res = _controller.Profile();
             Assert.IsInstanceOf<ViewResult>(res);
