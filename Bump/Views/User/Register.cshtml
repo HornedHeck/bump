@@ -3,7 +3,7 @@
     ViewData["Title"] = "Registration";
     Layout = "UnsignedLayout";
 }
-<form method="post" asp-controller="User" asp-action="Register">
+<form style="padding-left: 20px" method="post" asp-controller="User" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
         <label asp-for="Email"></label><br/>
@@ -26,6 +26,12 @@
         <span asp-validation-for="Password2"></span>
     </div>
     <div style="margin-top: 20px">
-        <input class="btn-primary" type="submit" value="Register"/>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </div>
+</form>
+
+<form method="get" asp-controller="User" asp-action="Login">
+    <div style="margin-top: 20px; padding-left: 20px">
+        <button class="btn btn-outline-primary" type="submit">Login</button>
     </div>
 </form>

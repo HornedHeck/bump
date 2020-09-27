@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
@@ -43,9 +44,70 @@ namespace Bump.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string returnUrl)
         {
-            return View();
+            var model = await getLoginModel(returnUrl);
+
+            return View(model);
+        }
+
+        private async Task<LoginModel> getLoginModel(string returnUrl)
+        {
+            var model = new LoginModel
+            {
+                Providers = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList(),
+                ReturnUrl = returnUrl
+            };
+            return model;
+        }
+
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action("ExternalLoginResult", "User", new {ReturnUrl = returnUrl});
+
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
+        public async Task<IActionResult> ExternalLoginResult(string returnUrl, string remoteError = null)
+        {
+            returnUrl ??= Url.Action("Index", "Home");
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (remoteError != null || info == null)
+            {
+                return View("Login", await getLoginModel(returnUrl));
+            }
+
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(
+                loginProvider: info.LoginProvider,
+                providerKey: info.ProviderKey,
+                isPersistent: false,
+                bypassTwoFactor: true
+            );
+            if (signInResult.Succeeded)
+            {
+                return Redirect(returnUrl);
+            }
+
+            var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                
+            if (name == null) return View("Login", await getLoginModel(returnUrl));
+                
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+            {
+                user = new BumpUser
+                {
+                    UserName = name
+                };
+                await _userManager.CreateAsync(user);
+                await _userManager.AddLoginAsync(user, info);
+            }
+
+            await _signInManager.SignInAsync(user, false);
+                    
+            return Redirect(returnUrl);
         }
 
         public async Task<IActionResult> Logout()

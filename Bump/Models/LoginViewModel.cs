@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Bump.Models
 {
@@ -9,5 +11,10 @@ namespace Bump.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        
+        public string ReturnUrl { get; set; }
+        
+        public List<AuthenticationScheme> Providers { get; set; }
+        
     }
 }

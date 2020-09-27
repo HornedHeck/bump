@@ -22,10 +22,8 @@ namespace Bump
         {
             services.RegisterApi();
             services.RegisterRepos();
-            services.RegisterAuth();
+            services.RegisterAuth(Configuration);
             services.AddControllersWithViews();
-            // services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                // .AddCookie(options => options.LoginPath = new PathString("/User/Login"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +52,7 @@ namespace Bump
             {
                 endpoints.MapControllerRoute(
                     "default",
-                    "{controller=User}/{action=Start}");
+                    "{controller=User}/{action=Index}");
             });
         }
     }

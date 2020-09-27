@@ -8,7 +8,10 @@ namespace Bump.Data
 {
     public class TempLocalApiImpl : ILocalApi
     {
-        private readonly List<User> _users = new List<User>();
+        private readonly List<User> _users = new List<User>
+        {
+            new User("1")
+        };
 
         public void AddUser(User user)
         {
