@@ -110,7 +110,10 @@ namespace Bump.Data
         {
             return _messages.Find(it => it.Id == id);
         }
-        
-        
+
+        public void ResetDatabase()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

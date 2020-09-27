@@ -21,7 +21,7 @@ namespace Entities
 
         public int[] Media { get; set; }
         
-        public int Theme { get; }
+        public int Theme { set; get; }
 
     }
 }

@@ -30,5 +30,7 @@ namespace Data
 
         Message GetMessage(int id);
 
+        void ResetDatabase();
+
     }
 }
