@@ -1,4 +1,4 @@
-@model Entities.User
+@model Bump.Auth.BumpUser
 
 @{
     ViewData["Title"] = "Profile Page";
@@ -14,7 +14,7 @@
 
 <div class="flex-row">
     <img height="100px" width="100px" src="favicon.ico" alt="" style="background-color: #0b2e13"/>
-    <h1 style="margin-left: 10px">Hello @Model.Name</h1>
+    <h1 style="margin-left: 10px">Hello @Model.UserName</h1>
 </div>
 
 <form action="/User/Logout">

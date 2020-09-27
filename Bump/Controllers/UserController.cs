@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using Bump.Auth;
 using Bump.Models;
 using Data.Repo;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using LoginModel = Bump.Models.LoginModel;
 
@@ -14,18 +18,28 @@ namespace Bump.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepo _userRepo;
+        private readonly UserManager<BumpUser> _userManager;
+        private readonly SignInManager<BumpUser> _signInManager;
 
-        public UserController(IUserRepo userRepo)
+        public UserController(IUserRepo userRepo, UserManager<BumpUser> userManager,
+            SignInManager<BumpUser> signInManager)
         {
             _userRepo = userRepo;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost]
-        public IActionResult Login(LoginModel login)
+        public async Task<IActionResult> Login(LoginModel model)
         {
-            _userRepo.Login(login.Login, login.Password);
-            Authenticate(login.Login);
-            return Redirect("/User/Profile");
+            var res = await _signInManager.PasswordSignInAsync(model.Name, model.Password, false, false);
+            if (res.Succeeded)
+            {
+                return RedirectToAction("Profile", "User");
+            }
+
+            ModelState.AddModelError(string.Empty, "Wrong login or password");
+            return View(model);
         }
 
         [HttpGet]
@@ -34,25 +48,10 @@ namespace Bump.Controllers
             return View();
         }
 
-        private void Authenticate(string userName)
+        public async Task<IActionResult> Logout()
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-            var id = new ClaimsIdentity(
-                claims,
-                "ApplicationCookie",
-                ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType
-            );
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
-        public RedirectResult Logout()
-        {
-            _userRepo.Logout();
-            return Redirect("/User/Login");
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "User");
         }
 
         [HttpGet]
@@ -62,19 +61,35 @@ namespace Bump.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegistrationModel model)
+        public async Task<IActionResult> Register(RegistrationModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            Authenticate(model.Name);
-            _userRepo.Register(model.Login, model.Password, model.Name);
-            return Redirect("/User/Profile");
+            var user = new BumpUser
+            {
+                UserName = model.Name,
+                Email = model.Email,
+            };
+            var res = await _userManager.CreateAsync(user, model.Password);
+            if (res.Succeeded)
+            {
+                _userRepo.AddUser(user.Map());
+                await _signInManager.SignInAsync(user, false);
+                return RedirectToAction("Profile", "User");
+            }
+
+            foreach (var error in res.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View(_userRepo.GetCurrentUser());
+            return View(await _userManager.FindByNameAsync(User.Identity.Name));
         }
     }
 }

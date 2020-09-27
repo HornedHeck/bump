@@ -34,7 +34,7 @@
         {
             <div id="@message.Id" style="margin: 5px;padding: 10px; background: white">
                 <p>@message.Content</p>
-                <p align="right">@message.Author.Name</p>
+                <p align="right">@message.Author.Id</p>
                 <div style="display: flex;flex-direction: row;">
                     <button onclick="deleteMessage(@message.Id)">Delete</button>
                     <a style="text-decoration: none" href="@Url.Action("UpdateMessage", "Message", new {id = message.Id})">

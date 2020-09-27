@@ -1,8 +1,11 @@
+using Bump.Auth;
 using Bump.Data;
 using Bump.Data.Repo;
 using Data;
 using Data.Repo;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bump
@@ -25,12 +28,15 @@ namespace Bump
 
         public static void RegisterAuth(this IServiceCollection services)
         {
+            services.AddDbContext<BumpUserContext>(options =>
+            {
+                options.UseSqlite("Filename=Identity.db");
+            });
+            services
+                .AddIdentity<BumpUser, IdentityRole>()
+                .AddEntityFrameworkStores<BumpUserContext>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
-                });
+                .AddCookie(options => { options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login"); });
         }
-
     }
 }

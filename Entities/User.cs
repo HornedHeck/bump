@@ -4,17 +4,11 @@ namespace Entities
 {
     public class User
     {
-        public User(int id, string name, int? photo = null)
+        public User(string id)
         {
             Id = id;
-            Name = name;
-            Photo = photo;
         }
 
-        public int Id { get; }
-
-        public string Name { get; }
-
-        public int? Photo { get; }
+        public string Id { get; }
     }
 }

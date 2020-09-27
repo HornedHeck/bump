@@ -5,14 +5,7 @@ namespace Data
 {
     public interface ILocalApi
     {
-
-        User GetCurrentUser();
-
-        void Logout();
-
-        bool Login(string username , string password);
-
-        void Register(string name , string password , string visibleName);
+        void AddUser(User user);
 
         Media LoadMedia(int id);
 
@@ -27,6 +20,5 @@ namespace Data
         void DeleteMessage(int id);
 
         Message GetMessage(int id);
-
     }
 }

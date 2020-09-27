@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Bump.Models;
 using Data.Repo;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bump.Controllers
 {
@@ -19,11 +20,13 @@ namespace Bump.Controllers
             _themeRepo = themeRepo;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View(_themeRepo.GetThemeHeaders());
         }
 
+        [Authorize]
         public IActionResult Theme(int themeId)
         {
             return View(_themeRepo.GetTheme(themeId));

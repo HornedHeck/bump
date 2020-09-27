@@ -1,5 +1,6 @@
 using Bump.Models;
 using Data.Repo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bump.Controllers
@@ -13,6 +14,7 @@ namespace Bump.Controllers
             _messageRepo = messageRepo;
         }
 
+        [Authorize]
         [HttpDelete]
         public IActionResult DeleteMessage(int id)
         {
@@ -21,7 +23,7 @@ namespace Bump.Controllers
             return Redirect(Url.Action("Theme", "Home", new {themeId = message.Theme}));
         }
 
-
+        [Authorize]
         public IActionResult UpdateMessage(int id)
         {
             var message = new Message(_messageRepo.GetMessage(id)) {Method = "UpdateMessage"};
@@ -29,6 +31,7 @@ namespace Bump.Controllers
         }
 
         [ActionName("UpdateMessage")]
+        [Authorize]
         [HttpPost]
         public IActionResult UpdatePost(Message message)
         {
@@ -40,13 +43,14 @@ namespace Bump.Controllers
             ));
         }
 
-
+        [Authorize]
         public IActionResult CreateMessage(int id)
         {
             var message = new Message(_messageRepo.GetMessage(id)) {Method = "CreateMessage"};
             return View("Message", message);
         }
 
+        [Authorize]
         [ActionName("CreateMessage")]
         [HttpPost]
         public IActionResult CreatePost(Message message)

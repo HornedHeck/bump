@@ -8,14 +8,12 @@ namespace Bump.Data
 {
     public class TempLocalApiImpl : ILocalApi
     {
-        private List<User> _users = new List<User>
-        {
-            new User(1, "Test"),
-            new User(2, "Test2"),
-            new User(3, "Test3"),
-        };
+        private readonly List<User> _users = new List<User>();
 
-        private User _user;
+        public void AddUser(User user)
+        {
+            _users.Add(user);
+        }
 
         private readonly List<Message> _messages = new List<Message>();
 
@@ -33,28 +31,6 @@ namespace Bump.Data
                     theme: rand.Next(1, 4)
                 ));
             }
-        }
-
-        public User GetCurrentUser() => _user;
-
-        public void Logout()
-        {
-            _user = null;
-        }
-
-        public bool Login(string username, string password)
-        {
-            return _users.Find(user => user.Name == username)?.Run(user =>
-            {
-                _user = user;
-                return true;
-            }) ?? false;
-        }
-
-        public void Register(string name , string password , string visibleName)
-        {
-            _user = new User(_users.Count + 1, name);
-            _users.Add(_user);
         }
 
         public Media LoadMedia(int id)
@@ -78,9 +54,9 @@ namespace Bump.Data
         {
             return new[]
             {
-                new ThemeHeader(1, "Test theme header 1", _user),
-                new ThemeHeader(2, "Test theme header 2", _user),
-                new ThemeHeader(3, "Test theme header 3", _user),
+                new ThemeHeader(1, "Test theme header 1", _users.First()),
+                new ThemeHeader(2, "Test theme header 2", _users.First()),
+                new ThemeHeader(3, "Test theme header 3", _users.First()),
             }.ToList();
         }
 
@@ -105,7 +81,5 @@ namespace Bump.Data
         {
             return _messages.Find(it => it.Id == id);
         }
-        
-        
     }
 }
