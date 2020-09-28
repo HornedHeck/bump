@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Data;
+using Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -21,17 +23,14 @@ namespace Bump
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                try
-                {
-                    await AuthInitializer.InitializeAsync(
-                        userManager: services.GetRequiredService<UserManager<BumpUser>>(),
-                        roleManager: services.GetRequiredService<RoleManager<IdentityRole>>()
-                    );
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                await AuthInitializer.InitializeAsync(
+                    userManager: services.GetRequiredService<UserManager<BumpUser>>(),
+                    roleManager: services.GetRequiredService<RoleManager<IdentityRole>>()
+                );
+                TestInitializer.Initialize(
+                    local: services.GetService<ILocalApi>(),
+                    userManager: services.GetRequiredService<UserManager<BumpUser>>()
+                );
             }
 
             await host.RunAsync();

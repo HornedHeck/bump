@@ -9,18 +9,6 @@ namespace Bump.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(7)]
-        [MaxLength(20)]
-        public string Login { get; set; }
-
-        [Required]
-        [MinLength(7)]
-        public string Name { get; set; }
-
-        public User Convert()
-        {
-            return new User(Id, Name, Login);
-        }
+        [Required] public string UserId { get; set; }
     }
 }

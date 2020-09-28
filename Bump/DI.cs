@@ -24,7 +24,7 @@ namespace Bump
 
         public static void RegisterApi(this IServiceCollection services)
         {
-            services.AddSingleton<ILocalApi, TempLocalApiImpl>();
+            services.AddSingleton<ILocalApi, EntityLocal>();
         }
 
         public static void RegisterAuth(this IServiceCollection services, IConfiguration configuration)

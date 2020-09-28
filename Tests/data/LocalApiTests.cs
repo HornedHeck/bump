@@ -9,93 +9,37 @@ namespace Tests.data
 {
     public class LocalApiTests
     {
-        private readonly ILocalApi _local = new EntityLocal();
+        private readonly ILocalApi _local = new EntityLocal("Tests.db");
         private const string Name = "Name";
-        private const string Password = "Password";
-        private const string WrongPassword = "WrongPassword";
-        private const string Login = "Login";
+        private const string Content = "Content";
 
-
-        public LocalApiTests()
-        {
-            _user = new User(
-                id: 0,
-                name: Name,
-                login: Login
-            );
-            _theme = new Theme(
-                0,
-                _user,
-                Name,
-                "Content",
-                new Message[0],
-                new int[0]
-            );
-            _message = new Message(
-                id: 0,
-                author: _user,
-                content: "Content",
-                media: new int[0],
-                theme: 0
-            );
-        }
-
-        private readonly User _user;
-        private readonly Message _message;
-        private readonly Theme _theme;
-
-        private void RegisterWithAssert()
-        {
-            _local.Register(Login, Password, Name);
-            Assert.NotNull(_local.GetCurrentUser());
-        }
-
-        private void LogoutWithAssert()
-        {
-            _local.Logout();
-            Assert.Null(_local.GetCurrentUser());
-        }
+        private Message _message;
+        private Theme _theme;
+        private User _user;
 
         [SetUp]
         public void SetUp()
         {
+            _user = new User(
+                id: "1"
+            );
+            _theme = new Theme(
+                id: 1,
+                author: _user,
+                name: Name,
+                content: Content,
+                messages: new Message[0],
+                media: new int[0]
+            );
+            _message = new Message(
+                id: 1,
+                author: _user,
+                content: Content,
+                media: new int[0],
+                theme: _theme.Id
+            );
             _local.ResetDatabase();
-        }
-
-        // [Test]
-        public void RegisterTest()
-        {
-            RegisterWithAssert();
-            Assert.NotNull(_local.GetCurrentUser());
-            Assert.AreEqual(Login, _local.GetCurrentUser().Login);
-            Assert.AreEqual(Name, _local.GetCurrentUser().Name);
-        }
-
-        // [Test]
-        public void LogoutTest()
-        {
-            RegisterWithAssert();
-            LogoutWithAssert();
-        }
-
-        // [Test]
-        public void LoginTest_Successful()
-        {
-            RegisterWithAssert();
-            LogoutWithAssert();
-            _local.Login(Login, Password);
-            Assert.NotNull(_local.GetCurrentUser());
-            Assert.AreEqual(Login, _local.GetCurrentUser().Login);
-            Assert.AreEqual(Name, _local.GetCurrentUser().Name);
-        }
-
-        // [Test]
-        public void LoginTest_Fail()
-        {
-            RegisterWithAssert();
-            LogoutWithAssert();
-            // _local.Login();
-            Assert.Null(_local.GetCurrentUser());
+            _local.AddUser(_user);
         }
 
         [Test]
@@ -110,6 +54,8 @@ namespace Tests.data
         [Test]
         public void CreateMessageTest()
         {
+            _local.CreateTheme(_theme);
+            _message.Theme = _theme.Id;
             _local.CreateMessage(_message);
             var result = _local.GetMessage(_message.Id);
 
@@ -125,17 +71,23 @@ namespace Tests.data
                 Content = "Content2"
             };
 
+            _local.CreateTheme(_theme);
+            _message.Theme = _theme.Id;
+            updated.Theme = _theme.Id;
             _local.CreateMessage(_message);
+            updated.Id = _message.Id;
             _local.UpdateMessage(updated);
 
             var res = _local.GetMessage(updated.Id);
 
-            Assert.AreEqual(updated, res);
+            Assert.AreEqual(updated.Content, res.Content);
         }
 
         [Test]
         public void DeleteMessageTest()
         {
+            _local.CreateTheme(_theme);
+            _message.Theme = _theme.Id;
             _local.CreateMessage(_message);
             var createRes = _local.GetMessage(_message.Id);
             _local.DeleteMessage(_message.Id);
@@ -144,5 +96,20 @@ namespace Tests.data
             Assert.NotNull(createRes);
             Assert.Null(deleteRes);
         }
+
+        [Test]
+        public void GetMessageTest()
+        {
+            _local.CreateTheme(_theme);
+            _message.Theme = _theme.Id;
+            _local.CreateMessage(_message);
+
+            var r1 = _local.GetMessage(_message.Id);
+            var r2 = _local.GetMessage(_message.Id);
+            
+            Assert.NotNull(r1);
+            Assert.NotNull(r2);
+        }
+        
     }
 }

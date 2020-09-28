@@ -7,17 +7,13 @@ namespace Bump.Data.Mappers
     {
         public static User Map(this BumpUser item) =>
             new User(
-                id: item.Id,
-                name: item.Name,
-                login: item.Login
+                id: item.UserId
             );
 
         public static BumpUser Map(this User entity) =>
             new BumpUser
             {
-                Id = entity.Id,
-                Login = entity.Login,
-                Name = entity.Name
+                UserId = entity.Id,
             };
     }
 }

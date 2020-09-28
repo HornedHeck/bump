@@ -39,7 +39,7 @@ namespace Bump.Data.Mappers
                 new ThemeHeader(
                     id: it.Id,
                     name: it.Title,
-                    author: it.Author.Convert()
+                    author: it.Author.Map()
                 )
             );
         }

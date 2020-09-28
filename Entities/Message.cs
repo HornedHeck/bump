@@ -13,7 +13,7 @@ namespace Entities
             Theme = theme;
         }
 
-        public int Id { get; }
+        public int Id { get; set; }
 
         public User Author { get; }
         

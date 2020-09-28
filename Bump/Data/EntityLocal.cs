@@ -21,7 +21,7 @@ namespace Bump.Data
         public EntityLocal()
         {
             Database.EnsureCreated();
-            _isTest = false;
+            _isTest = true;
         }
 
         public EntityLocal(string filename, bool isTest = true)
@@ -33,8 +33,10 @@ namespace Bump.Data
         public void ResetDatabase()
         {
             if (!_isTest) return;
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            Messages.RemoveRange(Messages);
+            Themes.RemoveRange(Themes);
+            Users.RemoveRange(Users);
+            SaveChanges();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -46,28 +48,9 @@ namespace Bump.Data
         public DbSet<LMessage> Messages { get; set; }
         public DbSet<BumpUser> Users { get; set; }
 
-        public User GetCurrentUser()
+        public void AddUser(User user)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Logout()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Login(string login, string password)
-        {
-            return null != Users.FirstOrDefault(it => it.Login == login);
-        }
-
-        public void Register(string login, string password, string name)
-        {
-            Users.Add(new BumpUser
-            {
-                Login = login,
-                Name = name
-            });
+            Users.Add(user.Map());
         }
 
         public Media LoadMedia(int id)
@@ -77,13 +60,14 @@ namespace Bump.Data
 
         public Theme GetTheme(int id)
         {
-            return Themes.Find(id).Map();
+            return Themes.Find(id)?.Map();
         }
 
         public void CreateTheme(Theme theme)
         {
-            Themes.Add(theme.Map());
+            var res = Themes.Add(theme.Map());
             SaveChanges();
+            theme.Id = res.Entity.Id;
         }
 
         public List<ThemeHeader> GetThemeHeaders()
@@ -94,8 +78,9 @@ namespace Bump.Data
         public void CreateMessage(Message message)
         {
             var theme = Themes.Find(message.Theme);
-            Messages.Add(message.Map(theme));
+            var entry = Messages.Add(message.Map(theme));
             SaveChanges();
+            message.Id = entry.Entity.Id;
         }
 
         public void UpdateMessage(Message message)
@@ -109,13 +94,16 @@ namespace Bump.Data
 
         public void DeleteMessage(int id)
         {
-            Messages.Remove(new LMessage {Id = id});
-            SaveChanges();
+            Messages.Find(id)?.Also(entry =>
+            {
+                Messages.Remove(entry);
+                SaveChanges();
+            });
         }
 
         public Message GetMessage(int id)
         {
-            return Messages.Find(id).Map();
+            return Messages.Find(id)?.Map();
         }
     }
 }

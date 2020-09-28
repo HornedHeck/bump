@@ -14,7 +14,7 @@ namespace Entities
             Media = media;
         }
 
-        public int Id { get; }
+        public int Id { get; set; }
 
         public User Author { get; }
 
