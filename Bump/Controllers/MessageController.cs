@@ -1,6 +1,10 @@
+using System.Threading.Tasks;
+using Bump.Auth;
 using Bump.Models;
 using Data.Repo;
+using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bump.Controllers
@@ -8,10 +12,12 @@ namespace Bump.Controllers
     public class MessageController : Controller
     {
         private readonly IMessageRepo _messageRepo;
+        private readonly UserManager<BumpUser> _userManager;
 
-        public MessageController(IMessageRepo messageRepo)
+        public MessageController(IMessageRepo messageRepo, UserManager<BumpUser> userManager)
         {
             _messageRepo = messageRepo;
+            _userManager = userManager;
         }
 
         [Authorize]
@@ -24,42 +30,65 @@ namespace Bump.Controllers
         }
 
         [Authorize]
-        public IActionResult UpdateMessage(int id)
+        public async Task<IActionResult> UpdateMessage(int id)
         {
-            var message = new Message(_messageRepo.GetMessage(id)) {Method = "UpdateMessage"};
+            var entity = _messageRepo.GetMessage(id);
+            var message = new MessageVM
+            {
+                Id = entity.Id,
+                Method = "UpdateMessage",
+                Author = await _userManager.FindByIdAsync(entity.Author.Id),
+                Content = entity.Content,
+                Theme = entity.Theme
+            };
             return View("Message", message);
         }
 
         [ActionName("UpdateMessage")]
         [Authorize]
         [HttpPost]
-        public IActionResult UpdatePost(Message message)
+        public IActionResult UpdatePost(MessageVM messageVm)
         {
-            _messageRepo.UpdateMessage(message.Id, message.Content, new int[0]);
+            _messageRepo.UpdateMessage(messageVm.Id, messageVm.Content, new int[0]);
             return Redirect(Url.Action(
-                "Theme",
-                "Home",
-                new {themeId = message.Theme}
+                action: "Theme",
+                controller: "Home",
+                values: new {themeId = messageVm.Theme}
             ));
         }
 
         [Authorize]
-        public IActionResult CreateMessage(int id)
+        public async Task<IActionResult> CreateMessage(int id)
         {
-            var message = new Message(_messageRepo.GetMessage(id)) {Method = "CreateMessage"};
+            var entity = _messageRepo.GetMessage(id);
+            var message = new MessageVM
+            {
+                Id = entity.Id,
+                Method = "CreateMessage",
+                Author = await _userManager.FindByIdAsync(entity.Author.Id),
+                Content = entity.Content,
+                Theme = entity.Theme
+            };
             return View("Message", message);
         }
 
         [Authorize]
         [ActionName("CreateMessage")]
         [HttpPost]
-        public IActionResult CreatePost(Message message)
+        public IActionResult CreatePost(MessageVM messageVm)
         {
-            _messageRepo.CreateMessage(message.Convert());
+            var entity = new Message(
+                id: messageVm.Id,
+                author: new User(messageVm.Author.Id),
+                content: messageVm.Content,
+                media: new int[0],
+                theme: messageVm.Theme
+            );
+            _messageRepo.CreateMessage(entity);
             return Redirect(Url.Action(
-                "Theme",
-                "Home",
-                new {themeId = message.Theme}
+                action: "Theme",
+                controller: "Home",
+                values: new {themeId = messageVm.Theme}
             ));
         }
     }

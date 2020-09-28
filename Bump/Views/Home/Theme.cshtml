@@ -1,51 +1,34 @@
-﻿@model Entities.Theme
+﻿@using Bump.Components
+@model ThemeVM
 
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = Model.Title;
 }
 
-<script>
-    
-    function deleteMessage(id) {
-      $.ajax({
-          url: '@Url.Action("DeleteMessage", "Message")',
-          type: 'DELETE',
-          data: { 'id': id},
-          success: function(result) {
-              location.reload();
-          }
-      });
-    }
-
-</script>
-
-<div style="margin: 40px">
-    <h2>@Model.Name</h2>
+<div class="bump-container">
+    <h3>@Model.Title</h3>
 </div>
-
-<div>
+<hr/>
+<div class="bump-container">
     <p>@Model.Content</p>
 </div>
-
-@if (Model.Messages.Length > 0)
+<hr/>
+<div class="bump-container">
+    <h4>Discussion</h4>
+</div>
+<hr/>
+@if (Model.Messages.Count > 0)
 {
-    <div style="display: flex; flex-direction: column; background: #ccf">
-        @foreach (var message in Model.Messages)
-        {
-            <div id="@message.Id" style="margin: 5px;padding: 10px; background: white">
-                <p>@message.Content</p>
-                <p align="right">@message.Author.Id</p>
-                <div style="display: flex;flex-direction: row;">
-                    <button onclick="deleteMessage(@message.Id)">Delete</button>
-                    <a style="text-decoration: none" href="@Url.Action("UpdateMessage", "Message", new {id = message.Id})">
-                        <button>Edit</button>
-                    </a>
-                </div>
-            </div>
-        }
-    </div>
+    @foreach (var message in Model.Messages.SkipLast(1))
+    {
+        @await Component.InvokeAsync(typeof(Message), new {message = message})
+        <hr/>
+    }
+    @await Component.InvokeAsync(typeof(Message), new {message = Model.Messages.Last()})
 }
 else
 {
-    <p>No messages yet</p>
+    <div class="bump-container">
+        <p>No messages yet</p>
+    </div>
 }

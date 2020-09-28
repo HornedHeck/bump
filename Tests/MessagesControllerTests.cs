@@ -28,7 +28,7 @@ namespace Tests
         [Test]
         public void UpdateCalledTest()
         {
-            _controller.UpdatePost(new Bump.Models.Message(_message));
+            _controller.UpdatePost(new Bump.Models.MessageVM(_message));
             _messageRepo.Verify(repo => repo.UpdateMessage(_message.Id, _message.Content, _message.Media));
         }
 

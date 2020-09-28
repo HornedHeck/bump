@@ -1,0 +1,16 @@
+@model Bump.Models.MessageVM
+
+
+<div id="@Model.Id" class="row bump-container">
+    <div class="col-md-2">
+        <div>
+            @Model.Author.UserName
+        </div>
+        <div>
+            <button class="btn btn-outline-danger btn-sm" onclick="deleteMessage(@Model.Id , '@Url.Action("DeleteMessage", "Message")')">Delete</button>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <p>@Model.Content</p>
+    </div>
+</div>

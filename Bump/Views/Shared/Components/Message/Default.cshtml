@@ -1,0 +1,10 @@
+@model Bump.Models.MessageVM
+
+<div id="@Model.Id" class="row bump-container">
+    <div class="col-md-2">
+        @Model.Author.UserName
+    </div>
+    <div class="col-md-10">
+        <p>@Model.Content</p>
+    </div>
+</div>

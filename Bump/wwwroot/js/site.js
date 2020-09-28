@@ -2,3 +2,13 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+function deleteMessage(id , url) {
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        data: { 'id': id},
+        success: function(result) {
+            location.reload();
+        }
+    });
+}

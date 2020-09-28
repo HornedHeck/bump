@@ -80,6 +80,7 @@ body {
     background: #fff;
 }
 
-.fullscreen {
-    height: 100vh;
+/*----------------------------------*/
+.bump-container {
+    margin: 20px;
 }

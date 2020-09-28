@@ -1,15 +1,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using static Bump.Auth.AuthConstants;
 
 namespace Bump.Auth
 {
     public class AuthInitializer
     {
-        private static readonly string[] Roles = {
-            "Admin",
-            "Moderator"
-        };
-
         private const string AdminName = "Admin";
         private const string AdminPassword = "Admin+1";
 

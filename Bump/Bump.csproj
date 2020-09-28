@@ -23,4 +23,16 @@
       <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.113" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Message\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Message\Moderator.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Message\Owner.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Components\Message\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Components\Message\Moderator.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Components\Message\Owner.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Components\Message\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Components\Message\Moderator.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Components\Message\Owner.cshtml" />
+    </ItemGroup>
+
 </Project>
