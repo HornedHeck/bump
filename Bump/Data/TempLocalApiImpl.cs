@@ -15,12 +15,13 @@ namespace Bump.Data
 
         private readonly List<User> _users = new List<User>
         {
-            new User(1, "Test" , "Login1"),
-            new User(2, "Test2" , "Login2"),
-            new User(3, "Test3" , "Login3"),
+            new User("1")
         };
 
-        private User _user;
+        public void AddUser(User user)
+        {
+            _users.Add(user);
+        }
 
         private readonly List<Message> _messages = new List<Message>();
 
@@ -38,28 +39,6 @@ namespace Bump.Data
                     theme: rand.Next(1, 4)
                 ));
             }
-        }
-
-        public User GetCurrentUser() => _user;
-
-        public void Logout()
-        {
-            _user = null;
-        }
-
-        public bool Login(string login, string password)
-        {
-            return _users.Find(user => user.Login == login)?.Run(user =>
-            {
-                _user = user;
-                return true;
-            }) ?? false;
-        }
-
-        public void Register(string login , string password , string name)
-        {
-            _user = new User(_users.Count + 1, name , login);
-            _users.Add(_user);
         }
 
         public Media LoadMedia(int id)
@@ -83,9 +62,9 @@ namespace Bump.Data
         {
             return new[]
             {
-                new ThemeHeader(1, "Test theme header 1", _user),
-                new ThemeHeader(2, "Test theme header 2", _user),
-                new ThemeHeader(3, "Test theme header 3", _user),
+                new ThemeHeader(1, "Test theme header 1", _users.First()),
+                new ThemeHeader(2, "Test theme header 2", _users.First()),
+                new ThemeHeader(3, "Test theme header 3", _users.First()),
             }.ToList();
         }
 

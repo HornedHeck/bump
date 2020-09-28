@@ -2,22 +2,43 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<form method="post" asp-controller="User" asp-action="Login">
-    <div>
-        <label asp-for="Login"></label><br/>
-        <input asp-for="Login"/>
-        <span asp-validation-for="Login"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label><br/>
-        <input asp-for="Password"/>
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <input type="submit" value="Send"/>
-    </div>
-</form>
+<div class="row">
 
-<form method="get" action="/User/Register">
-    <input type="submit" value="Register">
-</form>
+    <div class="col-md-6">
+        <h3>Local Account</h3>
+        <hr/>
+        <form style="padding-left: 20px" method="post" asp-controller="User" asp-action="Login">
+            <div>
+                <label asp-for="Name"></label><br/>
+                <input asp-for="Name"/>
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div>
+                <label asp-for="Password"></label><br/>
+                <input asp-for="Password"/>
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div style="margin-bottom: 10px; margin-top: 10px">
+                <button class="btn btn-primary" type="submit">Log in</button>
+            </div>
+        </form>
+
+        <form method="get" action="/User/Register">
+            <div style="margin-bottom: 10px; margin-top: 10px; padding-left: 20px">
+                <button class="btn btn-outline-primary" type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <h3>External Account</h3>
+        <hr/>
+        <form style="padding-left: 20px" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+            @foreach (var provider in Model.Providers)
+            {
+                <button type="submit" name="provider" value="@provider.Name" class="btn btn-primary">@provider.DisplayName</button>
+            }
+        </form>
+    </div>
+
+</div>

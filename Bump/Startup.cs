@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +22,7 @@ namespace Bump
         {
             services.RegisterApi();
             services.RegisterRepos();
-            services.RegisterAuth();
+            services.RegisterAuth(Configuration);
             services.AddControllersWithViews();
         }
 
@@ -43,14 +45,14 @@ namespace Bump
 
             app.UseRouting();
 
-            app.UseAuthentication();    
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     "default",
-                    "{controller=User}/{action=Start}");
+                    "{controller=User}/{action=Index}");
             });
         }
     }

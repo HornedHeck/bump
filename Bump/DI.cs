@@ -1,8 +1,12 @@
+using Bump.Auth;
 using Bump.Data;
 using Bump.Data.Repo;
 using Data;
 using Data.Repo;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bump
@@ -23,14 +27,28 @@ namespace Bump
             services.AddSingleton<ILocalApi, TempLocalApiImpl>();
         }
 
-        public static void RegisterAuth(this IServiceCollection services)
+        public static void RegisterAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            services.AddDbContext<BumpUserContext>(options => { options.UseSqlite("Filename=Identity.db"); });
+            services
+                .ConfigureApplicationCookie(options => { options.LoginPath = "/User/Login"; })
+                .AddIdentity<BumpUser, IdentityRole>(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
+                    options.User.AllowedUserNameCharacters =
+                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
+                })
+                .AddEntityFrameworkStores<BumpUserContext>();
+            services
+                .AddAuthentication( options => 
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddGoogle(options =>
+                {
+                    var googleAuthNSection =
+                        configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
+            services.ConfigureApplicationCookie(options => { options.LoginPath = "/User/Login"; });
         }
-
     }
 }

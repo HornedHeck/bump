@@ -5,14 +5,7 @@ namespace Data
 {
     public interface ILocalApi
     {
-
-        User GetCurrentUser();
-
-        void Logout();
-
-        bool Login(string login , string password);
-
-        void Register(string login , string password , string name);
+        void AddUser(User user);
 
         Media LoadMedia(int id);
 

@@ -1,0 +1,30 @@
+@model List<Bump.Auth.BumpUser>
+
+<form method="get" asp-controller="Roles" asp-action="UserRoles">
+    @for (var i = 0; i < Model.Count - 1; i++)
+    {
+        <div class="row">
+            <button
+                style="width: 100%;
+                padding: 15px;
+                background-color: white; 
+                border-width: 0;
+                text-align: left"
+                type="submit" name="Id" value="@Model[i].Id">
+                @Model[i].UserName
+            </button>
+            <hr style="width: 100%;"/>
+        </div>
+    }
+    <div class="row">
+        <button
+            style="width: 100%;
+            padding: 15px;
+            background-color: white; 
+            border-width: 0;
+            text-align: left"
+            type="submit" name="Id" value="@Model.Last().Id">
+            @Model.Last().UserName
+        </button>
+    </div>
+</form>
