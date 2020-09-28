@@ -1,0 +1,42 @@
+@model UserRolesViewModel
+
+<h4>Изменение ролей для пользователя @Model.Name</h4>
+<hr/>
+<form asp-action="UserRoles" method="post">
+    <input type="hidden" name="id" value="@Model.UserId"/>
+    <div style="margin-left: 20px">
+        @foreach (var role in Model.Roles)
+        {
+            <div class="custom-control custom-checkbox">
+                <input
+                    type="checkbox"
+                    name="roles"
+                    value="@role.Name"
+                    @(Model.EnabledRoles.Contains(role.Name) ? "checked=\"checked\"" : "")
+                    class="custom-control-input"
+                    id="@role.Id">
+                <label class="custom-control-label" for="@role.Id">@role.Name</label>
+            </div>
+        }
+    </div>
+    <div style="margin-top: 10px" class="row">
+        <div class="col-1">
+            <button
+                type="submit"
+                name="action"
+                value="save"
+                class="btn btn-primary">
+                Save
+            </button>
+        </div>
+        <div class="col-1">
+            <button
+                type="submit"
+                name="action"
+                value="cancel"
+                class="btn btn-outline-primary">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>
