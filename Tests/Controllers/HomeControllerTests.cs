@@ -1,21 +1,25 @@
+using Bump.Auth;
 using Bump.Controllers;
 using Data.Repo;
 using Entities;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using NUnit.Framework;
+using Tests.Utils;
 
-namespace Tests
+namespace Tests.Controllers
 {
     public class HomeControllerTests
     {
         private HomeController _controller;
         private readonly Mock<IThemeRepo> _repo = new Mock<IThemeRepo>();
+        private readonly UserManager<BumpUser> _userManager = new MockUserManager();
 
 
         [SetUp]
         public void SetUp()
         {
-            _controller = new HomeController(_repo.Object);
+            _controller = new HomeController(_repo.Object, _userManager);
         }
 
         [Test]

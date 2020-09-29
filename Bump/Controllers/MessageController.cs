@@ -26,7 +26,11 @@ namespace Bump.Controllers
         {
             var message = _messageRepo.GetMessage(id);
             _messageRepo.DeleteMessage(id);
-            return Redirect(Url.Action("Theme", "Home", new {themeId = message.Theme}));
+            return RedirectToAction(
+                actionName: "Theme",
+                controllerName: "Home",
+                routeValues: new {themeId = message.Theme}
+            );
         }
 
         [Authorize]
@@ -50,11 +54,11 @@ namespace Bump.Controllers
         public IActionResult UpdatePost(MessageVM messageVm)
         {
             _messageRepo.UpdateMessage(messageVm.Id, messageVm.Content, new int[0]);
-            return Redirect(Url.Action(
-                action: "Theme",
-                controller: "Home",
-                values: new {themeId = messageVm.Theme}
-            ));
+            return RedirectToAction(
+                actionName: "Theme",
+                controllerName: "Home",
+                routeValues: new {themeId = messageVm.Theme}
+            );
         }
 
         [Authorize]
@@ -85,11 +89,11 @@ namespace Bump.Controllers
                 theme: messageVm.Theme
             );
             _messageRepo.CreateMessage(entity);
-            return Redirect(Url.Action(
-                action: "Theme",
-                controller: "Home",
-                values: new {themeId = messageVm.Theme}
-            ));
+            return RedirectToAction(
+                actionName: "Theme",
+                controllerName: "Home",
+                routeValues: new {themeId = messageVm.Theme}
+            );
         }
     }
 }
