@@ -21,5 +21,7 @@ namespace Bump.Data.Models
         public BumpUser Author { get; set; }
 
         public List<Message> Messages { get; set; }
+        
+        public ThemeSubcategory Subcategory { get; set; }
     }
 }

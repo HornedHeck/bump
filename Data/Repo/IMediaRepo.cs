@@ -5,8 +5,8 @@ namespace Data.Repo
 {
     public interface IMediaRepo
     {
-        Media LoadMedia(int id);
+        Media GetMedia(long id);
 
-        IEnumerable<Media> LoadMedia(IEnumerable<int> ids);
+        IEnumerable<Media> GetMedia(IEnumerable<long> ids);
     }
 }

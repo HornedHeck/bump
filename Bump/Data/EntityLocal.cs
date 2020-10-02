@@ -10,12 +10,16 @@ using LMessage = Bump.Data.Models.Message;
 using LTheme = Bump.Data.Models.Theme;
 using Message = Entities.Message;
 using Theme = Entities.Theme;
+using ThemeCategory = Entities.ThemeCategory;
+using LThemeCategory = Bump.Data.Models.ThemeCategory;
+using LThemeSubcategory = Bump.Data.Models.ThemeSubcategory;
+using ThemeSubcategory = Entities.ThemeSubcategory;
 
 namespace Bump.Data
 {
     public class EntityLocal : DbContext, ILocalApi
     {
-        private string _filename = "Bump.db";
+        private readonly string _filename = "Bump.db";
         private readonly bool _isTest;
 
         public EntityLocal()
@@ -32,10 +36,12 @@ namespace Bump.Data
 
         public void ResetDatabase()
         {
-            if (!_isTest) return;
+            // if (!_isTest) return;
             Messages.RemoveRange(Messages);
             Themes.RemoveRange(Themes);
             Users.RemoveRange(Users);
+            Subcategories.RemoveRange(Subcategories);
+            Categories.RemoveRange(Categories);
             SaveChanges();
         }
 
@@ -45,6 +51,8 @@ namespace Bump.Data
         }
 
         public DbSet<LTheme> Themes { get; set; }
+        public DbSet<LThemeCategory> Categories { get; set; }
+        public DbSet<LThemeSubcategory> Subcategories { get; set; }
         public DbSet<LMessage> Messages { get; set; }
         public DbSet<BumpUser> Users { get; set; }
 
@@ -53,7 +61,7 @@ namespace Bump.Data
             Users.Add(user.Map());
         }
 
-        public Media LoadMedia(int id)
+        public Media GetMedia(long id)
         {
             throw new System.NotImplementedException();
         }
@@ -65,14 +73,10 @@ namespace Bump.Data
 
         public void CreateTheme(Theme theme)
         {
-            var res = Themes.Add(theme.Map());
+            var subcategory = Subcategories.Find(theme.Subcategory.Id);
+            var res = Themes.Add(theme.Map(subcategory));
             SaveChanges();
             theme.Id = res.Entity.Id;
-        }
-
-        public List<ThemeHeader> GetThemeHeaders()
-        {
-            return Themes.Map().ToList();
         }
 
         public void CreateMessage(Message message)
@@ -104,6 +108,35 @@ namespace Bump.Data
         public Message GetMessage(int id)
         {
             return Messages.Find(id)?.Map();
+        }
+
+        public List<ThemeCategory> GetCategories() => Categories.Map().ToList();
+
+        public List<ThemeSubcategory> GetSubcategories(long category) => Subcategories
+            .Where(it => it.Category.Id == category)
+            .AsEnumerable()
+            .Map()
+            .ToList();
+
+        public List<Theme> GetThemes(long subcategory) => Themes
+            .Where(it => it.Subcategory.Id == subcategory)
+            .AsEnumerable()
+            .Map()
+            .ToList();
+
+        public void AddCategory(ThemeCategory category)
+        {
+            var entry = Categories.Add(category.Map());
+            SaveChanges();
+            category.Id = entry.Entity.Id;
+        }
+
+        public void AddSubcategory(ThemeSubcategory subcategory)
+        {
+            var category = Categories.Find(subcategory.Category.Id);
+            var entry = Subcategories.Add(subcategory.Map(category));
+            SaveChanges();
+            subcategory.Id = entry.Entity.Id;
         }
     }
 }

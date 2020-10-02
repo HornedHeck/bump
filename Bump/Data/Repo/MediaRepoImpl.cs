@@ -15,11 +15,11 @@ namespace Bump.Data.Repo
             _local = local;
         }
 
-        public Media LoadMedia(int id) => _local.LoadMedia(id);
+        public Media GetMedia(long id) => _local.GetMedia(id);
 
-        public IEnumerable<Media> LoadMedia(IEnumerable<int> ids)
+        public IEnumerable<Media> GetMedia(IEnumerable<long> ids)
         {
-            return ids.Select(id => _local.LoadMedia(id));
+            return ids.Select(id => _local.GetMedia(id));
         }
     }
 }

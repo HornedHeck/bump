@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -24,34 +23,24 @@ namespace Bump.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View(_themeRepo.GetThemeHeaders());
+            return View(_themeRepo.GetCategories());
+        }
+
+        public IActionResult Category(long category)
+        {
+            return View(_themeRepo.GetSubcategories(category));
+        }
+
+        public IActionResult Subcategory(long subcategory)
+        {
+            return View(_themeRepo.GetThemes(subcategory));
         }
 
         [Authorize]
         public async Task<IActionResult> Theme(int themeId)
         {
             var entity = _themeRepo.GetTheme(themeId);
-            var messages = new List<MessageVM>(entity.Messages.Length);
-            foreach (var message in entity.Messages)
-            {
-                messages.Add(new MessageVM
-                {
-                    Id = message.Id,
-                    Author = await _userManager.FindByIdAsync(message.Author.Id),
-                    Content = message.Content,
-                    Theme = message.Theme
-                });
-            }
-
-            var theme = new ThemeVM
-            {
-                Author = await _userManager.FindByIdAsync(entity.Author.Id),
-                Content = entity.Content,
-                Title = entity.Name,
-                Messages = messages
-            };
-
-            return View(theme);
+            return View(await entity.ToVm(_userManager));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

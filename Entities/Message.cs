@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Entities
 {
     public class Message
@@ -22,6 +24,8 @@ namespace Entities
         public int[] Media { get; set; }
         
         public int Theme { set; get; }
+
+        public List<Vote> Votes { get; set; }
 
     }
 }

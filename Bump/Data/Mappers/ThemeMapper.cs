@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
-using Message = Bump.Data.Models.Message;
-using Theme = Bump.Data.Models.Theme;
+using LThemeSubcategory = Bump.Data.Models.ThemeSubcategory;
+using LTheme = Bump.Data.Models.Theme;
 
 namespace Bump.Data.Mappers
 {
     public static class ThemeMapper
     {
-        public static Entities.Theme Map(this Theme item)
+        public static Theme Map(this LTheme item)
         {
-            return new Entities.Theme(
+            return new Theme(
                 id: item.Id,
                 author: item.Author.Map(),
                 name: item.Title,
@@ -20,28 +20,20 @@ namespace Bump.Data.Mappers
             );
         }
 
-        public static Theme Map(this Entities.Theme entity)
+        public static IEnumerable<Theme> Map(this IEnumerable<LTheme> items) => items.Select(Map);
+
+        public static LTheme Map(this Theme entity , LThemeSubcategory subcategory)
         {
-            var theme = new Theme
+            var theme = new LTheme
             {
                 Id = entity.Id,
                 Author = entity.Author.Map(),
                 Content = entity.Content,
-                Title = entity.Name
+                Title = entity.Name,
+                Subcategory = subcategory
             };
             theme.Messages = entity.Messages.Map(theme).ToList();
             return theme;
-        }
-
-        public static IEnumerable<ThemeHeader> Map(this IEnumerable<Theme> items)
-        {
-            return items.Select(it =>
-                new ThemeHeader(
-                    id: it.Id,
-                    name: it.Title,
-                    author: it.Author.Map()
-                )
-            );
         }
     }
 }

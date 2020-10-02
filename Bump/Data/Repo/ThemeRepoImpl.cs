@@ -16,7 +16,19 @@ namespace Bump.Data.Repo
 
         public Theme GetTheme(int id) => _local.GetTheme(id);
 
-        public List<ThemeHeader> GetThemeHeaders() => _local.GetThemeHeaders();
+        public List<Theme> GetThemes(long subcategory)
+        {
+            return _local.GetThemes(subcategory);
+        }
 
+        public List<ThemeCategory> GetCategories()
+        {
+            return _local.GetCategories();
+        }
+
+        public List<ThemeSubcategory> GetSubcategories(long category)
+        {
+            return _local.GetSubcategories(category);
+        }
     }
 }

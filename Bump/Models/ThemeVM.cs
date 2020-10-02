@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Bump.Auth;
+using Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bump.Models
 {
@@ -12,5 +15,28 @@ namespace Bump.Models
         public string Title { get; set; }
 
         public List<MessageVM> Messages { get; set; }
+
+        public ThemeSubcategory Subcategory { get; set; }
+    }
+
+    public static class ThemeVmMapper
+    {
+        public static async Task<ThemeVM> ToVm(this Theme entity, UserManager<BumpUser> userManager)
+        {
+            var messages = new List<MessageVM>(entity.Messages.Length);
+            foreach (var message in entity.Messages)
+            {
+                messages.Add(await message.ToVm(userManager, null));
+            }
+
+            return new ThemeVM
+            {
+                Author = await userManager.FindByIdAsync(entity.Author.Id),
+                Content = entity.Content,
+                Title = entity.Name,
+                Messages = messages,
+                Subcategory = entity.Subcategory
+            };
+        }
     }
 }

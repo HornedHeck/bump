@@ -7,7 +7,10 @@ namespace Data.Repo
     {
         Theme GetTheme(int id);
 
-        List<ThemeHeader> GetThemeHeaders();
+        List<Theme> GetThemes(long subcategory);
 
+        List<ThemeCategory> GetCategories();
+
+        List<ThemeSubcategory> GetSubcategories(long category);
     }
 }

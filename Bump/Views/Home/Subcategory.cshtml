@@ -1,0 +1,12 @@
+@model List<Entities.Theme>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var item in Model)
+{
+    <a style="height: 100px; margin-left: 30px" href="@Url.Action("Theme", "Home", new {themeId = item.Id})">
+        <div>@item.Name</div>
+    </a>
+}

@@ -47,7 +47,7 @@ namespace Tests.data
         {
             _local.CreateTheme(_theme);
 
-            Assert.Contains(_theme.Name, _local.GetThemeHeaders().Select(it => it.Name).ToArray());
+            Assert.Contains(_theme.Name, _local.GetThemeCategories().Select(it => it.Name).ToArray());
             Assert.NotNull(_local.GetTheme(_theme.Id));
         }
 

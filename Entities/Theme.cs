@@ -16,30 +16,18 @@ namespace Entities
 
         public int Id { get; set; }
 
-        public User Author { get; }
+        public User Author { get; set; }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public string Content { get; }
+        public string Content { get; set; }
 
-        public Message[] Messages { get; }
+        public Message[] Messages { get; set; }
 
-        public int[] Media { get; }
-    }
+        public int[] Media { get; set; }
 
-    public class ThemeHeader
-    {
-        public ThemeHeader(int id, string name, User author)
-        {
-            Id = id;
-            Name = name;
-            Author = author;
-        }
+        public ThemeSubcategory Subcategory { get; set; }
 
-        public int Id { get; }
-
-        public string Name { get; }
-
-        public User Author { get; }
+        public ThemeCategory Category => Subcategory?.Category;
     }
 }

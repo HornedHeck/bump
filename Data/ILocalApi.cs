@@ -7,13 +7,22 @@ namespace Data
     {
         void AddUser(User user);
 
-        Media LoadMedia(int id);
+        Media GetMedia(long id);
 
         Theme GetTheme(int id);
 
         void CreateTheme(Theme theme);
-        
-        List<ThemeHeader> GetThemeHeaders();
+
+
+        List<ThemeCategory> GetCategories();
+
+        List<ThemeSubcategory> GetSubcategories(long category);
+
+        List<Theme> GetThemes(long subcategory);
+
+        void AddCategory(ThemeCategory category);
+
+        void AddSubcategory(ThemeSubcategory subcategory);
 
         void CreateMessage(Message message);
 
@@ -24,6 +33,5 @@ namespace Data
         Message GetMessage(int id);
 
         void ResetDatabase();
-
     }
 }

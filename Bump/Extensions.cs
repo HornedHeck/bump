@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bump
 {
@@ -19,5 +22,12 @@ namespace Bump
             block(subject);
             return subject;
         }
+
+        public static IEnumerable<T> ApplyToAll<T>(this IEnumerable<T> subject, Action<T> block) =>
+            subject.Select(it =>
+            {
+                block.Invoke(it);
+                return it;
+            });
     }
 }
