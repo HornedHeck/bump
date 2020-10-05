@@ -13,6 +13,8 @@ using Theme = Entities.Theme;
 using ThemeCategory = Entities.ThemeCategory;
 using LThemeCategory = Bump.Data.Models.ThemeCategory;
 using LThemeSubcategory = Bump.Data.Models.ThemeSubcategory;
+using Media = Entities.Media;
+using LMedia = Bump.Data.Models.Media;
 using ThemeSubcategory = Entities.ThemeSubcategory;
 
 namespace Bump.Data
@@ -42,6 +44,7 @@ namespace Bump.Data
             Users.RemoveRange(Users);
             Subcategories.RemoveRange(Subcategories);
             Categories.RemoveRange(Categories);
+            Media.RemoveRange(Media);
             SaveChanges();
         }
 
@@ -54,7 +57,10 @@ namespace Bump.Data
         public DbSet<LThemeCategory> Categories { get; set; }
         public DbSet<LThemeSubcategory> Subcategories { get; set; }
         public DbSet<LMessage> Messages { get; set; }
+        public DbSet<LMedia> Media { get; set; }
         public DbSet<BumpUser> Users { get; set; }
+
+        // public DbSet<> 
 
         public void AddUser(User user)
         {
@@ -63,7 +69,14 @@ namespace Bump.Data
 
         public Media GetMedia(long id)
         {
-            throw new System.NotImplementedException();
+            return Media.Find(id).Map();
+        }
+
+        public void AddMedia(Media media)
+        {
+            var entry = Media.Add(media.Map());
+            SaveChanges();
+            media.Id = entry.Entity.Id;
         }
 
         public Theme GetTheme(int id)
@@ -74,7 +87,7 @@ namespace Bump.Data
         public void CreateTheme(Theme theme)
         {
             var subcategory = Subcategories.Find(theme.Subcategory.Id);
-            var res = Themes.Add(theme.Map(subcategory));
+            var res = Themes.Add(theme.Map(subcategory , Media));
             SaveChanges();
             theme.Id = res.Entity.Id;
         }
@@ -82,7 +95,7 @@ namespace Bump.Data
         public void CreateMessage(Message message)
         {
             var theme = Themes.Find(message.Theme);
-            var entry = Messages.Add(message.Map(theme));
+            var entry = Messages.Add(message.Map(theme , Media));
             SaveChanges();
             message.Id = entry.Entity.Id;
         }

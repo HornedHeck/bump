@@ -3,7 +3,7 @@
 <div id="@Model.Id" class="row bump-container">
     <div class="col-md-2">
         @Model.Author.UserName
-        <form asp-controller="Message" asp-action="UpdateMessage">
+        <form method="get" asp-controller="Message" asp-action="UpdateMessage">
             <div>
                 <button class="btn btn-outline-primary btn-sm" type="submit" name="Id" value="@Model.Id">Edit</button>
             </div>

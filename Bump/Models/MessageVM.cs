@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Entities;
@@ -16,7 +17,7 @@ namespace Bump.Models
 
         public string Content { get; set; }
 
-        public List<int> Media { get; } = new List<int>();
+        public List<long> Media { get; set; } = new List<long>();
 
         public string Method { get; set; }
 
@@ -34,7 +35,8 @@ namespace Bump.Models
                 Content = entity.Content,
                 Method = method,
                 Theme = entity.Theme,
-                Votes = entity.Votes
+                Votes = entity.Votes,
+                Media = entity.Media.ToList()
             };
         }
     }

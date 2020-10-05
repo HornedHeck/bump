@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Entities;
 
 namespace Data.Repo
@@ -7,6 +8,6 @@ namespace Data.Repo
     {
         Media GetMedia(long id);
 
-        IEnumerable<Media> GetMedia(IEnumerable<long> ids);
+        void AddMedia(Media media);
     }
 }

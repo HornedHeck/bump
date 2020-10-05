@@ -29,7 +29,8 @@ namespace Bump
                 );
                 TestInitializer.Initialize(
                     local: services.GetService<ILocalApi>(),
-                    userManager: services.GetRequiredService<UserManager<BumpUser>>()
+                    userManager: services.GetRequiredService<UserManager<BumpUser>>(),
+                    environment: services.GetRequiredService<IWebHostEnvironment>()
                 );
             }
 

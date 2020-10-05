@@ -1,14 +1,38 @@
+@using Bump.Components
 @model MessageVM
 
-<form method="post" asp-controller="Message" asp-action="@Model.Method">
-    <div>
-        <label asp-for="Content"></label><br/>
-        <input asp-for="Content" value="@Model.Content"/>
-        <span asp-validation-for="Content"></span>
-    </div>
-    <input type="hidden" asp-for="Theme">
-    <input type="hidden" asp-for="Id">
-    <div>
-        <input type="submit" value="Submit"/>
-    </div>
-</form>
+<div>
+    <form method="post" asp-controller="Message" asp-action="@Model.Method">
+        <div>
+            <label asp-for="Content"></label><br/>
+            <input asp-for="Content" value="@Model.Content"/>
+            <span asp-validation-for="Content"></span>
+        </div>
+        <input type="hidden" asp-for="Theme">
+        <input type="hidden" asp-for="Id">
+        <div>
+            <input class="btn btn-primary" type="submit" value="Submit"/>
+        </div>
+    </form>
+</div>
+<div style="margin-top: 10px" class="row">
+    @foreach (var media in Model.Media)
+    {
+        <div class="col-md-1" style="position: center;padding: 0 5px">
+            <div style="height: 100%; width: auto; border: 1px #ccc;">
+                @await Component.InvokeAsync(typeof(Media), new {id = media})
+            </div>
+        </div>
+    }
+    @if (Model.Media.Count < 10)
+    {
+        <div class="col-md-1" style="padding: 0 5px; position: center">
+            <form class="centered_cont">
+                <div class="upload-button">
+                    <div class="label">+</div>
+                    <input id="files" name="files" type="file" size="1" @*onchange="uploadFiles('files');"*@/>
+                </div>
+            </form>
+        </div>
+    }
+</div>

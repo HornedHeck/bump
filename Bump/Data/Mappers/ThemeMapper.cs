@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using LThemeSubcategory = Bump.Data.Models.ThemeSubcategory;
 using LTheme = Bump.Data.Models.Theme;
+using Media = Bump.Data.Models.Media;
 
 namespace Bump.Data.Mappers
 {
@@ -22,7 +24,7 @@ namespace Bump.Data.Mappers
 
         public static IEnumerable<Theme> Map(this IEnumerable<LTheme> items) => items.Select(Map);
 
-        public static LTheme Map(this Theme entity , LThemeSubcategory subcategory)
+        public static LTheme Map(this Theme entity , LThemeSubcategory subcategory , DbSet<Media> mediaSet)
         {
             var theme = new LTheme
             {
@@ -32,7 +34,7 @@ namespace Bump.Data.Mappers
                 Title = entity.Name,
                 Subcategory = subcategory
             };
-            theme.Messages = entity.Messages.Map(theme).ToList();
+            theme.Messages = entity.Messages.Map(theme , mediaSet).ToList();
             return theme;
         }
     }

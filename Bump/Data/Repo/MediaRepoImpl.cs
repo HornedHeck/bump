@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Data;
 using Data.Repo;
 using Entities;
@@ -17,9 +15,9 @@ namespace Bump.Data.Repo
 
         public Media GetMedia(long id) => _local.GetMedia(id);
 
-        public IEnumerable<Media> GetMedia(IEnumerable<long> ids)
+        public void AddMedia(Media media)
         {
-            return ids.Select(id => _local.GetMedia(id));
+            _local.AddMedia(media);
         }
     }
 }

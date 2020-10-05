@@ -42,7 +42,7 @@ namespace Tests.Controllers
                 id: 1,
                 author: new User("1"),
                 content: "Content",
-                media: new int[0],
+                media: new long[0],
                 theme: 1
             );
             _messageRepo
@@ -60,7 +60,7 @@ namespace Tests.Controllers
             _messageRepo.Verify(repo => repo.UpdateMessage(
                 It.IsAny<int>(),
                 It.IsAny<string>(),
-                It.IsAny<int[]>()
+                It.IsAny<long[]>()
             ));
         }
 

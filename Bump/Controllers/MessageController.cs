@@ -37,14 +37,8 @@ namespace Bump.Controllers
         public async Task<IActionResult> UpdateMessage(int id)
         {
             var entity = _messageRepo.GetMessage(id);
-            var message = new MessageVM
-            {
-                Id = entity.Id,
-                Method = "UpdateMessage",
-                Author = await _userManager.FindByIdAsync(entity.Author.Id),
-                Content = entity.Content,
-                Theme = entity.Theme
-            };
+
+            var message = await entity.ToVm(_userManager, "UpdateMessage");
             return View("Message", message);
         }
 
@@ -53,7 +47,7 @@ namespace Bump.Controllers
         [HttpPost]
         public IActionResult UpdatePost(MessageVM messageVm)
         {
-            _messageRepo.UpdateMessage(messageVm.Id, messageVm.Content, new int[0]);
+            _messageRepo.UpdateMessage(messageVm.Id, messageVm.Content, messageVm.Media.ToArray());
             return RedirectToAction(
                 actionName: "Theme",
                 controllerName: "Home",
@@ -85,7 +79,7 @@ namespace Bump.Controllers
                 id: messageVm.Id,
                 author: new User(messageVm.Author.Id),
                 content: messageVm.Content,
-                media: new int[0],
+                media: new long[0],
                 theme: messageVm.Theme
             );
             _messageRepo.CreateMessage(entity);

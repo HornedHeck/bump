@@ -6,7 +6,7 @@ namespace Entities
     {
         public Message() { }
 
-        public Message(int id, User author, string content, int[] media, int theme)
+        public Message(int id, User author, string content, long[] media, int theme)
         {
             Id = id;
             Author = author;
@@ -21,7 +21,7 @@ namespace Entities
         
         public string Content { get; set; }
 
-        public int[] Media { get; set; }
+        public long[] Media { get; set; }
         
         public int Theme { set; get; }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,9 +15,10 @@ namespace Bump.Data.Models
         [Required]
         [MinLength(1)]
         public string Content { get; set; }
-        
+
         [Required]
         public Theme Theme { get; set; }
-        
+
+        public List<Media> Media { get; set; }
     }
 }

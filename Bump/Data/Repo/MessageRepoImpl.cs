@@ -17,7 +17,7 @@ namespace Bump.Data.Repo
 
         public void DeleteMessage(int id) => _local.DeleteMessage(id);
 
-        public void UpdateMessage(int id, string content, int[] media) =>
+        public void UpdateMessage(int id, string content, long[] media) =>
             _local.GetMessage(id)?.Also(message =>
             {
                 message.Content = content;
