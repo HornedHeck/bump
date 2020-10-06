@@ -1,3 +1,4 @@
+using Bump.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,7 @@ namespace Bump
             services.RegisterApi();
             services.RegisterRepos();
             services.RegisterAuth(Configuration);
+            services.AddSingleton<FileManager>();
             services.AddControllersWithViews();
         }
 

@@ -15,7 +15,10 @@ namespace Bump.Data
             IWebHostEnvironment environment)
         {
             local.ResetDatabase();
-            Directory.Delete(environment.WebRootPath+"/files" , true);
+            if (Directory.Exists(environment.WebRootPath+"/files"))
+            {
+                Directory.Delete(environment.WebRootPath+"/files" , true);
+            }
 
             var users = userManager.Users
                 .Select(it => new User(it.Id))
@@ -36,11 +39,11 @@ namespace Bump.Data
                 Category = category
             };
             local.AddSubcategory(subcategory);
-            
+            var messageCounter = 0;
             for (var i = 0; i < 5; i++)
             {
                 var theme = new Theme(
-                    id: 0,
+                    id: i + 1,
                     author: users[random.Next(users.Count)],
                     name: $"Theme {i + 1}",
                     content: $"Content of theme {i + 1}",
@@ -51,7 +54,7 @@ namespace Bump.Data
                     Subcategory = subcategory
                 };
                 local.CreateTheme(theme);
-                for (var j = 0; j < 10; j++)
+                for (var j = 0; j < 10; j++ ,messageCounter++)
                 {
                     var media = new Media
                     {
@@ -68,7 +71,7 @@ namespace Bump.Data
                     File.Copy(environment.WebRootPath + "/doc.png", environment.WebRootPath + FileManager.GetPath(media));
 
                     var message = new Message(
-                        id: 0,
+                        id: messageCounter,
                         author: users[random.Next(users.Count)],
                         content: $"Content of message {j + 1}",
                         media: new[]{media.Id},

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Bump.Models
@@ -22,6 +23,7 @@ namespace Bump.Models
         public string Method { get; set; }
 
         public List<Vote> Votes { get; set; }
+
     }
 
     public static class MessageVmMapper

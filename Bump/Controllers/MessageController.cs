@@ -1,9 +1,12 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Data;
 using Bump.Models;
 using Data.Repo;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +16,13 @@ namespace Bump.Controllers
     {
         private readonly IMessageRepo _messageRepo;
         private readonly UserManager<BumpUser> _userManager;
+        private readonly FileManager _fileManager;
 
-        public MessageController(IMessageRepo messageRepo, UserManager<BumpUser> userManager)
+        public MessageController(IMessageRepo messageRepo, UserManager<BumpUser> userManager, FileManager fileManager)
         {
             _messageRepo = messageRepo;
             _userManager = userManager;
+            _fileManager = fileManager;
         }
 
         [Authorize]
@@ -37,17 +42,31 @@ namespace Bump.Controllers
         public async Task<IActionResult> UpdateMessage(int id)
         {
             var entity = _messageRepo.GetMessage(id);
-
-            var message = await entity.ToVm(_userManager, "UpdateMessage");
-            return View("Message", message);
+            var messageVm = await entity.ToVm(_userManager, "UpdateMessage");
+            return View("Message", messageVm);
         }
 
         [ActionName("UpdateMessage")]
         [Authorize]
         [HttpPost]
-        public IActionResult UpdatePost(MessageVM messageVm)
+        public async Task<IActionResult> UpdatePost(MessageVM messageVm, IFormFile uploadingMedia, string action = null)
         {
-            _messageRepo.UpdateMessage(messageVm.Id, messageVm.Content, messageVm.Media.ToArray());
+            var entity = _messageRepo.GetMessage(messageVm.Id);
+            messageVm.Media = entity.Media.ToList();
+
+            if (uploadingMedia != null)
+            {
+                var mediaId = await _fileManager.SaveFile(uploadingMedia);
+                messageVm.Media.Add(mediaId);
+            }
+            
+            _messageRepo.UpdateMessage(entity.Id, entity.Content, messageVm.Media.ToArray());
+
+            if (action == "UpdateMessage")
+            {
+                return View("Message", messageVm);
+            }
+
             return RedirectToAction(
                 actionName: "Theme",
                 controllerName: "Home",
@@ -56,9 +75,9 @@ namespace Bump.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> CreateMessage(int id)
+        public async Task<IActionResult> CreateMessage(MessageVM messageVm)
         {
-            var entity = _messageRepo.GetMessage(id);
+            var entity = _messageRepo.GetMessage(messageVm.Id);
             var message = new MessageVM
             {
                 Id = entity.Id,
@@ -87,6 +106,17 @@ namespace Bump.Controllers
                 actionName: "Theme",
                 controllerName: "Home",
                 routeValues: new {themeId = messageVm.Theme}
+            );
+        }
+
+        public async Task<IActionResult> UploadMedia(MessageVM messageVm, IFormFile file)
+        {
+            await _fileManager.SaveFile(file);
+            var entity = _messageRepo.GetMessage(messageVm.Id);
+            messageVm.Media = messageVm.Media.Concat(entity.Media).Distinct().ToList();
+            return RedirectToAction(
+                messageVm.Method,
+                new {messageVm = messageVm}
             );
         }
     }

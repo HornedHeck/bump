@@ -35,7 +35,7 @@ namespace Tests.data
                 id: 1,
                 author: _user,
                 content: Content,
-                media: new int[0],
+                media: new long[0],
                 theme: _theme.Id
             );
             _local.ResetDatabase();

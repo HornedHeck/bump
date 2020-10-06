@@ -24,7 +24,7 @@ namespace Tests
                     id: 0,
                     author: null,
                     content: "Old Content",
-                    media: new int[0],
+                    media: new long[0],
                     theme: 0)
                 .Also(it => { it.Content = newContent; });
 

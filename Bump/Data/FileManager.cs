@@ -43,15 +43,15 @@ namespace Bump.Data
         public static string GetPath(Media media) => $"{Prefix}{media.Id}/{media.Name}";
 
         public static string GetFolder(Media media) => $"{Prefix}{media.Id}";
-        
-        public async Task SaveFile(IFormFile file)
+
+        public async Task<long> SaveFile(IFormFile file)
         {
             var media = new Media
             {
-                Name = file.Name
+                Name = file.FileName
             };
 
-            var postfix = file.Name.Substring(file.Name.LastIndexOf(".", StringComparison.Ordinal) + 1);
+            var postfix = file.FileName.Substring(file.FileName.LastIndexOf(".", StringComparison.Ordinal) + 1);
             if (ImagePostfixes.Contains(postfix))
             {
                 media.Type = MediaType.Image;
@@ -62,8 +62,10 @@ namespace Bump.Data
             }
 
             _repo.AddMedia(media);
+            Directory.CreateDirectory(_environment.WebRootPath + GetFolder(media));
             await using var fileStream = new FileStream(_environment.WebRootPath + GetPath(media), FileMode.Create);
             await file.CopyToAsync(fileStream);
+            return media.Id;
         }
     }
 }

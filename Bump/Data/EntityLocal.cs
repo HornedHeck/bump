@@ -87,7 +87,7 @@ namespace Bump.Data
         public void CreateTheme(Theme theme)
         {
             var subcategory = Subcategories.Find(theme.Subcategory.Id);
-            var res = Themes.Add(theme.Map(subcategory , Media));
+            var res = Themes.Add(theme.Map(subcategory, Media));
             SaveChanges();
             theme.Id = res.Entity.Id;
         }
@@ -95,7 +95,7 @@ namespace Bump.Data
         public void CreateMessage(Message message)
         {
             var theme = Themes.Find(message.Theme);
-            var entry = Messages.Add(message.Map(theme , Media));
+            var entry = Messages.Add(message.Map(theme, Media));
             SaveChanges();
             message.Id = entry.Entity.Id;
         }
@@ -105,6 +105,7 @@ namespace Bump.Data
             Messages.Find(message.Id)?.Also(it =>
             {
                 it.Content = message.Content;
+                it.Media = message.Media.Select(media => Media.Find(media)).ToList();
                 SaveChanges();
             });
         }
