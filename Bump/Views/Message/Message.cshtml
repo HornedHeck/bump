@@ -20,10 +20,10 @@
         <input type="hidden" asp-for="Id">
         <input type="hidden" asp-for="Method">
 
-        <div style="margin-top: 10px" class="row">
+        <div style="margin-top: 10px; margin-left: 5px" class="row">
             @foreach (var media in Model.Media)
             {
-                <div class="col-md-1" style="position: center;padding: 0 5px">
+                <div class="image-column">
                     <div style="height: 100%; width: auto; border: 1px #ccc;">
                         @await Component.InvokeAsync(typeof(Media), new {id = media})
                     </div>
@@ -31,7 +31,7 @@
             }
             @if (Model.Media.Count < 10)
             {
-                <div class="col-md-1" style="padding: 0 5px; position: center">
+                <div class="col-md-1">
                     <div class="centered_cont">
                         <div class="upload-button">
                             <div class="label">+</div>

@@ -1,3 +1,4 @@
+@using Bump.Components
 @model Bump.Models.MessageVM
 
 <div id="@Model.Id" class="row bump-container">
@@ -14,5 +15,15 @@
     </div>
     <div class="col-md-10">
         <p>@Model.Content</p>
+        <div style="margin-top: 10px; margin-left: 5px" class="row">
+            @foreach (var media in Model.Media)
+            {
+                <div class="image-column">
+                    <div style="height: 100%; width: auto; border: 1px #ccc;">
+                        @await Component.InvokeAsync(typeof(Media), new {id = media})
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
