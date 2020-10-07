@@ -16,6 +16,8 @@ using LThemeSubcategory = Bump.Data.Models.ThemeSubcategory;
 using Media = Entities.Media;
 using LMedia = Bump.Data.Models.Media;
 using ThemeSubcategory = Entities.ThemeSubcategory;
+using Vote = Entities.Vote;
+using LVote = Bump.Data.Models.Vote;
 
 namespace Bump.Data
 {
@@ -59,8 +61,8 @@ namespace Bump.Data
         public DbSet<LMessage> Messages { get; set; }
         public DbSet<LMedia> Media { get; set; }
         public DbSet<BumpUser> Users { get; set; }
-
-        // public DbSet<> 
+        
+        public DbSet<LVote> Votes { get; set; }
 
         public void AddUser(User user)
         {
@@ -151,6 +153,23 @@ namespace Bump.Data
             var entry = Subcategories.Add(subcategory.Map(category));
             SaveChanges();
             subcategory.Id = entry.Entity.Id;
+        }
+
+        public void VoteUp(int message, Vote vote)
+        {
+            Messages.Find(message)?.Also(item =>
+            {
+                if (item.Votes == null)
+                {
+                    item.Votes = new List<Models.Vote> {vote.Map()};
+                }
+                else
+                {
+                    item.Votes.Add(vote.Map());
+                }
+            });
+
+            SaveChanges();
         }
     }
 }

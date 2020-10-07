@@ -1,10 +1,11 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Entities
 {
     public class Theme
     {
-        public Theme(int id, User author, string name, string content, Message[] messages, int[] media)
+        public Theme(int id, User author, string name, string content, Message[] messages, int[] media, DateTime creationTime)
         {
             Id = id;
             Author = author;
@@ -12,6 +13,7 @@ namespace Entities
             Content = content;
             Messages = messages;
             Media = media;
+            CreationTime = creationTime;
         }
 
         public int Id { get; set; }
@@ -25,6 +27,8 @@ namespace Entities
         public Message[] Messages { get; set; }
 
         public int[] Media { get; set; }
+
+        public DateTime CreationTime { get; set; }
 
         public ThemeSubcategory Subcategory { get; set; }
 

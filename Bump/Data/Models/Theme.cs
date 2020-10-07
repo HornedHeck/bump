@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,11 @@ namespace Bump.Data.Models
 
         public List<Message> Messages { get; set; }
         
+        [Required]
         public ThemeSubcategory Subcategory { get; set; }
+        
+        [Required]
+        public DateTime CreationTime { get; set; }
+        
     }
 }

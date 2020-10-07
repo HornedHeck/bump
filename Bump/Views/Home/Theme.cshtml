@@ -5,15 +5,20 @@
     ViewData["Title"] = Model.Title;
 }
 
-<div class="bump-container">
+<div class="bump-container-m">
     <h3>@Model.Title</h3>
 </div>
 <hr/>
-<div class="bump-container">
-    <p>@Model.Content</p>
+<div class="bump-container-m">
+    <div>
+        <p>@Model.Content</p>
+    </div>
+    <div style="width: max-content; margin-left: auto">
+        @Model.StartTime.Format("Started")
+    </div>
 </div>
 <hr/>
-<div class="bump-container">
+<div class="bump-container-m">
     <h4>Discussion</h4>
 </div>
 <hr/>
@@ -28,7 +33,7 @@
 }
 else
 {
-    <div class="bump-container">
+    <div class="bump-container-m">
         <p>No messages yet</p>
     </div>
 }

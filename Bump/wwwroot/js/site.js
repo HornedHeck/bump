@@ -12,3 +12,14 @@ function deleteMessage(id , url) {
         }
     });
 }
+
+function VoteMessage(id , url) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { 'id': id},
+        success: function(result) {
+            location.reload();
+        }
+    });
+}

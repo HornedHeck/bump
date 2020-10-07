@@ -11,5 +11,7 @@ namespace Data.Repo
         void UpdateMessage(int id, string content, long[] media);
 
         Message GetMessage(int id);
+
+        void VoteUp(int message, Vote vote);
     }
 }

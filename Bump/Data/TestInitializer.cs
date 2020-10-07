@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bump.Auth;
@@ -15,11 +16,20 @@ namespace Bump.Data
             IWebHostEnvironment environment)
         {
             local.ResetDatabase();
-            if (Directory.Exists(environment.WebRootPath+"/files"))
+            if (Directory.Exists(environment.WebRootPath + "/files"))
             {
-                Directory.Delete(environment.WebRootPath+"/files" , true);
+                Directory.Delete(environment.WebRootPath + "/files", true);
             }
 
+            if (local.GetCategories().Count == 0)
+            {
+                InitDbContent(local, userManager, environment);
+            }
+        }
+
+        private static void InitDbContent(ILocalApi local, UserManager<BumpUser> userManager,
+            IWebHostEnvironment environment)
+        {
             var users = userManager.Users
                 .Select(it => new User(it.Id))
                 .ToList();
@@ -48,13 +58,14 @@ namespace Bump.Data
                     name: $"Theme {i + 1}",
                     content: $"Content of theme {i + 1}",
                     messages: new Message[0],
-                    media: new int[0]
+                    media: new int[0],
+                    creationTime: DateTime.Today
                 )
                 {
                     Subcategory = subcategory
                 };
                 local.CreateTheme(theme);
-                for (var j = 0; j < 10; j++ ,messageCounter++)
+                for (var j = 0; j < 10; j++, messageCounter++)
                 {
                     var media = new Media
                     {
@@ -68,14 +79,17 @@ namespace Bump.Data
                         Directory.CreateDirectory(dir);
                     }
 
-                    File.Copy(environment.WebRootPath + "/doc.png", environment.WebRootPath + FileManager.GetPath(media));
+                    File.Copy(environment.WebRootPath + "/doc.png",
+                        environment.WebRootPath + FileManager.GetPath(media));
 
                     var message = new Message(
-                        id: messageCounter,
+                        id: 0,
                         author: users[random.Next(users.Count)],
                         content: $"Content of message {j + 1}",
-                        media: new[]{media.Id},
-                        theme: theme.Id
+                        media: new[] {media.Id},
+                        theme: theme.Id,
+                        creationTime: DateTime.Now.AddHours(random.NextDouble() * 3 - 1.5),
+                        votes: new List<Vote>()
                     );
                     local.CreateMessage(message);
                 }

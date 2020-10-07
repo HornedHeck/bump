@@ -17,14 +17,15 @@ namespace Bump.Data.Mappers
                 author: item.Author.Map(),
                 name: item.Title,
                 content: item.Content,
-                messages: item.Messages.Map().ToArray(),
-                media: new int[0]
+                messages: item.Messages.Map().OrderBy(it => it.CreationTime).Reverse().ToArray(),
+                media: new int[0],
+                creationTime: item.CreationTime
             );
         }
 
         public static IEnumerable<Theme> Map(this IEnumerable<LTheme> items) => items.Select(Map);
 
-        public static LTheme Map(this Theme entity , LThemeSubcategory subcategory , DbSet<Media> mediaSet)
+        public static LTheme Map(this Theme entity, LThemeSubcategory subcategory, DbSet<Media> mediaSet)
         {
             var theme = new LTheme
             {
@@ -32,9 +33,10 @@ namespace Bump.Data.Mappers
                 Author = entity.Author.Map(),
                 Content = entity.Content,
                 Title = entity.Name,
-                Subcategory = subcategory
+                Subcategory = subcategory,
+                CreationTime = entity.CreationTime
             };
-            theme.Messages = entity.Messages.Map(theme , mediaSet).ToList();
+            theme.Messages = entity.Messages.Map(theme, mediaSet).ToList();
             return theme;
         }
     }

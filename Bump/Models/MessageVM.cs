@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace Bump.Models
         public string Method { get; set; }
 
         public List<Vote> Votes { get; set; }
-
+        
+        public DateTime CreationTime { get; set; }
     }
 
     public static class MessageVmMapper
@@ -37,8 +39,9 @@ namespace Bump.Models
                 Content = entity.Content,
                 Method = method,
                 Theme = entity.Theme,
-                Votes = entity.Votes,
-                Media = entity.Media.ToList()
+                Votes = entity.Votes ?? new List<Vote>(),
+                Media = entity.Media.ToList(),
+                CreationTime = entity.CreationTime.ToLocalTime()
             };
         }
     }

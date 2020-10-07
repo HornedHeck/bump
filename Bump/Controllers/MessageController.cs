@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Bump.Data;
@@ -39,6 +42,14 @@ namespace Bump.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public void VoteMessage(int id)
+        {
+            var vote = new Vote {UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)};
+            _messageRepo.VoteUp(id, vote);
+        }
+
+        [Authorize]
         public async Task<IActionResult> UpdateMessage(int id)
         {
             var entity = _messageRepo.GetMessage(id);
@@ -59,7 +70,7 @@ namespace Bump.Controllers
                 var mediaId = await _fileManager.SaveFile(uploadingMedia);
                 messageVm.Media.Add(mediaId);
             }
-            
+
             _messageRepo.UpdateMessage(entity.Id, entity.Content, messageVm.Media.ToArray());
 
             if (action == "UpdateMessage")
@@ -99,7 +110,9 @@ namespace Bump.Controllers
                 author: new User(messageVm.Author.Id),
                 content: messageVm.Content,
                 media: new long[0],
-                theme: messageVm.Theme
+                theme: messageVm.Theme,
+                creationTime: DateTime.Now,
+                votes: new List<Vote>()
             );
             _messageRepo.CreateMessage(entity);
             return RedirectToAction(

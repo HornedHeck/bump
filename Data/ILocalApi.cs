@@ -35,5 +35,8 @@ namespace Data
         Message GetMessage(int id);
 
         void ResetDatabase();
+
+        void VoteUp(int message , Vote vote);
+
     }
 }

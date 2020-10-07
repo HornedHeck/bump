@@ -29,5 +29,10 @@ namespace Bump.Data.Repo
         {
             return _local.GetMessage(id);
         }
+
+        public void VoteUp(int message, Vote vote)
+        {
+            _local.VoteUp(message , vote);
+        }
     }
 }

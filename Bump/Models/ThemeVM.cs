@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bump.Auth;
@@ -17,6 +18,8 @@ namespace Bump.Models
         public List<MessageVM> Messages { get; set; }
 
         public ThemeSubcategory Subcategory { get; set; }
+        
+        public DateTime StartTime { get; set; }
     }
 
     public static class ThemeVmMapper
@@ -35,7 +38,8 @@ namespace Bump.Models
                 Content = entity.Content,
                 Title = entity.Name,
                 Messages = messages,
-                Subcategory = entity.Subcategory
+                Subcategory = entity.Subcategory,
+                StartTime = entity.CreationTime.ToLocalTime()
             };
         }
     }

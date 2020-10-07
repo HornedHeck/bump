@@ -81,8 +81,16 @@ body {
 }
 
 /*----------------------------------*/
-.bump-container {
+.bump-container-m {
     margin: 20px;
+}
+
+.bump-container-s {
+    margin: 10px;
+}
+
+.bump-container-xs {
+    margin: 5px;
 }
 
 /*-------------image input----------*/

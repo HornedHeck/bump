@@ -29,5 +29,10 @@ namespace Bump
                 block.Invoke(it);
                 return it;
             });
+
+        public static string Format(this DateTime subject, string prefix)
+        {
+            return $"{prefix} {subject:d} at {subject:t}";
+        }
     }
 }

@@ -1,13 +1,13 @@
 @using Bump.Components
-@model Bump.Models.MessageVM
+@using System.Security.Claims
+@model MessageVM
 
-@{
-    Layout = "Components/Message/BaseMessage";
-}
-
-@*<div id="@Model.Id" class="row bump-container-m">
+<div id="@Model.Id" class="row bump-container-s">
     <div class="col-md-2">
-        @Model.Author.UserName
+        <div>
+            @Model.Author.UserName
+        </div>
+        @RenderBody()
     </div>
     <div class="col-md-10">
         <p>@Model.Content</p>
@@ -27,10 +27,11 @@
     <div>
         Votes: @Model.Votes.Count
     </div>
-    <div class="centered_cont" style="width: 10px">
-        <input type="image" src="add.png" style="height: 10px; width: 10px" alt="Vote up">
-    </div>
+    @if (!Model.Votes.Select(it => it.UserId).Contains(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+    {
+        <input type="image" src="/add.png" style="margin: auto 4px;height: 20px; width: 20px" alt="" onclick="VoteMessage(@Model.Id , '@Url.Action("VoteMessage" , "Message")')">
+    }
     <div style="margin-left: auto">
         @Model.CreationTime.Format("Created")
     </div>
-</div>*@
+</div>
