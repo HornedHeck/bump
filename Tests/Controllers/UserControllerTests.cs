@@ -25,7 +25,7 @@ namespace Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            _userController = new UserController(_repo.Object, _userManager, _signInManager);
+            _userController = new UserController(_userManager);
         }
 
         [Test]

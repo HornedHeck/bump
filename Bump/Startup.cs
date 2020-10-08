@@ -1,8 +1,6 @@
 using Bump.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +24,7 @@ namespace Bump
             services.RegisterAuth(Configuration);
             services.AddSingleton<FileManager>();
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +54,7 @@ namespace Bump
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=User}/{action=Index}");
+                endpoints.MapRazorPages();
             });
         }
     }

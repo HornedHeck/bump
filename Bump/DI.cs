@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Bump.Auth;
 using Bump.Data;
 using Bump.Data.Repo;
@@ -31,16 +32,18 @@ namespace Bump
         {
             services.AddDbContext<BumpUserContext>(options => { options.UseSqlite("Filename=Identity.db"); });
             services
-                .ConfigureApplicationCookie(options => { options.LoginPath = "/User/Login"; })
-                .AddIdentity<BumpUser, IdentityRole>(options =>
-                {
-                    options.User.AllowedUserNameCharacters =
-                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
-                })
-                .AddEntityFrameworkStores<BumpUserContext>();
-            services
-                .AddAuthentication( options => 
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentity<BumpUser, IdentityRole>()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<BumpUserContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SignIn.RequireConfirmedEmail = false;
+            });
+
+        services
+                .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddGoogle(options =>
                 {
                     var googleAuthNSection =
@@ -48,7 +51,10 @@ namespace Bump
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
-            services.ConfigureApplicationCookie(options => { options.LoginPath = "/User/Login"; });
+            services.ConfigureApplicationCookie(options =>
+            {
+                /*options.LoginPath = "/User/Login";*/
+            });
         }
     }
 }

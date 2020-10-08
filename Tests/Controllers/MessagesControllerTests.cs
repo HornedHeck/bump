@@ -32,7 +32,7 @@ namespace Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            _controller = new MessageController(_messageRepo.Object, _userManager);
+            _controller = new MessageController(_messageRepo.Object, _userManager ,);
         }
 
         [Test]

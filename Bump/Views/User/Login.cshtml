@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div class="row">
+@*<div class="row">
 
     <div class="col-md-6">
         <h3>Local Account</h3>
@@ -33,12 +33,12 @@
     <div class="col-md-6">
         <h3>External Account</h3>
         <hr/>
-        <form style="padding-left: 20px" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+        $1$<form style="padding-left: 20px" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
             @foreach (var provider in Model.Providers)
             {
                 <button type="submit" name="provider" value="@provider.Name" class="btn btn-primary">@provider.DisplayName</button>
             }
-        </form>
+        </form>#1#
     </div>
 
-</div>
+</div>*@
