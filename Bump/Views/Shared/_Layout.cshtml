@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Bump.Auth
+@* @inject Microsoft.AspNetCore.Identity.UserManager<BumpUser> *@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -24,7 +26,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Profile">Me</a>
                     </li>
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole(AuthConstants.Admin))
                     {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Users">Admin</a>

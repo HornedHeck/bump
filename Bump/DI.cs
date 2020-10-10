@@ -1,10 +1,13 @@
+using System;
 using System.Security.Claims;
+using System.Security.Policy;
 using Bump.Auth;
 using Bump.Data;
 using Bump.Data.Repo;
 using Data;
 using Data.Repo;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +37,7 @@ namespace Bump
             services.AddDbContext<BumpUserContext>(options => { options.UseSqlite("Filename=Identity.db"); });
 
             services
-                .AddIdentity<BumpUser, IdentityRole>()
+                .AddIdentity<BumpUser, IdentityRole>(options => { })
                 // .AddDefaultUI()
                 .AddClaimsPrincipalFactory<ClaimsFactory>()
                 .AddEntityFrameworkStores<BumpUserContext>()
@@ -51,9 +54,18 @@ namespace Bump
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
+
             services.ConfigureApplicationCookie(options =>
             {
-                /*options.LoginPath = "/User/Login";*/
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
+            });
+
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
             });
         }
     }

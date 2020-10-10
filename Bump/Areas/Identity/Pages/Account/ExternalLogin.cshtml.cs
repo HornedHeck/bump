@@ -34,19 +34,24 @@ namespace Bump.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public string ProviderDisplayName { get; set; }
 
         public string ReturnUrl { get; set; }
 
-        [TempData] public string ErrorMessage { get; set; }
+        [TempData]
+        public string ErrorMessage { get; set; }
 
         public class InputModel
         {
-            [Required] [EmailAddress] public string Login { get; set; }
+            [Required]
+            [EmailAddress]
+            public string Login { get; set; }
 
-            [Required] public string VisibleName { get; set; }
+            [Required]
+            public string VisibleName { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -114,7 +119,7 @@ namespace Bump.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Action("Index", "Home");
-            
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
@@ -132,10 +137,13 @@ namespace Bump.Areas.Identity.Pages.Account
                     result = await _userManager.SetVisibleNameAsync(user, user.VisibleName);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, AuthConstants.User);
+
                         result = await _userManager.AddLoginAsync(user, info);
                         if (result.Succeeded)
                         {
-                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                            _logger.LogInformation("User created an account using {Name} provider.",
+                                info.LoginProvider);
 
                             var userId = await _userManager.GetUserIdAsync(user);
                             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

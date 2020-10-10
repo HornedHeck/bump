@@ -10,16 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bump.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = AuthConstants.Admin)]
     public class RolesController : Controller
     {
         private readonly UserManager<BumpUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<BumpUser> _signInManager;
 
-        public RolesController(UserManager<BumpUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesController(UserManager<BumpUser> userManager, RoleManager<IdentityRole> roleManager,
+            SignInManager<BumpUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Users()
@@ -55,6 +58,7 @@ namespace Bump.Controllers
                 var userRoles = await _userManager.GetRolesAsync(user);
                 await _userManager.AddToRolesAsync(user, roles.Except(userRoles));
                 await _userManager.RemoveFromRolesAsync(user, userRoles.Except(roles));
+                // await _userManager.UpdateSecurityStampAsync(user);
             }
 
             return RedirectToAction("Users");

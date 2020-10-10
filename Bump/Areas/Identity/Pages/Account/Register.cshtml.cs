@@ -34,7 +34,8 @@ namespace Bump.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -42,7 +43,9 @@ namespace Bump.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required] [Display(Name = "Login")] public string Login { get; set; }
+            [Required]
+            [Display(Name = "Login")]
+            public string Login { get; set; }
 
             [Required]
             [Display(Name = "Visible Name")]
@@ -78,6 +81,8 @@ namespace Bump.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddToRoleAsync(user, AuthConstants.User);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
