@@ -33,20 +33,16 @@ namespace Bump
         {
             services.AddDbContext<BumpUserContext>(options => { options.UseSqlite("Filename=Identity.db"); });
 
-            
-            
             services
                 .AddIdentity<BumpUser, IdentityRole>()
                 // .AddDefaultUI()
+                .AddClaimsPrincipalFactory<ClaimsFactory>()
                 .AddEntityFrameworkStores<BumpUserContext>()
                 .AddDefaultTokenProviders();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.SignIn.RequireConfirmedEmail = false;
-            });
+            services.Configure<IdentityOptions>(options => { options.SignIn.RequireConfirmedEmail = false; });
 
-        services
+            services
                 .AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddGoogle(options =>
                 {

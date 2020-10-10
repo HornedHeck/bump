@@ -22,7 +22,8 @@ namespace Bump.Auth
             {
                 var admin = new BumpUser
                 {
-                    UserName = AdminName
+                    UserName = AdminName,
+                    VisibleName = AdminName
                 };
                 var res = await userManager.CreateAsync(admin, AdminPassword);
                 if (res.Succeeded)

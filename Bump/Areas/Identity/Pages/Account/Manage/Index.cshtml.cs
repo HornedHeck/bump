@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Microsoft.AspNetCore.Identity;
@@ -25,29 +26,29 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
+        [TempData] public string StatusMessage { get; set; }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            [Required]
+            [Display(Name = "Visible Name")]
+            public string VisibleName { get; set; }
         }
 
         private async Task LoadAsync(BumpUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var visibleName = (await _userManager.GetClaimsAsync(user))
+                .First(it => it.Type == ClaimTypes.GivenName)
+                .Value;
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                VisibleName = visibleName
             };
         }
 
@@ -77,13 +78,13 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var visibleName = await _userManager.GetVisibleNameAsync(user);
+            if (Input.VisibleName != visibleName)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                var setVisibleNameResult = await _userManager.SetVisibleNameAsync(user, Input.VisibleName);
+                if (!setVisibleNameResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Unexpected error when trying to set visible name.";
                     return RedirectToPage();
                 }
             }
