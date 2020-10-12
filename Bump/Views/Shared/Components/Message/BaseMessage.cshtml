@@ -1,6 +1,8 @@
 @using Bump.Components
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.Localization
 @model MessageVM
+@inject IViewLocalizer Localizer
 
 <div id="@Model.Id" class="row bump-container-s">
     <div class="col-md-2">
@@ -25,13 +27,13 @@
 </div>
 <div class="row bump-container-m">
     <div>
-        Votes: @Model.Votes.Count
+        @Localizer["Votes"] @Model.Votes.Count
     </div>
     @if (!Model.Votes.Select(it => it.UserId).Contains(User.FindFirstValue(ClaimTypes.NameIdentifier)))
     {
-        <input type="image" src="/add.png" style="margin: auto 4px;height: 20px; width: 20px" alt="" onclick="VoteMessage(@Model.Id , '@Url.Action("VoteMessage" , "Message")')">
+        <input type="image" src="/add.png" style="margin: auto 4px;height: 20px; width: 20px" alt="" onclick="VoteMessage(@Model.Id , '@Url.Action("VoteMessage", "Message")')">
     }
     <div style="margin-left: auto">
-        @Model.CreationTime.Format("Created")
+        @Model.CreationTime.Format(Localizer["Created"].Value)
     </div>
 </div>

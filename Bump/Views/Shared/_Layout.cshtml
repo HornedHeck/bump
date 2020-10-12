@@ -1,5 +1,7 @@
 ﻿@using Bump.Auth
-@* @inject Microsoft.AspNetCore.Identity.UserManager<BumpUser> *@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,12 +23,12 @@
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Themes</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Themes"]</a>
                     </li>
                     @if (User.IsInRole(AuthConstants.Admin))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Users">Admin</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Users">@Localizer["Admin"]</a>
                         </li>
                     }
                 </ul>

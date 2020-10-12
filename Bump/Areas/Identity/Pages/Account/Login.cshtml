@@ -1,8 +1,11 @@
 @page
+@using Microsoft.Extensions.Localization
+@using Bump.Localization.Auth
 @model LoginModel
+@inject IStringLocalizer<Auth> AuthLocalizer
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = AuthLocalizer["LoginTitle"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,36 +13,36 @@
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
+                <h4>@AuthLocalizer["Local"]</h4>
+                <hr/>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Input.Login"></label>
-                    <input asp-for="Input.Login" class="form-control" />
+                    <input asp-for="Input.Login" class="form-control"/>
                     <span asp-validation-for="Input.Login" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
+                    <input asp-for="Input.Password" class="form-control"/>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
                         <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
+                            <input asp-for="Input.RememberMe"/>
                             @Html.DisplayNameFor(m => m.Input.RememberMe)
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-primary">@AuthLocalizer["Login"]</button>
                 </div>
                 <div class="form-group">
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword">@AuthLocalizer["ForgotPassword"]</a>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@AuthLocalizer["RegisterPrompt"]</a>
                     </p>
                 </div>
             </form>
@@ -47,17 +50,11 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
+            <h4>@AuthLocalizer["ExternalProvider"]</h4>
+            <hr/>
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
                 }
                 else
                 {
@@ -78,5 +75,5 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

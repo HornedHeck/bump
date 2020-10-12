@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using Bump.Data;
+using Bump.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -30,7 +32,11 @@ namespace Bump
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services
                 .AddControllersWithViews()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder);
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder)
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(type);
+                });
             services.AddRazorPages();
         }
 

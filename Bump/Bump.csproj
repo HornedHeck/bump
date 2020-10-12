@@ -42,7 +42,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Culture" />
       <Folder Include="wwwroot\files" />
     </ItemGroup>
 
@@ -54,6 +53,78 @@
       <EmbeddedResource Update="Resources\Views\Home\Theme.en.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Theme.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\Components\Message\BaseMessage.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BaseMessage.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\Components\Message\BaseMessage.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BaseMessage.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Localization\Shared.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Shared.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Localization\Shared.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Shared.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_Layout.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_Layout.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_LoginPartial.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_LoginPartial.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_LoginPartial.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_LoginPartial.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Localization\Auth\Auth.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Auth.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Localization\Auth\Auth.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Auth.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ExternalLogin.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ExternalLogin.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ExternalLogin.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ExternalLogin.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\_Layout.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\_Layout.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\_ManageNav.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_ManageNav.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\Index.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\SetPassword.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SetPassword.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\ChangePassword.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ChangePassword.ru.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 
@@ -67,6 +138,61 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>Theme.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\Components\Message\BaseMessage.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BaseMessage.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\Components\Message\BaseMessage.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BaseMessage.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Home\Theme.en.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Theme.en.resx</DependentUpon>
+        <DesignTime>True</DesignTime>
+      </Compile>
+      <Compile Update="Resources\Views\Home\Theme.ru.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Theme.ru.resx</DependentUpon>
+        <DesignTime>True</DesignTime>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_Layout.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_Layout.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_Layout.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_Layout.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_LoginPartial.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_LoginPartial.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_LoginPartial.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_LoginPartial.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Localization\Auth\Auth.ru.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Auth.ru.resx</DependentUpon>
+        <DesignTime>True</DesignTime>
+      </Compile>
+      <Compile Update="Resources\Localization\Auth\Auth.en.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Auth.en.resx</DependentUpon>
+        <DesignTime>True</DesignTime>
+      </Compile>
+      <Compile Update="Resources\Areas\Identity\Pages\Account\Manage\ChangePassword.ru.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ChangePassword.ru.resx</DependentUpon>
+        <DesignTime>True</DesignTime>
       </Compile>
     </ItemGroup>
 

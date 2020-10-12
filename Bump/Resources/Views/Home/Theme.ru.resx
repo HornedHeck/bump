@@ -21,4 +21,12 @@
     <data name="Participants" xml:space="preserve">
         <value>Участники:</value>
     </data>
+    <data name="Started" xml:space="preserve">
+        <value>Создана {0} в {1}</value>
+        <comment>Started</comment>
+    </data>
+    <data name="Discussion" xml:space="preserve">
+        <value>Обсуждение</value>
+        <comment>Discussion</comment>
+    </data>
 </root>

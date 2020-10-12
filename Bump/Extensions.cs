@@ -30,9 +30,9 @@ namespace Bump
                 return it;
             });
 
-        public static string Format(this DateTime subject, string prefix)
+        public static string Format(this DateTime subject, string createdAt)
         {
-            return $"{prefix} {subject:d} at {subject:t}";
+            return string.Format(createdAt, subject.ToString("d"), subject.ToString("t"));
         }
     }
 }

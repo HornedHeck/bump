@@ -20,13 +20,13 @@
             @Localizer["Participants"] @Model.Messages.Select(it => it.Author.Id).Distinct().Count()
         </div>
         <div style="width: max-content; margin-left: auto">
-            @Model.StartTime.Format("Started")
+            @Model.StartTime.Format(Localizer["Started"].Value)
         </div>
     </div>
 </div>
 <hr/>
 <div class="bump-container-m">
-    <h4>Discussion</h4>
+    <h4>@Localizer["Discussion"]</h4>
 </div>
 <hr/>
 @if (Model.Messages.Count > 0)
