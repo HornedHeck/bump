@@ -5,6 +5,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bump.Auth
 {
@@ -19,11 +21,7 @@ namespace Bump.Auth
 
         public static async Task<string> GetVisibleNameAsync(this UserManager<BumpUser> userManager, BumpUser user)
         {
-            return (await userManager.GetClaimsAsync(user))
-                   .FirstOrDefault(claim => claim.Type == ClaimTypes.GivenName)?
-                   .Value
-                   ?? await userManager.GetUserNameAsync(user)
-                   ?? string.Empty;
+            return (await userManager.FindByIdAsync(user.Id)).VisibleName;
         }
 
         public static async Task<IdentityResult> SetVisibleNameAsync(
@@ -43,5 +41,8 @@ namespace Bump.Auth
 
             return await userManager.AddClaimAsync(user, newClaim);
         }
+
+        public static IActionResult AccessDenied(this PageModel subject) =>
+            subject.RedirectToPage("/Account/AccessDenied");
     }
 }

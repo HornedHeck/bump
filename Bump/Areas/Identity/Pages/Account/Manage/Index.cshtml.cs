@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Microsoft.AspNetCore.Identity;
@@ -26,9 +22,11 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
-        [TempData] public string StatusMessage { get; set; }
+        [TempData]
+        public string StatusMessage { get; set; }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public class InputModel
         {
@@ -40,9 +38,7 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(BumpUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var visibleName = (await _userManager.GetClaimsAsync(user))
-                .First(it => it.Type == ClaimTypes.GivenName)
-                .Value;
+            var visibleName = await _userManager.GetVisibleNameAsync(user);
 
             Username = userName;
 
@@ -57,7 +53,7 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return this.AccessDenied();
             }
 
             await LoadAsync(user);
@@ -69,7 +65,7 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return this.AccessDenied();
             }
 
             if (!ModelState.IsValid)
