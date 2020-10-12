@@ -36,6 +36,9 @@
       <_ContentIncludedByDefault Remove="Pages\Components\Message\Default.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Components\Message\Moderator.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Components\Message\Owner.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\Login.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\Profile.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\Register.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

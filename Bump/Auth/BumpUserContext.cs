@@ -10,13 +10,13 @@ namespace Bump.Auth
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.EnableSensitiveDataLogging();
+            base.OnModelCreating(builder);
+            // builder
+                // .Entity<BumpUser>()
+                // .HasIndex(it => it.VisibleName)
+                // .IsUnique();
         }
-        
-        
-        
     }
 }

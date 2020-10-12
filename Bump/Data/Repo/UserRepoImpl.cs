@@ -8,6 +8,11 @@ namespace Bump.Data.Repo
     {
         private readonly ILocalApi _local;
 
+        public UserRepoImpl(ILocalApi local)
+        {
+            _local = local;
+        }
+
         public void AddUser(User user) => _local.AddUser(user);
     }
 }

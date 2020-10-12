@@ -6,7 +6,7 @@ namespace Bump.Models
     {
         
         [Required]
-        public string Email { get; set; }
+        public string Login { get; set; }
         
         [Required]
         public string Name { get; set; }
