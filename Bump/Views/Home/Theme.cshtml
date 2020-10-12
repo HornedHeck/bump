@@ -1,5 +1,7 @@
 ﻿@using Bump.Components
+@using Microsoft.AspNetCore.Mvc.Localization
 @model ThemeVM
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = Model.Title;
@@ -15,7 +17,7 @@
     </div>
     <div class="row">
         <div>
-            Partisipants: @Model.Messages.Select(it => it.Author.Id).Distinct().Count()
+            @Localizer["Participants"] @Model.Messages.Select(it => it.Author.Id).Distinct().Count()
         </div>
         <div style="width: max-content; margin-left: auto">
             @Model.StartTime.Format("Started")

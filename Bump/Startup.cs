@@ -1,6 +1,10 @@
+using System.Globalization;
+using System.Linq;
 using Bump.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +27,10 @@ namespace Bump
             services.RegisterRepos();
             services.RegisterAuth(Configuration);
             services.AddSingleton<FileManager>();
-            services.AddControllersWithViews();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services
+                .AddControllersWithViews()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder);
             services.AddRazorPages();
         }
 
@@ -40,6 +47,22 @@ namespace Bump
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var supportedCultures = new CultureInfo[]
+            {
+                new CultureInfo("en"),
+                new CultureInfo("ru"),
+            };
+
+            app.UseRequestLocalization(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture(
+                    supportedCultures.First(),
+                    supportedCultures.First()
+                );
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -42,7 +42,32 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Culture" />
       <Folder Include="wwwroot\files" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Views\Home\Theme.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Theme.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Home\Theme.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Theme.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\Views\Home\Theme.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Theme.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Home\Theme.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Theme.en.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

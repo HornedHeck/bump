@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Security.Claims;
 using System.Security.Policy;
 using Bump.Auth;
@@ -67,6 +68,12 @@ namespace Bump
             {
                 options.ValidationInterval = TimeSpan.Zero;
             });
+        }
+
+        public static void RegisterCulture(this IServiceCollection services)
+        {
+            
+            
         }
     }
 }

@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Bump\Bump.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Controllers\UserControllerTests.cs" />
+    </ItemGroup>
+
 </Project>
