@@ -13,10 +13,10 @@ namespace Bump.Auth
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // builder
-                // .Entity<BumpUser>()
-                // .HasIndex(it => it.VisibleName)
-                // .IsUnique();
+            builder
+                .Entity<BumpUser>()
+                .HasIndex(it => it.VisibleName)
+                .IsUnique();
         }
     }
 }

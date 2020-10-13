@@ -1,12 +1,8 @@
 @using Microsoft.AspNetCore.Identity
 @using Bump.Auth
-@using Bump.Localization.Auth
-@using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.Extensions.Localization
 @inject SignInManager<BumpUser> SignInManager
 @inject UserManager<BumpUser> UserManager
 @inject IViewLocalizer Localizer
-@inject IStringLocalizer<Auth> AuthLocalizer
 @* ReSharper disable Mvc.AreaNotResolved *@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
@@ -16,17 +12,17 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
-                <button type="submit" class="nav-link btn btn-link text-dark">@AuthLocalizer["Logout"]</button>
+                <button type="submit" class="nav-link btn btn-link text-dark">@Strings["Logout"]</button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@AuthLocalizer["Register"]</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@Strings["RegisterTitle"]</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@AuthLocalizer["Login"]</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@Strings["LoginTitle"]</a>
         </li>
     }
 </ul>

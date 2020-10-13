@@ -8,6 +8,8 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Bump.Auth;
+using Bump.Localization.Attributes;
+using Bump.Resources.Strings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,23 +36,22 @@ namespace Bump.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public string ProviderDisplayName { get; set; }
 
         public string ReturnUrl { get; set; }
 
-        [TempData]
-        public string ErrorMessage { get; set; }
+        [TempData] public string ErrorMessage { get; set; }
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [LRequired]
+            [Display(ResourceType = typeof(CommonStrings), Name = "Login")]
             public string Login { get; set; }
 
-            [Required]
+            [Display(ResourceType = typeof(CommonStrings), Name = "VisibleName")]
+            [LRequired]
             public string VisibleName { get; set; }
         }
 

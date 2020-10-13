@@ -1,18 +1,19 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Bump.Auth;
+using Bump.Localization.Attributes;
+using Bump.Localization.Errors;
+using Bump.Resources.Strings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Bump.Auth;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace Bump.Areas.Identity.Pages.Account
@@ -23,19 +24,22 @@ namespace Bump.Areas.Identity.Pages.Account
         private readonly SignInManager<BumpUser> _signInManager;
         private readonly UserManager<BumpUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IStringLocalizer<CommonErrors> _localizer;
 
         public RegisterModel(
             UserManager<BumpUser> userManager,
             SignInManager<BumpUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            IStringLocalizer<CommonErrors> localizer
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -43,24 +47,23 @@ namespace Bump.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [Display(Name = "Login")]
+            [LRequired]
+            [Display(ResourceType = typeof(CommonStrings), Name = "Login")]
             public string Login { get; set; }
 
-            [Required]
-            [Display(Name = "Visible Name")]
+            [LRequired]
+            [Display(ResourceType = typeof(CommonStrings), Name = "VisibleName")]
             public string VisibleName { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-                MinimumLength = 6)]
+            [LRequired]
+            [LStringLength(100, MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(ResourceType = typeof(CommonStrings), Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirmation")]
+            [LConfirmation("Password")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -77,7 +80,19 @@ namespace Bump.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new BumpUser {UserName = Input.Login, VisibleName = Input.VisibleName};
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                IdentityResult result;
+                try
+                {
+                    result = await _userManager.CreateAsync(user, Input.Password);
+                }
+                catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+                {
+                    result = IdentityResult.Failed(new IdentityError
+                    {
+                        Description = _localizer["DuplicateVisibleName"]
+                    });
+                }
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -106,7 +121,7 @@ namespace Bump.Areas.Identity.Pages.Account
 
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, _localizer[error.Code]);
                 }
             }
 

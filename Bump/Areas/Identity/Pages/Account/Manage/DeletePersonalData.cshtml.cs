@@ -2,9 +2,13 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Localization.Attributes;
+using Bump.Localization.Errors;
+using Bump.Resources.Strings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace Bump.Areas.Identity.Pages.Account.Manage
@@ -14,24 +18,28 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<BumpUser> _userManager;
         private readonly SignInManager<BumpUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly IStringLocalizer<Localization.Messages.Identity> _localizer;
 
         public DeletePersonalDataModel(
             UserManager<BumpUser> userManager,
             SignInManager<BumpUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IStringLocalizer<Localization.Messages.Identity> localizer
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public class InputModel
         {
-            [Required]
+            [LRequired]
             [DataType(DataType.Password)]
+            [Display(ResourceType = typeof(CommonStrings), Name = "Password")]
             public string Password { get; set; }
         }
 
@@ -60,9 +68,13 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
             RequirePassword = await _userManager.HasPasswordAsync(user);
             if (RequirePassword)
             {
-                if (!await _userManager.CheckPasswordAsync(user, Input.Password))
+                if (Input?.Password == null || !await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
+                    if (Input?.Password != null)
+                    {
+                        ModelState.AddModelError(string.Empty, _localizer["WrongPassword"]);
+                    }
+
                     return Page();
                 }
             }
@@ -78,7 +90,7 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
-            return Redirect("~/");
+            return Redirect(AuthConstants.LoginPath);
         }
     }
 }

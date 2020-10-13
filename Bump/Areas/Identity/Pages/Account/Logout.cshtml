@@ -1,10 +1,11 @@
 ﻿@page
 @model LogoutModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <header>
     <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
+    <p>@Localizer["Description"]</p>
 </header>

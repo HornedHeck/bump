@@ -58,9 +58,9 @@ namespace Bump
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.LoginPath = "/Identity/Account/Login";
-                options.LogoutPath = "/Identity/Account/Logout";
+                options.AccessDeniedPath = AuthConstants.AccessDeniedPath;
+                options.LoginPath = AuthConstants.LoginPath;
+                options.LogoutPath = AuthConstants.LogoutPath;
             });
 
 

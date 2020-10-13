@@ -1,14 +1,10 @@
 ﻿@page
-@using Microsoft.Extensions.Localization
-@using Bump.Localization.Auth
 @using Microsoft.AspNetCore.Html
-@using Microsoft.AspNetCore.Mvc.Localization
 @model ExternalLoginModel
-@inject IStringLocalizer<Auth> AuthLocalizer
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = AuthLocalizer["RegisterTitle"];
+    ViewData["Title"] = Strings["RegisterTitle"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -29,7 +25,7 @@
                 <span asp-validation-for="Input.Login" class="text-danger"></span>
             </div>
             <input asp-for="Input.VisibleName" type="hidden"/>
-            <button type="submit" class="btn btn-primary">@AuthLocalizer["Register"]</button>
+            <button type="submit" class="btn btn-primary">@Strings["Register"]</button>
         </form>
     </div>
 </div>

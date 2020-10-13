@@ -6,6 +6,7 @@ using Bump.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace Bump
             services.RegisterAuth(Configuration);
             services.AddSingleton<FileManager>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+            // services.AddSingleton<IValidationAttributeAdapterProvider, LocalizedAttributeProvider>();
+            services.AddSingleton<ErrorsLocalizer>();
             services
                 .AddControllersWithViews()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder)

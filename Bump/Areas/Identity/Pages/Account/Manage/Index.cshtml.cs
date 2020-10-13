@@ -1,9 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Localization.Attributes;
+using Bump.Resources.Strings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace Bump.Areas.Identity.Pages.Account.Manage
 {
@@ -11,27 +14,30 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<BumpUser> _userManager;
         private readonly SignInManager<BumpUser> _signInManager;
+        private readonly IStringLocalizer<Localization.Messages.Identity> _localizer;
 
         public IndexModel(
             UserManager<BumpUser> userManager,
-            SignInManager<BumpUser> signInManager)
+            SignInManager<BumpUser> signInManager,
+            IStringLocalizer<Localization.Messages.Identity> localizer
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _localizer = localizer;
         }
 
+        [Display(ResourceType = typeof(CommonStrings), Name = "Login")]
         public string Username { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
+        [TempData] public string StatusMessage { get; set; }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public class InputModel
         {
-            [Required]
-            [Display(Name = "Visible Name")]
+            [LRequired]
+            [Display(ResourceType = typeof(CommonStrings), Name = "VisibleName")]
             public string VisibleName { get; set; }
         }
 
@@ -80,13 +86,13 @@ namespace Bump.Areas.Identity.Pages.Account.Manage
                 var setVisibleNameResult = await _userManager.SetVisibleNameAsync(user, Input.VisibleName);
                 if (!setVisibleNameResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set visible name.";
+                    StatusMessage = _localizer["ProfileUpdateError"].Value;
                     return RedirectToPage();
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = _localizer["ProfileUpdated"].Value;
             return RedirectToPage();
         }
     }
