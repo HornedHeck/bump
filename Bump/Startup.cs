@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Bump.Data;
@@ -6,7 +6,6 @@ using Bump.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,15 +30,25 @@ namespace Bump
             services.RegisterAuth(Configuration);
             services.AddSingleton<FileManager>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            // services.AddSingleton<IValidationAttributeAdapterProvider, LocalizedAttributeProvider>();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "en", uiCulture: "en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders = new List<IRequestCultureProvider> {new CookieRequestCultureProvider()};
+            });
+
             services.AddSingleton<ErrorsLocalizer>();
             services
                 .AddControllersWithViews()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder)
-                .AddDataAnnotationsLocalization(options =>
-                {
-                    options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(type);
-                });
+                .AddDataAnnotationsLocalization();
             services.AddRazorPages();
         }
 
@@ -57,21 +66,14 @@ namespace Bump
                 app.UseHsts();
             }
 
-            var supportedCultures = new CultureInfo[]
-            {
-                new CultureInfo("en"),
-                new CultureInfo("ru"),
-            };
+            var supported = new[] {"en", "ru"};
+            var options = new RequestLocalizationOptions()
+                .SetDefaultCulture("en")
+                .AddSupportedCultures(supported)
+                .AddSupportedUICultures(supported);
+            options.RequestCultureProviders = new IRequestCultureProvider[] {new CookieRequestCultureProvider()};
 
-            app.UseRequestLocalization(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture(
-                    supportedCultures.First(),
-                    supportedCultures.First()
-                );
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
+            app.UseRequestLocalization(options);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
