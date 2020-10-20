@@ -1,39 +1,58 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Localization.Attributes;
+using Bump.Resources.Strings;
 using Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Bump.Models
 {
-    public class ThemeVM
+    public class ThemeVm
     {
+        public long Id { get; set; }
+        
         public BumpUser Author { get; set; }
 
+        [LRequired]
+        [Display(ResourceType = typeof(CommonStrings), Name = "Content")]
         public string Content { get; set; }
 
+
+        [LRequired]
+        [Display(ResourceType = typeof(CommonStrings), Name = "Title")]
         public string Title { get; set; }
 
         public List<MessageVM> Messages { get; set; }
 
         public ThemeSubcategory Subcategory { get; set; }
-        
+
         public DateTime StartTime { get; set; }
     }
 
     public static class ThemeVmMapper
     {
-        public static async Task<ThemeVM> ToVm(this Theme entity, UserManager<BumpUser> userManager)
+        public static async Task<ThemeVm> ToVm(this Theme entity, UserManager<BumpUser> userManager)
         {
-            var messages = new List<MessageVM>(entity.Messages.Length);
-            foreach (var message in entity.Messages)
+            List<MessageVM> messages;
+            if (entity.Messages == null)
             {
-                messages.Add(await message.ToVm(userManager, null));
+                messages = new List<MessageVM>();
+            }
+            else
+            {
+                messages = new List<MessageVM>(entity.Messages.Length);
+                foreach (var message in entity.Messages)
+                {
+                    messages.Add(await message.ToVm(userManager, null));
+                }
             }
 
-            return new ThemeVM
+            return new ThemeVm
             {
+                Id = entity.Id,
                 Author = await userManager.FindByIdAsync(entity.Author.Id),
                 Content = entity.Content,
                 Title = entity.Name,

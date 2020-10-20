@@ -1,10 +1,15 @@
-@model List<Entities.Theme>
+@model SubcategoryVM
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@foreach (var item in Model)
+<form asp-controller="Theme" method="get" asp-action="CreateTheme">
+    <input type="hidden" name="subcategory" value="@Model.Id">
+    <button type="submit" class="btn btn-outline-primary">@Localizer["Add"]</button>
+</form>
+@foreach (var item in Model.Themes)
 {
     <a style="height: 100px; margin-left: 30px" href="@Url.Action("Theme", "Home", new {themeId = item.Id})">
         <div>@item.Name</div>

@@ -1,6 +1,5 @@
 ﻿@using Bump.Components
-@using Microsoft.AspNetCore.Mvc.Localization
-@model ThemeVM
+@model ThemeVm
 @inject IViewLocalizer Localizer
 
 @{
@@ -25,8 +24,27 @@
     </div>
 </div>
 <hr/>
-<div class="bump-container-m">
+<div class="bump-container-m row">
     <h4>@Localizer["Discussion"]</h4>
+    <form
+        style="margin-left: auto; margin-right: 10px"
+        method="get"
+        asp-controller="Message"
+        asp-action="CreateMessage">
+        <input type="hidden" name="themeId" value="@Model.Id">
+        <button
+            class="btn" style="
+            background: #1b6ec2; 
+            border-radius: 16px;
+            height: 32px;
+            width: 32px;
+            color: white;
+            padding: 0;
+            font-weight: bolder;"
+            type="submit">
+            +
+        </button>
+    </form>
 </div>
 <hr/>
 @if (Model.Messages.Count > 0)

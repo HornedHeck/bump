@@ -30,5 +30,10 @@ namespace Bump.Data.Repo
         {
             return _local.GetSubcategories(category);
         }
+
+        public void CreateTheme(Theme theme)
+        {
+            _local.CreateTheme(theme);
+        }
     }
 }

@@ -11,10 +11,10 @@
 
 <div>
     <form id="message_form" method="post" enctype="multipart/form-data" asp-controller="Message" asp-action="@Model.Method">
-        <div>
+        <div class="form-group">
             <label asp-for="Content"></label><br/>
-            <input asp-for="Content" value="@Model.Content"/>
-            <span asp-validation-for="Content"></span>
+            <input asp-for="Content" value="@Model.Content" class="form-control"/>
+            <span class="text-danger" asp-validation-for="Content"></span>
         </div>
         <input type="hidden" asp-for="Theme">
         <input type="hidden" asp-for="Id">
@@ -43,7 +43,7 @@
         </div>
 
         <div style="margin-top: 10px">
-            <button name="action" class="btn btn-primary" type="submit" value="submit">Submit</button>
+            <button name="action" class="btn btn-primary" type="submit" value="submit">@Strings["Submit"]</button>
         </div>
 
     </form>

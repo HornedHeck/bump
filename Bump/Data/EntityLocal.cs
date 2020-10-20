@@ -61,7 +61,7 @@ namespace Bump.Data
         public DbSet<LMessage> Messages { get; set; }
         public DbSet<LMedia> Media { get; set; }
         public DbSet<BumpUser> Users { get; set; }
-        
+
         public DbSet<LVote> Votes { get; set; }
 
         public void AddUser(User user)
@@ -81,7 +81,7 @@ namespace Bump.Data
             media.Id = entry.Entity.Id;
         }
 
-        public Theme GetTheme(int id)
+        public Theme GetTheme(long id)
         {
             return Themes.Find(id)?.Map();
         }

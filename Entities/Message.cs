@@ -7,7 +7,7 @@ namespace Entities
     {
         public Message() { }
 
-        public Message(int id, User author, string content, long[] media, int theme, DateTime creationTime , List<Vote> votes)
+        public Message(int id, User author, string content, long[] media, long theme, DateTime creationTime , List<Vote> votes)
         {
             Id = id;
             Author = author;
@@ -28,7 +28,7 @@ namespace Entities
 
         public long[] Media { get; set; }
         
-        public int Theme { set; get; }
+        public long Theme { set; get; }
 
         public List<Vote> Votes { get; set; }
 

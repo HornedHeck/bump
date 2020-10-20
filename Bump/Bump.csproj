@@ -42,6 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Migrations" />
       <Folder Include="wwwroot\files" />
     </ItemGroup>
 
@@ -191,6 +192,10 @@
       <EmbeddedResource Update="Resources\Views\Shared\_LangPartial.ru.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>_LangPartial.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Home\Subcategory.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Subcategory.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 
@@ -364,6 +369,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>_LangPartial.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Home\Subcategory.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Subcategory.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

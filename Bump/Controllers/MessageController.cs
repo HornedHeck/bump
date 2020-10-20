@@ -86,16 +86,13 @@ namespace Bump.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> CreateMessage(MessageVM messageVm)
+        public IActionResult CreateMessage(long themeId)
         {
-            var entity = _messageRepo.GetMessage(messageVm.Id);
             var message = new MessageVM
             {
-                Id = entity.Id,
                 Method = "CreateMessage",
-                Author = await _userManager.FindByIdAsync(entity.Author.Id),
-                Content = entity.Content,
-                Theme = entity.Theme
+                Content = "",
+                Theme = themeId
             };
             return View("Message", message);
         }
@@ -105,21 +102,28 @@ namespace Bump.Controllers
         [HttpPost]
         public IActionResult CreatePost(MessageVM messageVm)
         {
-            var entity = new Message(
-                id: messageVm.Id,
-                author: new User(messageVm.Author.Id),
-                content: messageVm.Content,
-                media: new long[0],
-                theme: messageVm.Theme,
-                creationTime: DateTime.Now,
-                votes: new List<Vote>()
-            );
-            _messageRepo.CreateMessage(entity);
-            return RedirectToAction(
-                actionName: "Theme",
-                controllerName: "Home",
-                routeValues: new {themeId = messageVm.Theme}
-            );
+            if (ModelState.IsValid)
+            {
+                var entity = new Message(
+                    id: 0,
+                    author: new User(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    content: messageVm.Content,
+                    media: new long[0],
+                    theme: messageVm.Theme,
+                    creationTime: DateTime.Now,
+                    votes: new List<Vote>()
+                );
+                _messageRepo.CreateMessage(entity);
+                return RedirectToAction(
+                    actionName: "Theme",
+                    controllerName: "Home",
+                    routeValues: new {themeId = messageVm.Theme}
+                );
+            }
+            else
+            {
+                return View("Message", messageVm);
+            }
         }
 
         public async Task<IActionResult> UploadMedia(MessageVM messageVm, IFormFile file)

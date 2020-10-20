@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Localization.Attributes;
+using Bump.Resources.Strings;
 using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +16,13 @@ namespace Bump.Models
     {
         public int Id { get; set; }
 
-        public int Theme { get; set; }
+        public long Theme { get; set; }
 
         public BumpUser Author { get; set; }
 
+        [LRequired]
+        [Display(ResourceType = typeof(CommonStrings), Name = "Content")]
+        [LStringLength(1000, MinimumLength = 1)]
         public string Content { get; set; }
 
         public List<long> Media { get; set; } = new List<long>();
@@ -24,7 +30,7 @@ namespace Bump.Models
         public string Method { get; set; }
 
         public List<Vote> Votes { get; set; }
-        
+
         public DateTime CreationTime { get; set; }
     }
 

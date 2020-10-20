@@ -12,5 +12,7 @@ namespace Data.Repo
         List<ThemeCategory> GetCategories();
 
         List<ThemeSubcategory> GetSubcategories(long category);
+
+        void CreateTheme(Theme theme);
     }
 }

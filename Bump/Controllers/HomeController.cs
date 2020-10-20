@@ -33,7 +33,11 @@ namespace Bump.Controllers
 
         public IActionResult Subcategory(long subcategory)
         {
-            return View(_themeRepo.GetThemes(subcategory));
+            return View(new SubcategoryVM
+            {
+                Id = subcategory,
+                Themes = _themeRepo.GetThemes(subcategory)
+            });
         }
 
         [Authorize]

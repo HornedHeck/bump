@@ -8,7 +8,7 @@ namespace Bump.Data.Models
     public class Theme
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [MinLength(5)]
         [MaxLength(50)]
