@@ -46,7 +46,7 @@ namespace Bump.Models
                 Method = method,
                 Theme = entity.Theme,
                 Votes = entity.Votes ?? new List<Vote>(),
-                Media = entity.Media.ToList(),
+                Media = entity.Media?.ToList() ?? new List<long>(),
                 CreationTime = entity.CreationTime.ToLocalTime()
             };
         }

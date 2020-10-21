@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
@@ -42,7 +41,7 @@ namespace Bump.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPatch]
         public void VoteMessage(int id)
         {
             var vote = new Vote {UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)};
@@ -50,66 +49,77 @@ namespace Bump.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> UpdateMessage(int id)
         {
             var entity = _messageRepo.GetMessage(id);
-            var messageVm = await entity.ToVm(_userManager, "UpdateMessage");
-            return View("Message", messageVm);
+            var vm = await entity.ToVm(_userManager, "UpdateMessage");
+            return View("Message", vm);
         }
 
         [ActionName("UpdateMessage")]
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> UpdatePost(MessageVM messageVm, IFormFile uploadingMedia, string action = null)
+        public async Task<IActionResult> UpdatePost(MessageVM vm, IFormFile uploadingMedia)
         {
-            var entity = _messageRepo.GetMessage(messageVm.Id);
-            messageVm.Media = entity.Media.ToList();
+            vm.Media ??= new List<long>();
 
             if (uploadingMedia != null)
             {
                 var mediaId = await _fileManager.SaveFile(uploadingMedia);
-                messageVm.Media.Add(mediaId);
+                vm.Media.Add(mediaId);
+                return View("Message", vm);
             }
 
-            _messageRepo.UpdateMessage(entity.Id, entity.Content, messageVm.Media.ToArray());
-
-            if (action == "UpdateMessage")
+            if (ModelState.IsValid)
             {
-                return View("Message", messageVm);
+                _messageRepo.UpdateMessage(vm.Id, vm.Content, vm.Media.ToArray());
+                return RedirectToAction(
+                    actionName: "Theme",
+                    controllerName: "Home",
+                    routeValues: new {themeId = vm.Theme}
+                );
             }
 
-            return RedirectToAction(
-                actionName: "Theme",
-                controllerName: "Home",
-                routeValues: new {themeId = messageVm.Theme}
-            );
+            return View("Message", vm);
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult CreateMessage(long themeId)
         {
-            var message = new MessageVM
+            var vm = new MessageVM
             {
                 Method = "CreateMessage",
                 Content = "",
-                Theme = themeId
+                Theme = themeId,
+                Media = new List<long>()
             };
-            return View("Message", message);
+            return View("Message", vm);
         }
 
         [Authorize]
         [ActionName("CreateMessage")]
         [HttpPost]
-        public IActionResult CreatePost(MessageVM messageVm)
+        public async Task<IActionResult> CreatePost(MessageVM vm, IFormFile uploadingMedia)
         {
+            vm.Media ??= new List<long>();
+            
+            if (uploadingMedia != null)
+            {
+                var mediaId = await _fileManager.SaveFile(uploadingMedia);
+                vm.Media.Add(mediaId);
+                return View("Message", vm);
+            }
+            
             if (ModelState.IsValid)
             {
                 var entity = new Message(
                     id: 0,
                     author: new User(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    content: messageVm.Content,
-                    media: new long[0],
-                    theme: messageVm.Theme,
+                    content: vm.Content,
+                    media: vm.Media.ToArray(),
+                    theme: vm.Theme,
                     creationTime: DateTime.Now,
                     votes: new List<Vote>()
                 );
@@ -117,31 +127,11 @@ namespace Bump.Controllers
                 return RedirectToAction(
                     actionName: "Theme",
                     controllerName: "Home",
-                    routeValues: new {themeId = messageVm.Theme}
+                    routeValues: new {themeId = vm.Theme}
                 );
             }
-            else
-            {
-                return View("Message", messageVm);
-            }
-        }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<long> UploadMedia(IFormFile file)
-        {
-            return await _fileManager.SaveFile(file);
-        }
-
-        public async Task<IActionResult> UploadMedia(MessageVM messageVm, IFormFile file)
-        {
-            await _fileManager.SaveFile(file);
-            var entity = _messageRepo.GetMessage(messageVm.Id);
-            messageVm.Media = messageVm.Media.Concat(entity.Media).Distinct().ToList();
-            return RedirectToAction(
-                messageVm.Method,
-                new {messageVm = messageVm}
-            );
+            return View("Message", vm);
         }
     }
 }
