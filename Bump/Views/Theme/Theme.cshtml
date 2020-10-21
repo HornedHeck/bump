@@ -1,12 +1,23 @@
+@using Bump.Components
 @model ThemeVm
 @inject IViewLocalizer Localizer
-
 @{
     Layout = "_Layout";
 }
+
+<script>
+
+    function uploadFile() {
+      document.getElementById('theme_form').submit()
+    }
+
+</script>
+
 <form
+    id="theme_form"
     asp-controller="Theme"
     asp-action="EditTheme"
+    enctype="multipart/form-data"
     method="post">
     <div class="form-group">
         <label asp-for="Title"></label>
@@ -19,27 +30,28 @@
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <input type="hidden" asp-for="Subcategory.Id">
-    @*     <div style="margin-top: 10px; margin-left: 5px" class="row form-group"> *@
-    @*                 @foreach (var media in Model) *@
-    @*                 { *@
-    @*                     <div class="image-column"> *@
-    @*                         <div style="height: 100%; width: auto; border: 1px #ccc;"> *@
-    @*                             @await Component.InvokeAsync(typeof(Media), new {id = media}) *@
-    @*                         </div> *@
-    @*                     </div> *@
-    @*                 } *@
-    @*                 @if (Model.Media.Count < 10) *@
-    @*                 { *@
-    @*                     <div class="col-md-1"> *@
-    @*                         <div class="centered_cont"> *@
-    @*                             <div class="upload-button"> *@
-    @*                                 <div class="label">+</div> *@
-    @*                                 <input name="UploadingMedia" type="file" size="1" onchange="uploadFile();"/> *@
-    @*                             </div> *@
-    @*                         </div> *@
-    @*                     </div> *@
-    @*                 } *@
-    @*             </div> *@
+    <div style="margin-top: 10px; margin-left: 5px" class="row form-group">
+        @foreach (var media in Model.Media)
+        {
+            <input type="hidden" name="Media" value="@media">
+            <div class="image-column">
+                <div style="height: 100%; width: auto; border: 1px #ccc;">
+                    @await Component.InvokeAsync(typeof(Media), new {id = media})
+                </div>
+            </div>
+        }
+        @if (Model.Media.Count < 10)
+        {
+            <div class="col-md-1">
+                <div class="centered_cont">
+                    <div class="upload-button">
+                        <div class="label">+</div>
+                        <input name="UploadingMedia" type="file" size="1" onchange="uploadFile();"/>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
     <div class="form-group">
         <button type="submit" class="btn btn-outline-primary">@Strings["Submit"]</button>
     </div>

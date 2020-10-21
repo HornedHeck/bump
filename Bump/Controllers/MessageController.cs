@@ -126,6 +126,13 @@ namespace Bump.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<long> UploadMedia(IFormFile file)
+        {
+            return await _fileManager.SaveFile(file);
+        }
+
         public async Task<IActionResult> UploadMedia(MessageVM messageVm, IFormFile file)
         {
             await _fileManager.SaveFile(file);

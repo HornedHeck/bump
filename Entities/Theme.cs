@@ -5,7 +5,7 @@ namespace Entities
 {
     public class Theme
     {
-        public Theme(long id, User author, string name, string content, Message[] messages, int[] media, DateTime creationTime)
+        public Theme(long id, User author, string name, string content, Message[] messages, long[] media, DateTime creationTime)
         {
             Id = id;
             Author = author;
@@ -26,7 +26,7 @@ namespace Entities
 
         public Message[] Messages { get; set; }
 
-        public int[] Media { get; set; }
+        public long[] Media { get; set; }
 
         public DateTime CreationTime { get; set; }
 

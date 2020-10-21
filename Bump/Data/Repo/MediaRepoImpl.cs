@@ -19,5 +19,10 @@ namespace Bump.Data.Repo
         {
             _local.AddMedia(media);
         }
+
+        public void RemoveMedia(long id)
+        {
+            _local.RemoveMedia(id);
+        }
     }
 }

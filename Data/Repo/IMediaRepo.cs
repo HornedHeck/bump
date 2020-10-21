@@ -9,5 +9,7 @@ namespace Data.Repo
         Media GetMedia(long id);
 
         void AddMedia(Media media);
+
+        void RemoveMedia(long id);
     }
 }

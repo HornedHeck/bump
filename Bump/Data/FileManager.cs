@@ -67,5 +67,13 @@ namespace Bump.Data
             await file.CopyToAsync(fileStream);
             return media.Id;
         }
+
+        public void RemoveMedia(long id)
+        {
+            var media = _repo.GetMedia(id);
+            File.Delete(GetPath(media));
+            Directory.Delete(GetFolder(media));
+            _repo.RemoveMedia(id);
+        }
     }
 }

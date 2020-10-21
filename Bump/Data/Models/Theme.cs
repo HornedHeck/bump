@@ -23,6 +23,8 @@ namespace Bump.Data.Models
 
         public List<Message> Messages { get; set; }
         
+        public List<Media> Media { get; set; }
+        
         [Required]
         public ThemeSubcategory Subcategory { get; set; }
         

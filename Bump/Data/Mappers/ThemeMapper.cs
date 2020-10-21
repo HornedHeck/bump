@@ -18,7 +18,7 @@ namespace Bump.Data.Mappers
                 name: item.Title,
                 content: item.Content,
                 messages: item.Messages.Map().OrderBy(it => it.CreationTime).Reverse().ToArray(),
-                media: new int[0],
+                media: item.Media.Select(it => it.Id).ToArray(),
                 creationTime: item.CreationTime
             );
         }
@@ -34,7 +34,8 @@ namespace Bump.Data.Mappers
                 Content = entity.Content,
                 Title = entity.Name,
                 Subcategory = subcategory,
-                CreationTime = entity.CreationTime
+                CreationTime = entity.CreationTime,
+                Media = entity.Media.Select(it => mediaSet.Find(it)).ToList()
             };
             theme.Messages = entity.Messages.Map(theme, mediaSet).ToList();
             return theme;

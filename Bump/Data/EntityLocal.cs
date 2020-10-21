@@ -81,6 +81,11 @@ namespace Bump.Data
             media.Id = entry.Entity.Id;
         }
 
+        public void RemoveMedia(long id)
+        {
+            Media.Find(id)?.Run(it => Media.Remove(it));
+        }
+
         public Theme GetTheme(long id)
         {
             return Themes.Find(id)?.Map();

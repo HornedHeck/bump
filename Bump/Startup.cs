@@ -41,7 +41,8 @@ namespace Bump
                 options.DefaultRequestCulture = new RequestCulture(culture: "en", uiCulture: "en");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
-                options.RequestCultureProviders = new List<IRequestCultureProvider> {new CookieRequestCultureProvider()};
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                    {new CookieRequestCultureProvider()};
             });
 
             services.AddSingleton<ErrorsLocalizer>();

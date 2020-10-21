@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Bump.Localization.Attributes;
@@ -13,7 +14,7 @@ namespace Bump.Models
     public class ThemeVm
     {
         public long Id { get; set; }
-        
+
         public BumpUser Author { get; set; }
 
         [LRequired]
@@ -30,6 +31,8 @@ namespace Bump.Models
         public ThemeSubcategory Subcategory { get; set; }
 
         public DateTime StartTime { get; set; }
+
+        public List<long> Media { get; set; }
     }
 
     public static class ThemeVmMapper
@@ -58,7 +61,8 @@ namespace Bump.Models
                 Title = entity.Name,
                 Messages = messages,
                 Subcategory = entity.Subcategory,
-                StartTime = entity.CreationTime.ToLocalTime()
+                StartTime = entity.CreationTime.ToLocalTime(),
+                Media = entity.Media.Select(it => (long) it).ToList()
             };
         }
     }

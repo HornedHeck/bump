@@ -15,6 +15,17 @@
         <p>@Model.Content</p>
     </div>
     <div class="row">
+        @foreach (var media in Model.Media)
+                    {
+                        <input type="hidden" name="Media" value="@media">
+                        <div class="image-column">
+                            <div style="height: 100%; width: auto; border: 1px #ccc;">
+                                @await Component.InvokeAsync(typeof(Media), new {id = media})
+                            </div>
+                        </div>
+                    }
+    </div>
+    <div class="row">
         <div>
             @Localizer["Participants"] @Model.Messages.Select(it => it.Author.Id).Distinct().Count()
         </div>

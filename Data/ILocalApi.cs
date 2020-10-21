@@ -11,6 +11,8 @@ namespace Data
 
         void AddMedia(Media media);
 
+        void RemoveMedia(long id);
+
         Theme GetTheme(long id);
 
         void CreateTheme(Theme theme);
