@@ -62,26 +62,11 @@ namespace Bump.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePost(MessageVM vm, IFormFile uploadingMedia)
         {
-            vm.Media ??= new List<long>();
-
-            if (uploadingMedia != null)
-            {
-                var mediaId = await _fileManager.SaveFile(uploadingMedia);
-                vm.Media.Add(mediaId);
-                return View("Message", vm);
-            }
-
-            if (ModelState.IsValid)
-            {
-                _messageRepo.UpdateMessage(vm.Id, vm.Content, vm.Media.ToArray());
-                return RedirectToAction(
-                    actionName: "Theme",
-                    controllerName: "Home",
-                    routeValues: new {themeId = vm.Theme}
-                );
-            }
-
-            return View("Message", vm);
+            return await UpdateMessage(
+                vm,
+                uploadingMedia,
+                message => _messageRepo.UpdateMessage(vm.Id, vm.Content, vm.Media.ToArray())
+            );
         }
 
         [Authorize]
@@ -101,29 +86,38 @@ namespace Bump.Controllers
         [Authorize]
         [ActionName("CreateMessage")]
         [HttpPost]
-        public async Task<IActionResult> CreatePost(MessageVM vm, IFormFile uploadingMedia)
+        public async Task<IActionResult> CreatePost(MessageVM vm, IFormFile uploadingMedia = null)
+        {
+            return await UpdateMessage(vm, uploadingMedia, message =>
+            {
+                var entity = new Message(
+                    id: 0,
+                    author: new User(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    content: message.Content,
+                    media: message.Media.ToArray(),
+                    theme: message.Theme,
+                    creationTime: DateTime.Now,
+                    votes: new List<Vote>()
+                );
+                _messageRepo.CreateMessage(entity);
+            });
+        }
+
+        private async Task<IActionResult> UpdateMessage(MessageVM vm, IFormFile uploadingMedia,
+            Action<MessageVM> consumer)
         {
             vm.Media ??= new List<long>();
-            
+
             if (uploadingMedia != null)
             {
                 var mediaId = await _fileManager.SaveFile(uploadingMedia);
                 vm.Media.Add(mediaId);
                 return View("Message", vm);
             }
-            
+
             if (ModelState.IsValid)
             {
-                var entity = new Message(
-                    id: 0,
-                    author: new User(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    content: vm.Content,
-                    media: vm.Media.ToArray(),
-                    theme: vm.Theme,
-                    creationTime: DateTime.Now,
-                    votes: new List<Vote>()
-                );
-                _messageRepo.CreateMessage(entity);
+                consumer(vm);
                 return RedirectToAction(
                     actionName: "Theme",
                     controllerName: "Home",
