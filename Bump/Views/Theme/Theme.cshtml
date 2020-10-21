@@ -35,11 +35,21 @@
     <div style="margin-top: 10px; margin-left: 5px" class="row form-group">
         @foreach (var media in Model.Media)
         {
-            <input type="hidden" name="Media" value="@media">
-            <div class="image-column">
-                <div style="height: 100%; width: auto; border: 1px #ccc;">
-                    @await Component.InvokeAsync(typeof(Media), new {id = media})
+            <div style="position: relative">
+                <input type="hidden" name="Media" value="@media">
+                <div class="image-column">
+                    <div style="height: 100%; width: auto; border: 1px #ccc;">
+                        @await Component.InvokeAsync(typeof(Media), new {id = media})
+                    </div>
                 </div>
+                <button
+                    style="width: 20px;height: 20px;padding: 0;line-height: 10px;right: 0;top: 0;position: absolute;"
+                    type="submit"
+                    class="btn btn-danger"
+                    name="deleteMedia"
+                    value="@media">
+                    x
+                </button>
             </div>
         }
         @if (Model.Media.Count < 10)
