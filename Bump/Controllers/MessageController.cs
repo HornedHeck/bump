@@ -60,11 +60,12 @@ namespace Bump.Controllers
         [ActionName("UpdateMessage")]
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> UpdatePost(MessageVM vm, IFormFile uploadingMedia)
+        public async Task<IActionResult> UpdatePost(MessageVM vm, IFormFile uploadingMedia, long? deleteMedia)
         {
             return await UpdateMessage(
                 vm,
                 uploadingMedia,
+                deleteMedia,
                 message => _messageRepo.UpdateMessage(vm.Id, vm.Content, vm.Media.ToArray())
             );
         }
@@ -86,9 +87,13 @@ namespace Bump.Controllers
         [Authorize]
         [ActionName("CreateMessage")]
         [HttpPost]
-        public async Task<IActionResult> CreatePost(MessageVM vm, IFormFile uploadingMedia = null)
+        public async Task<IActionResult> CreatePost(
+            MessageVM vm,
+            IFormFile uploadingMedia = null,
+            long? deleteMedia = null
+        )
         {
-            return await UpdateMessage(vm, uploadingMedia, message =>
+            return await UpdateMessage(vm, uploadingMedia, deleteMedia, message =>
             {
                 var entity = new Message(
                     id: 0,
@@ -103,8 +108,12 @@ namespace Bump.Controllers
             });
         }
 
-        private async Task<IActionResult> UpdateMessage(MessageVM vm, IFormFile uploadingMedia,
-            Action<MessageVM> consumer)
+        private async Task<IActionResult> UpdateMessage(
+            MessageVM vm,
+            IFormFile uploadingMedia,
+            long? deleteMedia,
+            Action<MessageVM> consumer
+        )
         {
             vm.Media ??= new List<long>();
 
@@ -112,6 +121,13 @@ namespace Bump.Controllers
             {
                 var mediaId = await _fileManager.SaveFile(uploadingMedia);
                 vm.Media.Add(mediaId);
+                return View("Message", vm);
+            }
+
+            if (deleteMedia != null)
+            {
+                _fileManager.RemoveMedia((long) deleteMedia);
+                vm.Media.Remove((long) deleteMedia);
                 return View("Message", vm);
             }
 

@@ -71,8 +71,8 @@ namespace Bump.Data
         public void RemoveMedia(long id)
         {
             var media = _repo.GetMedia(id);
-            File.Delete(GetPath(media));
-            Directory.Delete(GetFolder(media));
+            File.Delete(_environment.WebRootPath + GetPath(media));
+            Directory.Delete(_environment.WebRootPath + GetFolder(media));
             _repo.RemoveMedia(id);
         }
     }
