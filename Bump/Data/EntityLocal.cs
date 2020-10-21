@@ -145,6 +145,16 @@ namespace Bump.Data
             .Map()
             .ToList();
 
+        public void UpdateTheme(long theme , string title, string content, long[] media)
+        {
+            Themes.Find(theme)?.Also(it =>
+            {
+                it.Content = content;
+                it.Media = media.Select(id => Media.Find(id)).ToList();
+                SaveChanges();
+            });
+        }
+
         public void AddCategory(ThemeCategory category)
         {
             var entry = Categories.Add(category.Map());

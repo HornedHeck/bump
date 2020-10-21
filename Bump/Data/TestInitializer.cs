@@ -59,7 +59,8 @@ namespace Bump.Data
                     content: $"Content of theme {i + 1}",
                     messages: new Message[0],
                     media: new long[0],
-                    creationTime: DateTime.Today
+                    creationTime: DateTime.Today,
+                    subcategory: subcategory
                 )
                 {
                     Subcategory = subcategory

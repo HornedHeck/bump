@@ -33,6 +33,8 @@ namespace Bump.Models
         public DateTime StartTime { get; set; }
 
         public List<long> Media { get; set; }
+        
+        public string Method { get; set; }
     }
 
     public static class ThemeVmMapper
@@ -62,7 +64,7 @@ namespace Bump.Models
                 Messages = messages,
                 Subcategory = entity.Subcategory,
                 StartTime = entity.CreationTime.ToLocalTime(),
-                Media = entity.Media.Select(it => (long) it).ToList()
+                Media = entity.Media.Select(it => it).ToList()
             };
         }
     }

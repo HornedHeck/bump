@@ -7,7 +7,23 @@
 }
 
 <div class="bump-container-m">
-    <h3>@Model.Title</h3>
+    <div class="row">
+        <centered-vertical>
+            <h3>@Model.Title</h3>
+        </centered-vertical>
+        <centered-vertical style="margin-left: auto">
+            <form asp-controller="Theme" asp-action="EditTheme" method="get">
+                <button
+                    class="btn btn-outline-primary"
+                    type="submit"
+                    name="themeId"
+                    value="@Model.Id">
+                    @Strings["Edit"]
+                </button>
+            </form>
+        </centered-vertical>
+    </div>
+
 </div>
 <hr/>
 <div class="bump-container-m">
@@ -16,14 +32,14 @@
     </div>
     <div class="row">
         @foreach (var media in Model.Media)
-                    {
-                        <input type="hidden" name="Media" value="@media">
-                        <div class="image-column">
-                            <div style="height: 100%; width: auto; border: 1px #ccc;">
-                                @await Component.InvokeAsync(typeof(Media), new {id = media})
-                            </div>
-                        </div>
-                    }
+        {
+            <input type="hidden" name="Media" value="@media">
+            <div class="image-column">
+                <div style="height: 100%; width: auto; border: 1px #ccc;">
+                    @await Component.InvokeAsync(typeof(Media), new {id = media})
+                </div>
+            </div>
+        }
     </div>
     <div class="row">
         <div>

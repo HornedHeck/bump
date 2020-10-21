@@ -40,5 +40,7 @@ namespace Data
 
         void VoteUp(int message , Vote vote);
 
+        public void UpdateTheme(long theme , string title, string content, long[] media);
+
     }
 }

@@ -5,7 +5,7 @@ namespace Data.Repo
 {
     public interface IThemeRepo
     {
-        Theme GetTheme(int id);
+        Theme GetTheme(long id);
 
         List<Theme> GetThemes(long subcategory);
 
@@ -14,5 +14,7 @@ namespace Data.Repo
         List<ThemeSubcategory> GetSubcategories(long category);
 
         void CreateTheme(Theme theme);
+        
+        void UpdateTheme(long theme, string title, string content, long[] media);
     }
 }

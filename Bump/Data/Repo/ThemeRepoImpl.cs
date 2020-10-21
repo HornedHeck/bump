@@ -14,7 +14,7 @@ namespace Bump.Data.Repo
             _local = local;
         }
 
-        public Theme GetTheme(int id) => _local.GetTheme(id);
+        public Theme GetTheme(long id) => _local.GetTheme(id);
 
         public List<Theme> GetThemes(long subcategory)
         {
@@ -34,6 +34,11 @@ namespace Bump.Data.Repo
         public void CreateTheme(Theme theme)
         {
             _local.CreateTheme(theme);
+        }
+
+        public void UpdateTheme(long theme, string title, string content, long[] media)
+        {
+            _local.UpdateTheme(theme, title, content, media);
         }
     }
 }

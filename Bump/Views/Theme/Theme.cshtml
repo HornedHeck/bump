@@ -16,7 +16,7 @@
 <form
     id="theme_form"
     asp-controller="Theme"
-    asp-action="EditTheme"
+    asp-action="@Model.Method"
     enctype="multipart/form-data"
     method="post">
     <div class="form-group">
@@ -29,7 +29,9 @@
         <input asp-for="Content" class="form-control">
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
+    <input type="hidden" asp-for="Id">
     <input type="hidden" asp-for="Subcategory.Id">
+    <input type="hidden" asp-for="Method">
     <div style="margin-top: 10px; margin-left: 5px" class="row form-group">
         @foreach (var media in Model.Media)
         {

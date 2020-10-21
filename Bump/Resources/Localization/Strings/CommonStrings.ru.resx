@@ -44,4 +44,10 @@
     <data name="Content" xml:space="preserve">
         <value>Содержимое </value>
     </data>
+    <data name="Edit" xml:space="preserve">
+        <value>Изменить</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Удалить</value>
+    </data>
 </root>

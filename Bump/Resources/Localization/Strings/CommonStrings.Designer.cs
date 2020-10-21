@@ -110,5 +110,17 @@ namespace Bump.Resources.Strings {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
         }
+        
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
     }
 }
