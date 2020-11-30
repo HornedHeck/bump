@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Bump.Data;
+using Bump.Log;
 using Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +40,11 @@ namespace Bump
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddProvider(new LoggerProvider());
+                })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

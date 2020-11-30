@@ -42,7 +42,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
       <Folder Include="wwwroot\files" />
     </ItemGroup>
 
@@ -197,6 +196,7 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Subcategory.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Remove="Migrations\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -375,6 +375,7 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Subcategory.resx</DependentUpon>
       </Compile>
+      <Compile Remove="Migrations\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -386,6 +387,18 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>CommonErrors.Designer.cs</LastGenOutput>
       </Resource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EntityDeploy Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Migrations\**" />
     </ItemGroup>
 
 </Project>
