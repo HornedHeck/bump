@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
-using Bump.Data;
 using Bump.Models;
 using Data.Repo;
 using Entities;
@@ -16,11 +15,11 @@ namespace Bump.Controllers
 {
     public class MessageController : Controller
     {
-        private readonly IMessageRepo _messageRepo;
+        private readonly MessageRepo _messageRepo;
         private readonly UserManager<BumpUser> _userManager;
         private readonly FileManager _fileManager;
 
-        public MessageController(IMessageRepo messageRepo, UserManager<BumpUser> userManager, FileManager fileManager)
+        public MessageController(MessageRepo messageRepo, UserManager<BumpUser> userManager, FileManager fileManager)
         {
             _messageRepo = messageRepo;
             _userManager = userManager;

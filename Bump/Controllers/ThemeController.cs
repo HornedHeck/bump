@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
-using Bump.Data;
 using Bump.Models;
 using Data.Repo;
 using Entities;
@@ -16,11 +16,11 @@ namespace Bump.Controllers
 {
     public class ThemeController : Controller
     {
-        private readonly IThemeRepo _repo;
+        private readonly ThemeRepo _repo;
         private readonly FileManager _fileManager;
         private readonly UserManager<BumpUser> _userManager;
 
-        public ThemeController(IThemeRepo repo, FileManager fileManager, UserManager<BumpUser> userManager)
+        public ThemeController(ThemeRepo repo, FileManager fileManager, UserManager<BumpUser> userManager)
         {
             _repo = repo;
             _fileManager = fileManager;
@@ -76,7 +76,7 @@ namespace Bump.Controllers
         public async Task<IActionResult> EditTheme(ThemeVm vm, IFormFile uploadingMedia, long? deleteMedia = null)
         {
             return await UpdateTheme(vm, uploadingMedia, deleteMedia,
-                theme => { _repo.UpdateTheme(vm.Id, vm.Title, vm.Content, vm.Media.ToArray()); });
+                theme => { _repo.UpdateTheme(vm.Id, vm.Title, vm.Content,  vm.Media); });
         }
 
         private async Task<IActionResult> UpdateTheme(ThemeVm vm, IFormFile uploadingMedia, long? deleteMedia,

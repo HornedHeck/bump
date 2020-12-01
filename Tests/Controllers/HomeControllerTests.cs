@@ -12,7 +12,7 @@ namespace Tests.Controllers
     public class HomeControllerTests
     {
         private HomeController _controller;
-        private readonly Mock<IThemeRepo> _repo = new Mock<IThemeRepo>();
+        private readonly Mock<ThemeRepo> _repo = new Mock<ThemeRepo>();
         private readonly UserManager<BumpUser> _userManager = new MockUserManager();
 
 

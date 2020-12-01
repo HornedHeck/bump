@@ -12,7 +12,7 @@ namespace Tests.Controllers
 {
     public class MessagesControllerTests
     {
-        private readonly Mock<IMessageRepo> _messageRepo = new Mock<IMessageRepo>();
+        private readonly Mock<MessageRepo> _messageRepo = new Mock<MessageRepo>();
         private readonly UserManager<BumpUser> _userManager = new MockUserManager();
 
         private readonly MessageVM _message = new MessageVM

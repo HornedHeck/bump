@@ -1,6 +1,6 @@
 using System.Linq;
-using Bump.Data;
 using Data;
+using Data.Api.Local;
 using Entities;
 using Moq;
 using NUnit.Framework;

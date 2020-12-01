@@ -1,4 +1,3 @@
-using Bump.Data;
 using Entities;
 
 namespace Bump.Models

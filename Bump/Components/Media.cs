@@ -8,9 +8,9 @@ namespace Bump.Components
 {
     public class Media : ViewComponent
     {
-        private readonly IMediaRepo _repo;
+        private readonly MediaRepo _repo;
 
-        public Media(IMediaRepo repo)
+        public Media(MediaRepo repo)
         {
             _repo = repo;
         }

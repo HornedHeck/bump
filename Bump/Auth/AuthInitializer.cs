@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using static Bump.Auth.AuthConstants;
 
@@ -7,7 +9,8 @@ namespace Bump.Auth
     public class AuthInitializer
     {
         private const string AdminName = "Admin";
-        private const string AdminPassword = "Admin+1";
+        private const string AdminPassword = "AdminPassword";
+
 
         public static async Task InitializeAsync(UserManager<BumpUser> userManager,
             RoleManager<IdentityRole> roleManager)
@@ -25,7 +28,11 @@ namespace Bump.Auth
                     UserName = AdminName,
                     VisibleName = AdminName
                 };
-                var res = await userManager.CreateAsync(admin, AdminPassword);
+                var res = await userManager.CreateAsync(
+                    admin,
+                    Environment.GetEnvironmentVariable(AdminPassword)
+                );
+
                 if (res.Succeeded)
                 {
                     await userManager.AddToRolesAsync(admin, Roles);

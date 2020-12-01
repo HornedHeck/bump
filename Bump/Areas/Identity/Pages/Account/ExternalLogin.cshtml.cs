@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Bump.Auth;
 using Bump.Localization.Attributes;
 using Bump.Resources.Strings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -22,9 +17,9 @@ namespace Bump.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
+        private readonly ILogger<ExternalLoginModel> _logger;
         private readonly SignInManager<BumpUser> _signInManager;
         private readonly UserManager<BumpUser> _userManager;
-        private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
             SignInManager<BumpUser> signInManager,
@@ -36,24 +31,15 @@ namespace Bump.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public string ProviderDisplayName { get; set; }
 
         public string ReturnUrl { get; set; }
 
-        [TempData] public string ErrorMessage { get; set; }
-
-        public class InputModel
-        {
-            [LRequired]
-            [Display(ResourceType = typeof(CommonStrings), Name = "Login")]
-            public string Login { get; set; }
-
-            [Display(ResourceType = typeof(CommonStrings), Name = "VisibleName")]
-            [LRequired]
-            public string VisibleName { get; set; }
-        }
+        [TempData]
+        public string ErrorMessage { get; set; }
 
         public IActionResult OnGetAsync()
         {
@@ -63,7 +49,7 @@ namespace Bump.Areas.Identity.Pages.Account
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new {returnUrl});
+            var redirectUrl = Url.Page("./ExternalLogin", "Callback", new {returnUrl});
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
@@ -86,7 +72,7 @@ namespace Bump.Areas.Identity.Pages.Account
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey,
-                isPersistent: false, bypassTwoFactor: true);
+                false, true);
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name,
@@ -98,23 +84,19 @@ namespace Bump.Areas.Identity.Pages.Account
             {
                 return RedirectToPage("./Lockout");
             }
-            else
-            {
-                // If the user does not have an account, then ask the user to create an account.
-                ReturnUrl = returnUrl;
-                ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email) &&
-                    info.Principal.HasClaim(c => c.Type == ClaimTypes.Name))
-                {
-                    Input = new InputModel
-                    {
-                        Login = info.Principal.FindFirstValue(ClaimTypes.Email),
-                        VisibleName = info.Principal.FindFirstValue(ClaimTypes.Name)
-                    };
-                }
 
-                return Page();
-            }
+            // If the user does not have an account, then ask the user to create an account.
+            ReturnUrl = returnUrl;
+            ProviderDisplayName = info.ProviderDisplayName;
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email) &&
+                info.Principal.HasClaim(c => c.Type == ClaimTypes.Name))
+                Input = new InputModel
+                {
+                    Login = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    VisibleName = info.Principal.FindFirstValue(ClaimTypes.Name)
+                };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
@@ -151,35 +133,41 @@ namespace Bump.Areas.Identity.Pages.Account
                             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                             var callbackUrl = Url.Page(
                                 "/Account/ConfirmEmail",
-                                pageHandler: null,
-                                values: new {area = "Identity", userId = userId, code = code},
-                                protocol: Request.Scheme);
+                                null,
+                                new {area = "Identity", userId, code},
+                                Request.Scheme);
 
                             // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                             // $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                             // If account confirmation is required, we need to show the link if we don't have a real email sender
                             if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                            {
                                 return RedirectToPage("./RegisterConfirmation", new {Email = Input.Login});
-                            }
 
-                            await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                            await _signInManager.SignInAsync(user, false, info.LoginProvider);
 
                             return LocalRedirect(returnUrl);
                         }
                     }
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
             }
 
             ProviderDisplayName = info.ProviderDisplayName;
             ReturnUrl = returnUrl;
             return Page();
+        }
+
+        public class InputModel
+        {
+            [LRequired]
+            [Display(ResourceType = typeof(CommonStrings), Name = "Login")]
+            public string Login { get; set; }
+
+            [Display(ResourceType = typeof(CommonStrings), Name = "VisibleName")]
+            [LRequired]
+            public string VisibleName { get; set; }
         }
     }
 }

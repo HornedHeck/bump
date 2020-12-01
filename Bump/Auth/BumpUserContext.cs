@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Bump.Auth
 {
-    public class BumpUserContext : IdentityDbContext<BumpUser>
+    internal sealed class BumpUserContext : IdentityDbContext<BumpUser>
     {
         public BumpUserContext(DbContextOptions<BumpUserContext> options) : base(options)
         {

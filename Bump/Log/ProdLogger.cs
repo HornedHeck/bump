@@ -9,20 +9,27 @@ namespace Bump.Log
         private const string ErrorFile = "bump-errors.log";
         private const string LogsFile = "bump.log";
 
+        private static void ClearFile(string name)
+        {
+            try
+            {
+                if (File.Exists(name))
+                {
+                    File.Delete(name);
+                }
+
+                File.Create(name).Close();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
         public ProdLogger()
         {
-            if (File.Exists(ErrorFile))
-            {
-                File.Delete(ErrorFile);
-                File.Create(ErrorFile);
-            }
-
-            if (File.Exists(LogsFile))
-            {
-                File.Delete(LogsFile);
-                File.Create(LogsFile);
-            }
-            
+            ClearFile(ErrorFile);
+            ClearFile(LogsFile);
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
@@ -38,10 +45,9 @@ namespace Bump.Log
             allFile.Close();
 
             if (logLevel != LogLevel.Error) return;
-            
+
             var file = File.AppendText(ErrorFile);
             file.WriteLine(formatter(state, exception));
-            file.Flush();
             file.Close();
 
             var originalColor = Console.ForegroundColor;

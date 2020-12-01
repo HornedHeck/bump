@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bump.Auth;
-using Bump.Data;
 using Bump.Log;
 using Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -28,11 +26,11 @@ namespace Bump
                     userManager: services.GetRequiredService<UserManager<BumpUser>>(),
                     roleManager: services.GetRequiredService<RoleManager<IdentityRole>>()
                 );
-                TestInitializer.Initialize(
-                    local: services.GetService<ILocalApi>(),
-                    userManager: services.GetRequiredService<UserManager<BumpUser>>(),
-                    environment: services.GetRequiredService<IWebHostEnvironment>()
-                );
+                // TestInitializer.Initialize(
+                    // local: services.GetService<ILocalApi>(),
+                    // userManager: services.GetRequiredService<UserManager<BumpUser>>(),
+                    // environment: services.GetRequiredService<IWebHostEnvironment>()
+                // );
             }
 
             await host.RunAsync();

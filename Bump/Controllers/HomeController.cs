@@ -11,10 +11,10 @@ namespace Bump.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IThemeRepo _themeRepo;
+        private readonly ThemeRepo _themeRepo;
         private readonly UserManager<BumpUser> _userManager;
 
-        public HomeController(IThemeRepo themeRepo, UserManager<BumpUser> userManager)
+        public HomeController(ThemeRepo themeRepo, UserManager<BumpUser> userManager)
         {
             _themeRepo = themeRepo;
             _userManager = userManager;
