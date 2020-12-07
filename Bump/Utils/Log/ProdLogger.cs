@@ -57,6 +57,7 @@ namespace Bump.Log
 
             Console.ForegroundColor = originalColor;
             Console.WriteLine(formatter(state, exception));
+            Console.WriteLine(exception?.StackTrace);
         }
 
         public bool IsEnabled(LogLevel logLevel)

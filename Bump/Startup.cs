@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Bump.Localization;
+using Bump.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -81,6 +81,7 @@ namespace Bump
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<SignalRLive>("/live-updates");
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=User}/{action=Index}");

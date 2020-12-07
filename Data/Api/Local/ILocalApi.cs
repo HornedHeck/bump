@@ -3,7 +3,7 @@ using Entities;
 
 namespace Data.Api.Local
 {
-    internal interface ILocalApi
+    public interface ILocalApi
     {
         void AddUser(User user);
 

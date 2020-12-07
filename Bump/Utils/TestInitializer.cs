@@ -1,8 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Bump.Auth;
+using Data.Api.Local;
+using Entities;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+
 namespace Bump
 {
     public class TestInitializer
     {
-        /*public static void Initialize(ILocalApi local, UserManager<BumpUser> userManager,
+        public static void Initialize(ILocalApi local, UserManager<BumpUser> userManager,
             IWebHostEnvironment environment)
         {
             local.ResetDatabase();
@@ -82,6 +92,6 @@ namespace Bump
                     local.CreateMessage(message);
                 }
             }
-        }*/
+        }
     }
 }

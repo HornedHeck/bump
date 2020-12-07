@@ -7,7 +7,7 @@ namespace Data.Repo
     {
         private readonly ILocalApi _local;
 
-        internal MediaRepo(ILocalApi local)
+        public MediaRepo(ILocalApi local)
         {
             _local = local;
         }

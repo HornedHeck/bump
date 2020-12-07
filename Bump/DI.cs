@@ -1,6 +1,8 @@
 using System;
 using Bump.Auth;
+using Bump.Utils;
 using Data;
+using Data.Api.Live;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,8 @@ namespace Bump
     {
         public static void Init(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSignalR();
+            services.AddSingleton<ILiveUpdate, SignalRLive>();
             services.InitData();
             services.RegisterAuth(configuration);
             services.RegisterFileManager();
@@ -59,6 +63,5 @@ namespace Bump
         {
             services.AddSingleton<FileManager>();
         }
-
     }
 }

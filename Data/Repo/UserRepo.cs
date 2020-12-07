@@ -7,7 +7,7 @@ namespace Data.Repo
     {
         private readonly ILocalApi _local;
 
-        internal UserRepo(ILocalApi local)
+        public UserRepo(ILocalApi local)
         {
             _local = local;
         }
