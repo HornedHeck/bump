@@ -16,6 +16,7 @@ namespace Bump
         {
             services.InitData();
             services.RegisterAuth(configuration);
+            services.RegisterFileManager();
         }
 
         private static void RegisterAuth(this IServiceCollection services, IConfiguration configuration)
