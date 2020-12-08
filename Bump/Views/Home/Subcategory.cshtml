@@ -1,6 +1,15 @@
 @model SubcategoryVM
 @inject IViewLocalizer Localizer
 
+
+@section Scripts{
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/theme.js"></script>
+    <script>
+        subscribeUpdates(@Model.Id)
+    </script>
+}
+
 @{
     ViewData["Title"] = "Home Page";
 }

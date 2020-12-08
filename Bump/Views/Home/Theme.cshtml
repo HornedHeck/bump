@@ -1,10 +1,32 @@
-﻿@using Bump.Components
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@using Bump.Auth
+@using Bump.Components
+@using Microsoft.AspNetCore.Identity
+@using System.Text.Json
 @model ThemeVm
 @inject IViewLocalizer Localizer
+@inject UserManager<BumpUser> UserManager
 
 @{
     ViewData["Title"] = Model.Title;
 }
+
+@{
+     var connection = new HubConnectionBuilder().WithUrl($"https://localhost:5001/theme?t_id={Model.Id}" , options =>
+     {
+         
+     })
+         .Build();
+     connection.On("Created", async (string json) =>
+     {
+         var entity = JsonSerializer.Deserialize<Entities.Message>(json);
+         var vm = entity.ToVm(UserManager, null);
+         var component = await Component.InvokeAsync(typeof(Message), new {message = vm});
+         Console.WriteLine(component.ToString());
+     });
+
+    await connection.StartAsync();
+ }   
 
 <div class="bump-container-m">
     <div class="row">
@@ -78,7 +100,7 @@
 {
     @foreach (var message in Model.Messages.SkipLast(1))
     {
-        @await Component.InvokeAsync(typeof(Message), new {message = message})
+        @await Component.InvokeAsync(typeof(Message), new {message})
         <hr/>
     }
     @await Component.InvokeAsync(typeof(Message), new {message = Model.Messages.Last()})
@@ -88,4 +110,11 @@ else
     <div class="bump-container-m">
         <p>No messages yet</p>
     </div>
+}
+
+@section Scripts
+{
+    <script>
+ 
+    </script>
 }

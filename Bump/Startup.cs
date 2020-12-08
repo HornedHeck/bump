@@ -14,6 +14,8 @@ namespace Bump
 {
     public class Startup
     {
+        private const string CorsName = "SignalRCors";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,6 +26,12 @@ namespace Bump
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy(CorsName, builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .WithOrigins("https://localhost:5001")));
+            
             services.Init(Configuration);
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -34,7 +42,7 @@ namespace Bump
                     new CultureInfo("en"),
                     new CultureInfo("ru")
                 };
-                options.DefaultRequestCulture = new RequestCulture(culture: "en", uiCulture: "en");
+                options.DefaultRequestCulture = new RequestCulture("en", "en");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders = new List<IRequestCultureProvider>
@@ -62,6 +70,8 @@ namespace Bump
                 app.UseHsts();
             }
 
+            app.UseCors(CorsName);
+            
             var supported = new[] {"en", "ru"};
             var options = new RequestLocalizationOptions()
                 .SetDefaultCulture("en")
@@ -81,7 +91,8 @@ namespace Bump
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<SignalRLive>("/live-updates");
+                endpoints.MapHub<ThemeHub>("/subcategory");
+                endpoints.MapHub<MessageHub>("/theme");
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=User}/{action=Index}");
