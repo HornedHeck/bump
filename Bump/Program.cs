@@ -19,21 +19,6 @@ namespace Bump
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                await AuthInitializer.InitializeAsync(
-                    userManager: services.GetRequiredService<UserManager<BumpUser>>(),
-                    roleManager: services.GetRequiredService<RoleManager<IdentityRole>>()
-                );
-                TestInitializer.Initialize(
-                    local: services.GetService<ILocalApi>(),
-                    userManager: services.GetRequiredService<UserManager<BumpUser>>(),
-                    environment: services.GetRequiredService<IWebHostEnvironment>()
-                );
-            }
-
             await host.RunAsync();
         }
 

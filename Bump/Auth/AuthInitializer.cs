@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using static Bump.Auth.AuthConstants;
 
 namespace Bump.Auth
@@ -13,13 +14,13 @@ namespace Bump.Auth
 
 
         public static async Task InitializeAsync(UserManager<BumpUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager , IConfiguration configuration)
         {
             await ConfigureRoles(roleManager);
-            await ConfigureAdmin(userManager);
+            await ConfigureAdmin(userManager , configuration);
         }
 
-        private static async Task ConfigureAdmin(UserManager<BumpUser> userManager)
+        private static async Task ConfigureAdmin(UserManager<BumpUser> userManager , IConfiguration configuration)
         {
             if (await userManager.FindByNameAsync(AdminName) == null)
             {
@@ -30,7 +31,7 @@ namespace Bump.Auth
                 };
                 var res = await userManager.CreateAsync(
                     admin,
-                    Environment.GetEnvironmentVariable(AdminPassword)
+                    configuration[AdminPassword]
                 );
 
                 if (res.Succeeded)

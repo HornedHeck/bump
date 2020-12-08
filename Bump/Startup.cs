@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
+using Bump.Auth;
 using Bump.Localization;
 using Bump.Utils;
+using Data.Api.Local;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
@@ -58,7 +62,7 @@ namespace Bump
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -89,6 +93,20 @@ namespace Bump
             app.UseAuthentication();
             app.UseAuthorization();
 
+            using( var scope = app.ApplicationServices.CreateScope() ) {
+                await AuthInitializer.InitializeAsync(
+                    userManager: scope.ServiceProvider.GetRequiredService<UserManager<BumpUser>>(),
+                    roleManager:  scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(),
+                    configuration: Configuration
+                );
+                TestInitializer.Initialize(
+                    local: scope.ServiceProvider.GetService<ILocalApi>(),
+                    userManager:  scope.ServiceProvider.GetRequiredService<UserManager<BumpUser>>(),
+                    environment: env
+                );
+            }
+
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ThemeHub>("/subcategory");
