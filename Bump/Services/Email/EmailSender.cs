@@ -28,7 +28,7 @@ namespace Bump.Services.Email
             };
             email.To.Add(MailboxAddress.Parse(to));
             using var smtp = new SmtpClient();
-            await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls);
+            await smtp.ConnectAsync(_settings.Host, _settings.Port, false);
             await smtp.AuthenticateAsync(_settings.Mail, _settings.Password);
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);

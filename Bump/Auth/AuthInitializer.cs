@@ -31,7 +31,9 @@ namespace Bump.Auth
                 };
                 var res = await userManager.CreateAsync(
                     admin,
-                    configuration[AdminPassword]
+                    //TODO secrets
+                    // configuration[AdminPassword]
+                    "Admin+1"
                 );
 
                 if (res.Succeeded)
