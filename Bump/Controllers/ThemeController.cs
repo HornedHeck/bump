@@ -5,12 +5,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Bump.Models;
+using Bump.Services;
 using Data.Repo;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace Bump.Controllers
 {
@@ -58,6 +61,7 @@ namespace Bump.Controllers
                     subcategory: vm.Subcategory
                 );
                 _repo.CreateTheme(entity);
+                vm.Id = entity.Id;
             });
         }
 

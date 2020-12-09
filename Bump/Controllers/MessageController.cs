@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
 using Bump.Models;
+using Bump.Services;
 using Data.Repo;
 using Entities;
 using Microsoft.AspNetCore.Authorization;

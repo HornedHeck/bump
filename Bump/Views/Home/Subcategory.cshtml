@@ -7,7 +7,7 @@
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
     <script>
     const connection = new signalR.HubConnectionBuilder().withUrl(
-            "/subcategory?t_id=" + @Model.Id
+            "/subcategory?s_id=" + @Model.Id
         ).build();
         
         connection.on("Created" , function(name , link) {

@@ -1,3 +1,4 @@
+using Bump.Services;
 using Entities;
 
 namespace Bump.Models

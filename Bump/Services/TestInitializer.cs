@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bump.Auth;
+using Bump.Services;
 using Data.Api.Local;
 using Entities;
 using Microsoft.AspNetCore.Hosting;

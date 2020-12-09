@@ -41,7 +41,7 @@ namespace Bump.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Theme(int themeId)
+        public async Task<IActionResult> Theme(long themeId)
         {
             var entity = _themeRepo.GetTheme(themeId);
             return View(await entity.ToVm(_userManager));

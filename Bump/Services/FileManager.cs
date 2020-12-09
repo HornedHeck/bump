@@ -7,7 +7,7 @@ using Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace Bump
+namespace Bump.Services
 {
     public class FileManager
     {

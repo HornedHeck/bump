@@ -1,6 +1,7 @@
 using System;
 using Bump.Auth;
 using Bump.Features.LiveUpdate;
+using Bump.Services;
 using Bump.Services.Email;
 using Bump.Utils;
 using Data;
@@ -21,7 +22,7 @@ namespace Bump
             services.AddSignalR();
             services.AddSingleton<ILiveUpdate, SignalRLive>();
             services.InitData();
-            services.AddSingleton<EmailSender>();
+            services.AddTransient<EmailSender>();
             services.RegisterAuth(configuration);
             services.RegisterFileManager();
         }
@@ -64,7 +65,7 @@ namespace Bump
 
         private static void RegisterFileManager(this IServiceCollection services)
         {
-            services.AddSingleton<FileManager>();
+            services.AddScoped<FileManager>();
         }
     }
 }
