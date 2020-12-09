@@ -24,11 +24,11 @@ namespace Bump
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(builder =>
-                {
-                    builder.ClearProviders();
-                    builder.AddProvider(new LoggerProvider());
-                })
+                // .ConfigureLogging(builder =>
+                // {
+                    // builder.ClearProviders();
+                    // builder.AddProvider(new LoggerProvider());
+                // })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "levLKRgAnz6efccR/p6tt5zT4rGR7yGamLlJwPcgqvNNPkJSsRLdUU0JOQ8Ra5wDPYx0QBdYJ/XL5eEq3CvXMw==",
+  "dgSpecHash": "6xcg940ZHfk6MxbpYakRVaa9s/IiOIRiSIEdHVZqsSpAiClEEd6cjGhMnwBpN7cpqcUbB89HlMsMo4zNO796DQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\Common.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/hornedheck/RiderProjects/bump/Common/Common.csproj",
+  "expectedPackageFiles": [
+    "/home/hornedheck/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.8/microsoft.aspnetcore.app.ref.3.1.8.nupkg.sha512"
+  ],
   "logs": []
 }

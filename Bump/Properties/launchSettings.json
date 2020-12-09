@@ -13,8 +13,7 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "AdminPassword": "Admin+1"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Bump-prod": {
@@ -22,8 +21,7 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production",
-        "AdminPassword" : "AN32a+9ASD*#%RGasSFA_l"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     }
   }

@@ -2,11 +2,27 @@
 @inject IViewLocalizer Localizer
 
 
-@section Scripts{
+@section Scripts
+{
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/theme.js"></script>
     <script>
-        subscribeUpdates(@Model.Id)
+    const connection = new signalR.HubConnectionBuilder().withUrl(
+            "/subcategory?t_id=" + @Model.Id
+        ).build();
+        
+        connection.on("Created" , function(name , link) {
+          $("#themes").append(
+              `<a style="height: 100px; margin-left: 30px" href="${link}">
+                <div>${name}</div>
+              </a>`
+          );
+        })
+    
+        connection.start().then(function () {
+            console.log("Started");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
     </script>
 }
 
@@ -18,9 +34,11 @@
     <input type="hidden" name="subcategory" value="@Model.Id">
     <button type="submit" class="btn btn-outline-primary">@Localizer["Add"]</button>
 </form>
-@foreach (var item in Model.Themes)
-{
-    <a style="height: 100px; margin-left: 30px" href="@Url.Action("Theme", "Home", new {themeId = item.Id})">
-        <div>@item.Name</div>
-    </a>
-}
+<div id="themes">
+    @foreach (var item in Model.Themes)
+    {
+        <a style="height: 100px; margin-left: 30px" href="@Url.Action("Theme", "Home", new {themeId = item.Id})">
+            <div>@item.Name</div>
+        </a>
+    }
+</div>

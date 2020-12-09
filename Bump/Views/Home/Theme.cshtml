@@ -1,8 +1,6 @@
-﻿@using Microsoft.AspNetCore.SignalR.Client
-@using Bump.Auth
+﻿@using Bump.Auth
 @using Bump.Components
 @using Microsoft.AspNetCore.Identity
-@using System.Text.Json
 @model ThemeVm
 @inject IViewLocalizer Localizer
 @inject UserManager<BumpUser> UserManager
@@ -11,22 +9,32 @@
     ViewData["Title"] = Model.Title;
 }
 
-@{
-     var connection = new HubConnectionBuilder().WithUrl($"https://localhost:5001/theme?t_id={Model.Id}" , options =>
-     {
-         
-     })
-         .Build();
-     connection.On("Created", async (string json) =>
-     {
-         var entity = JsonSerializer.Deserialize<Entities.Message>(json);
-         var vm = entity.ToVm(UserManager, null);
-         var component = await Component.InvokeAsync(typeof(Message), new {message = vm});
-         Console.WriteLine(component.ToString());
-     });
-
-    await connection.StartAsync();
- }   
+@section Scripts
+{
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script>
+    const connection = new signalR.HubConnectionBuilder().withUrl(
+            "/theme?t_id=" + @Model.Id
+        ).build();
+        
+        connection.on("Created" , function(messageId) {
+          $.ajax({
+                url: window.location.origin + "/Components/Message?messageId="+messageId,
+                type: "post",
+                complete: function (result) {
+                    console.log(result.responseText);
+                     $("#messages").prepend(result.responseText + "<hr/>");            
+                }
+          });
+        })
+    
+        connection.start().then(function () {
+            console.log("Started");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+    </script>
+}
 
 <div class="bump-container-m">
     <div class="row">
@@ -98,23 +106,18 @@
 <hr/>
 @if (Model.Messages.Count > 0)
 {
-    @foreach (var message in Model.Messages.SkipLast(1))
-    {
-        @await Component.InvokeAsync(typeof(Message), new {message})
-        <hr/>
-    }
-    @await Component.InvokeAsync(typeof(Message), new {message = Model.Messages.Last()})
+    <div id="messages">
+        @foreach (var message in Model.Messages.SkipLast(1))
+        {
+            @await Component.InvokeAsync(typeof(Message), new {message})
+            <hr/>
+        }
+        @await Component.InvokeAsync(typeof(Message), new {message = Model.Messages.Last()})
+    </div>
 }
 else
 {
     <div class="bump-container-m">
         <p>No messages yet</p>
     </div>
-}
-
-@section Scripts
-{
-    <script>
- 
-    </script>
 }

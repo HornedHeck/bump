@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Bump.Auth;
+using Bump.Features.LiveUpdate;
 using Bump.Localization;
 using Bump.Utils;
 using Data.Api.Local;
@@ -92,7 +93,7 @@ namespace Bump
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             using( var scope = app.ApplicationServices.CreateScope() ) {
                 await AuthInitializer.InitializeAsync(
                     userManager: scope.ServiceProvider.GetRequiredService<UserManager<BumpUser>>(),
@@ -106,7 +107,6 @@ namespace Bump
                 );
             }
 
-            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ThemeHub>("/subcategory");

@@ -1,5 +1,6 @@
 using System;
 using Bump.Auth;
+using Bump.Features.LiveUpdate;
 using Bump.Utils;
 using Data;
 using Data.Api.Live;
