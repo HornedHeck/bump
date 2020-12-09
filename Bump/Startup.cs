@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bump.Auth;
 using Bump.Features.LiveUpdate;
 using Bump.Localization;
+using Bump.Services.Email;
 using Bump.Utils;
 using Data.Api.Local;
 using Microsoft.AspNetCore.Builder;
@@ -36,9 +37,12 @@ namespace Bump
                 .AllowAnyMethod()
                 .AllowCredentials()
                 .WithOrigins("https://localhost:5001")));
-            
+
+            services.Configure<EmailSettings>(Configuration.GetSection(EmailSettings.SectionName));
+
             services.Init(Configuration);
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -76,7 +80,7 @@ namespace Bump
             }
 
             app.UseCors(CorsName);
-            
+
             var supported = new[] {"en", "ru"};
             var options = new RequestLocalizationOptions()
                 .SetDefaultCulture("en")
@@ -93,16 +97,17 @@ namespace Bump
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
-            using( var scope = app.ApplicationServices.CreateScope() ) {
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
                 await AuthInitializer.InitializeAsync(
                     userManager: scope.ServiceProvider.GetRequiredService<UserManager<BumpUser>>(),
-                    roleManager:  scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(),
+                    roleManager: scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(),
                     configuration: Configuration
                 );
                 TestInitializer.Initialize(
                     local: scope.ServiceProvider.GetService<ILocalApi>(),
-                    userManager:  scope.ServiceProvider.GetRequiredService<UserManager<BumpUser>>(),
+                    userManager: scope.ServiceProvider.GetRequiredService<UserManager<BumpUser>>(),
                     environment: env
                 );
             }

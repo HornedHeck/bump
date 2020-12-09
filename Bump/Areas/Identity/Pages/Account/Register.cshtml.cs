@@ -7,6 +7,7 @@ using Bump.Auth;
 using Bump.Localization.Attributes;
 using Bump.Localization.Errors;
 using Bump.Resources.Strings;
+using Bump.Services.Email;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -25,21 +26,23 @@ namespace Bump.Areas.Identity.Pages.Account
         private readonly UserManager<BumpUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IStringLocalizer<CommonErrors> _localizer;
+        private readonly EmailSender _email;
 
         public RegisterModel(
             UserManager<BumpUser> userManager,
             SignInManager<BumpUser> signInManager,
             ILogger<RegisterModel> logger,
-            IStringLocalizer<CommonErrors> localizer
-        )
+            IStringLocalizer<CommonErrors> localizer, EmailSender email)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _localizer = localizer;
+            _email = email;
         }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -50,6 +53,10 @@ namespace Bump.Areas.Identity.Pages.Account
             [LRequired]
             [Display(ResourceType = typeof(CommonStrings), Name = "Login")]
             public string Login { get; set; }
+
+            [LRequired]
+            [Display(ResourceType = typeof(CommonStrings), Name = "Email")]
+            public string Email { get; set; }
 
             [LRequired]
             [Display(ResourceType = typeof(CommonStrings), Name = "VisibleName")]
@@ -79,7 +86,12 @@ namespace Bump.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new BumpUser {UserName = Input.Login, VisibleName = Input.VisibleName};
+                var user = new BumpUser
+                {
+                    UserName = Input.Login,
+                    VisibleName = Input.VisibleName,
+                    Email = Input.Email
+                };
                 IdentityResult result;
                 try
                 {
@@ -107,21 +119,23 @@ namespace Bump.Areas.Identity.Pages.Account
                         values: new {area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl},
                         protocol: Request.Scheme);
 
+
+                    await _email.SendWelcomeEmail(user.Email, callbackUrl);
                     // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                     // $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new {email = Input.Login, returnUrl = returnUrl});
-                    }
+                    // if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    // {
+                    return RedirectToPage("RegisterConfirmation", new {email = Input.Email, returnUrl = returnUrl});
+                    // }
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
+                    // return LocalRedirect(returnUrl);
                 }
 
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, _localizer[error.Code]);
+                    ModelState.AddModelError(string.Empty, _localizer[error.Code ?? error.Description]);
                 }
             }
 

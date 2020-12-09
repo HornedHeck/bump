@@ -122,5 +122,11 @@ namespace Bump.Resources.Strings {
                 return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
+        
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
     }
 }

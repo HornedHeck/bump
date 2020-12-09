@@ -50,4 +50,7 @@
     <data name="Delete" xml:space="preserve">
         <value>Удалить</value>
     </data>
+    <data name="Email" xml:space="preserve">
+        <value>Email</value>
+    </data>
 </root>

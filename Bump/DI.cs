@@ -1,6 +1,7 @@
 using System;
 using Bump.Auth;
 using Bump.Features.LiveUpdate;
+using Bump.Services.Email;
 using Bump.Utils;
 using Data;
 using Data.Api.Live;
@@ -20,6 +21,7 @@ namespace Bump
             services.AddSignalR();
             services.AddSingleton<ILiveUpdate, SignalRLive>();
             services.InitData();
+            services.AddSingleton<EmailSender>();
             services.RegisterAuth(configuration);
             services.RegisterFileManager();
         }
