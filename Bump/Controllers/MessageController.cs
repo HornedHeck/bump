@@ -58,7 +58,7 @@ namespace Bump.Controllers {
         [ActionName( "UpdateMessage" )]
         [Authorize]
         [HttpPost]
-        public async Task< IActionResult > UpdatePost( MessageVM vm , IFormFile uploadingMedia , long? deleteMedia ) {
+        public async Task< IActionResult > UpdatePost( MessageVm vm , IFormFile uploadingMedia , long? deleteMedia ) {
             return await UpdateMessage(
                 vm ,
                 uploadingMedia ,
@@ -70,7 +70,7 @@ namespace Bump.Controllers {
         [Authorize]
         [HttpGet]
         public IActionResult CreateMessage( long themeId ) {
-            var vm = new MessageVM {
+            var vm = new MessageVm {
                 Method = "CreateMessage" ,
                 Content = "" ,
                 Theme = themeId ,
@@ -84,7 +84,7 @@ namespace Bump.Controllers {
         [ActionName( "CreateMessage" )]
         [HttpPost]
         public async Task< IActionResult > CreatePost(
-            MessageVM vm ,
+            MessageVm vm ,
             IFormFile uploadingMedia = null ,
             long? deleteMedia = null
         ) {
@@ -103,10 +103,10 @@ namespace Bump.Controllers {
         }
 
         private async Task< IActionResult > UpdateMessage(
-            MessageVM vm ,
+            MessageVm vm ,
             IFormFile uploadingMedia ,
             long? deleteMedia ,
-            Action< MessageVM > consumer
+            Action< MessageVm > consumer
         ) {
             vm.Media ??= new List< long >();
 

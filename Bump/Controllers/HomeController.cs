@@ -29,7 +29,7 @@ namespace Bump.Controllers {
         }
 
         public IActionResult Subcategory( long subcategory ) {
-            return View( new SubcategoryVM {
+            return View( new SubcategoryVm {
                 Id = subcategory ,
                 Themes = _themeRepo.GetThemes( subcategory )
             } );
@@ -44,7 +44,7 @@ namespace Bump.Controllers {
 
         [ResponseCache( Duration = 0 , Location = ResponseCacheLocation.None , NoStore = true )]
         public IActionResult Error() {
-            return View( new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier} );
+            return View( new ErrorVM {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier} );
         }
 
     }

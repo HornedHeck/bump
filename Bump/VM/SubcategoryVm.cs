@@ -3,7 +3,7 @@ using Entities;
 
 namespace Bump.VM {
 
-    public class SubcategoryVM {
+    public class SubcategoryVm {
 
         public long Id { get; set; }
 

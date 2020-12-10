@@ -1,32 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Bump.Auth;
 using Data.Api.Local;
 using Entities;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 
-namespace Bump.Services {
+namespace Tests.Data.Api {
 
     public static class TestInitializer {
 
-        public static void Initialize( ILocalApi local , UserManager< BumpUser > userManager ,
-            IWebHostEnvironment environment ) {
-            local.ResetDatabase();
-            if( Directory.Exists( environment.WebRootPath + "/files" ) ) {
-                Directory.Delete( environment.WebRootPath + "/files" , true );
-            }
+        internal static void InitDbContent( ILocalApi local ) {
 
-            InitDbContent( local , userManager , environment );
-        }
-
-        private static void InitDbContent( ILocalApi local , UserManager< BumpUser > userManager ,
-            IWebHostEnvironment environment ) {
-            var users = userManager.Users
-                .Select( it => new User( it.Id ) )
-                .ToList();
+            var users = new List< User > {
+                new User( "1" ) ,
+                new User( "2" ) ,
+                new User( "3" )
+            };
 
             users.ForEach( local.AddUser );
             var random = new Random();
@@ -61,13 +48,6 @@ namespace Bump.Services {
                         Name = "doc.png"
                     };
                     local.AddMedia( media );
-                    var dir = environment.WebRootPath + FileManager.GetFolder( media );
-                    if( !Directory.Exists( dir ) ) {
-                        Directory.CreateDirectory( dir );
-                    }
-
-                    File.Copy( environment.WebRootPath + "/doc.png" ,
-                        environment.WebRootPath + FileManager.GetPath( media ) );
 
                     var message = new Message(
                         0 ,

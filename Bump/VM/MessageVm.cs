@@ -8,7 +8,7 @@ using Entities;
 
 namespace Bump.VM {
 
-    public class MessageVM {
+    public class MessageVm {
 
         public int Id { get; set; }
 

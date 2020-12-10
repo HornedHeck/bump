@@ -34,7 +34,7 @@ namespace Bump.Controllers {
             var roles = _roleManager.Roles.ToList();
             var userRoles = ( await _userManager.GetRolesAsync( user ) ).ToImmutableHashSet();
 
-            var model = new UserRolesViewModel {
+            var model = new UserRolesVM {
                 Name = user.UserName ,
                 Roles = roles ,
                 EnabledRoles = userRoles ,

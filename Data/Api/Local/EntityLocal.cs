@@ -30,16 +30,7 @@ namespace Data.Api.Local {
 
         public EntityLocal( string filename , bool isTest = true ) {
             _filename = filename;
-        }
-
-        public void ResetDatabase() {
-            Messages.RemoveRange( Messages );
-            Themes.RemoveRange( Themes );
-            Users.RemoveRange( Users );
-            Subcategories.RemoveRange( Subcategories );
-            Categories.RemoveRange( Categories );
-            Media.RemoveRange( Media );
-            SaveChanges();
+            Database.EnsureCreated();
         }
 
         public void AddUser( User user ) {
@@ -47,7 +38,7 @@ namespace Data.Api.Local {
         }
 
         public Media GetMedia( long id ) {
-            return Media.Find( id ).Map();
+            return Media.Find( id )?.Map();
         }
 
         public void AddMedia( Media media ) {
@@ -58,6 +49,7 @@ namespace Data.Api.Local {
 
         public void RemoveMedia( long id ) {
             Media.Find( id )?.Run( it => Media.Remove( it ) );
+            SaveChanges();
         }
 
         public Theme GetTheme( long id ) {
@@ -119,6 +111,7 @@ namespace Data.Api.Local {
 
         public void UpdateTheme( long theme , string title , string content , IEnumerable< long > media ) {
             Themes.Find( theme )?.Also( it => {
+                it.Title = title;
                 it.Content = content;
                 it.Media = media.Select( id => Media.Find( id ) ).ToList();
                 SaveChanges();
@@ -142,10 +135,11 @@ namespace Data.Api.Local {
             Messages.Find( message )?.Also( item => {
                 if( item.Votes == null )
                     item.Votes = new List< LVote > {vote.Map()};
-                else
+                else if( item.Votes.All( v => v.UserId != vote.UserId ) ) {
                     item.Votes.Add( vote.Map() );
-            } );
+                }
 
+            } );
             SaveChanges();
         }
 
@@ -167,5 +161,7 @@ namespace Data.Api.Local {
 
         // ReSharper restore MemberCanBePrivate.Global
         // ReSharper restore UnusedAutoPropertyAccessor.Global
+
     }
+
 }

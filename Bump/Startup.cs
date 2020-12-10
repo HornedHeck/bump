@@ -96,11 +96,6 @@ namespace Bump {
                     scope.ServiceProvider.GetRequiredService< RoleManager< IdentityRole > >() ,
                     Configuration
                 );
-                TestInitializer.Initialize(
-                    scope.ServiceProvider.GetService< ILocalApi >() ,
-                    scope.ServiceProvider.GetRequiredService< UserManager< BumpUser > >() ,
-                    env
-                );
             }
 
             app.UseEndpoints( endpoints => {

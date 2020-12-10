@@ -6,7 +6,7 @@ namespace Bump.Components {
 
     public class Message : ViewComponent {
 
-        public IViewComponentResult Invoke( MessageVM message ) {
+        public IViewComponentResult Invoke( MessageVm message ) {
             if( User?.Identity?.Name == message.Author.UserName ) {
                 return View( "Owner" , message );
             }

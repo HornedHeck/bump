@@ -25,7 +25,7 @@ namespace Bump.VM {
         [Display( ResourceType = typeof( CommonStrings ) , Name = "Title" )]
         public string Title { get; set; }
 
-        public List< MessageVM > Messages { get; set; }
+        public List< MessageVm > Messages { get; set; }
 
         public ThemeSubcategory Subcategory { get; set; }
 

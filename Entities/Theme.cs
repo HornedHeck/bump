@@ -1,21 +1,21 @@
 using System;
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace Entities
-{
-    public class Theme
-    {
-        public Theme(long id,
-            User author,
-            string name,
-            string content,
-            Message[] messages,
-            long[] media,
-            DateTime creationTime,
+namespace Entities {
+
+    public class Theme {
+
+        public Theme( long id ,
+            User author ,
+            string name ,
+            string content ,
+            Message[] messages ,
+            long[] media ,
+            DateTime creationTime ,
             ThemeSubcategory subcategory
-        )
-        {
+        ) {
             Id = id;
             Author = author;
             Name = name;
@@ -25,6 +25,8 @@ namespace Entities
             CreationTime = creationTime;
             Subcategory = subcategory;
         }
+
+        public Theme() { }
 
         public long Id { get; set; }
 
@@ -41,5 +43,7 @@ namespace Entities
         public DateTime CreationTime { get; set; }
 
         public ThemeSubcategory Subcategory { get; set; }
+
     }
+
 }

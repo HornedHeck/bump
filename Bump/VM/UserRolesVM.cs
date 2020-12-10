@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Bump.VM {
 
-    public class UserRolesViewModel {
+    public class UserRolesVM {
 
         public List< IdentityRole > Roles { get; set; }
 

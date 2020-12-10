@@ -36,8 +36,6 @@ namespace Data.Api.Local
 
         Message GetMessage(int id);
 
-        void ResetDatabase();
-
         void VoteUp(int message, Vote vote);
 
         public void UpdateTheme(long theme, string title, string content, IEnumerable<long> media);
