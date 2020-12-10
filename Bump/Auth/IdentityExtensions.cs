@@ -10,15 +10,13 @@ namespace Bump.Auth {
 
     public static class IdentityExtensions {
 
-        public static string VisibleName( this IIdentity identity ) {
-            return ( (ClaimsIdentity) identity ).FindFirst( ClaimTypes.GivenName )?.Value
-                   ?? identity.Name
-                   ?? string.Empty;
-        }
+        public static string VisibleName( this IIdentity identity ) =>
+            ( identity as ClaimsIdentity )?.FindFirst( ClaimTypes.GivenName )?.Value
+            ?? identity.Name
+            ?? string.Empty;
 
-        public static async Task< string > GetVisibleNameAsync( this UserManager< BumpUser > userManager , BumpUser user ) {
-            return ( await userManager.FindByIdAsync( user.Id ) ).VisibleName;
-        }
+        public static async Task< string > GetVisibleNameAsync( this UserManager< BumpUser > userManager , BumpUser user ) =>
+            ( await userManager.FindByIdAsync( user.Id ) ).VisibleName;
 
         public static async Task< IdentityResult > SetVisibleNameAsync(
             this UserManager< BumpUser > userManager ,
@@ -34,9 +32,8 @@ namespace Bump.Auth {
             return await userManager.AddClaimAsync( user , newClaim );
         }
 
-        public static IActionResult AccessDenied( this PageModel subject ) {
-            return subject.RedirectToPage( "/Account/AccessDenied" );
-        }
+        public static IActionResult AccessDenied( this PageModel subject ) =>
+            subject.RedirectToPage( "/Account/AccessDenied" );
 
     }
 

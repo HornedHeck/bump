@@ -11,13 +11,13 @@ namespace Tests.Utils
     public class MockSignInManager : SignInManager<BumpUser>
     {
         public MockSignInManager(UserManager<BumpUser> userManager) : base(
-            userManager: userManager,
-            contextAccessor: new HttpContextAccessor(),
-            claimsFactory: new Mock<IUserClaimsPrincipalFactory<BumpUser>>().Object,
-            optionsAccessor: new Mock<IOptions<IdentityOptions>>().Object,
-            logger: new Mock<ILogger<SignInManager<BumpUser>>>().Object,
-            schemes: new Mock<IAuthenticationSchemeProvider>().Object,
-            confirmation: new Mock<IUserConfirmation<BumpUser>>().Object
+            userManager,
+            new HttpContextAccessor(),
+            new Mock<IUserClaimsPrincipalFactory<BumpUser>>().Object,
+            new Mock<IOptions<IdentityOptions>>().Object,
+            new Mock<ILogger<SignInManager<BumpUser>>>().Object,
+            new Mock<IAuthenticationSchemeProvider>().Object,
+            new Mock<IUserConfirmation<BumpUser>>().Object
         )
         {
         }

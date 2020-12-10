@@ -3,7 +3,7 @@ using Entities;
 using NUnit.Framework;
 using static Common.Extensions;
 
-namespace Tests {
+namespace Tests.Common {
 
     public class ExtensionTest {
 
@@ -30,6 +30,16 @@ namespace Tests {
                 .Also( it => { it.Content = newContent; } );
 
             Assert.AreEqual( message.Content , newContent );
+        }
+
+        [Test]
+        public void DateFormatTest() {
+            var Date = new DateTime( 2020 , 01 , 01 , 01 , 10 , 10 );
+            const string Pattern = "{0} {1}";
+
+            var res = Date.Format( Pattern );
+            
+            Assert.AreEqual( "01.01.2020 1:10" , res );
         }
 
     }

@@ -20,9 +20,13 @@ namespace Bump {
             services.AddSignalR();
             services.AddSingleton< ILiveUpdate , SignalRLive >();
             services.InitData();
-            services.AddTransient< EmailSender >();
+            services.RegisterEmail();
             services.RegisterAuth( configuration );
             services.RegisterFileManager();
+        }
+
+        private static void RegisterEmail( this IServiceCollection services ) {
+            services.AddTransient< EmailSender >();
         }
 
         private static void RegisterAuth( this IServiceCollection services , IConfiguration configuration ) {

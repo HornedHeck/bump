@@ -24,7 +24,7 @@ namespace Entities
         
         public int Id { get; set; }
 
-        public User Author { get; }
+        public User Author { get; set; }
         
         public string Content { get; set; }
 

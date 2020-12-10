@@ -3,8 +3,7 @@ using Entities;
 
 namespace Data.Repo
 {
-    public class MediaRepo
-    {
+    public class MediaRepo : IMediaRepo {
         private readonly ILocalApi _local;
 
         public MediaRepo(ILocalApi local)

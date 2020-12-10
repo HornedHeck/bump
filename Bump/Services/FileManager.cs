@@ -25,13 +25,13 @@ namespace Bump.Services {
             "ico"
         };
 
-        private readonly MediaRepo _repo;
+        private readonly IMediaRepo _repo;
 
         private readonly IWebHostEnvironment _environment;
 
         private const string Prefix = "/files/";
 
-        public FileManager( MediaRepo repo , IWebHostEnvironment environment ) {
+        public FileManager( IMediaRepo repo , IWebHostEnvironment environment ) {
             _repo = repo;
             _environment = environment;
         }

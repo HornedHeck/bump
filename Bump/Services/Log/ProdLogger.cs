@@ -6,8 +6,8 @@ namespace Bump.Services.Log {
 
     public class ProdLogger : ILogger {
 
-        private const string ErrorFile = "bump-errors.log";
-        private const string LogsFile = "bump.log";
+        public const string ErrorFile = "bump-errors.log";
+        public const string LogsFile = "bump.log";
 
         private static void ClearFile( string name ) {
             try {
@@ -29,6 +29,7 @@ namespace Bump.Services.Log {
 
         public void Log< TState >( LogLevel logLevel , EventId eventId , TState state , Exception exception ,
             Func< TState , Exception , string > formatter ) {
+            
             if( !IsEnabled( logLevel ) ) {
                 return;
             }
