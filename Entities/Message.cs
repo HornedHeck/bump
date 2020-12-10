@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace Entities
 {

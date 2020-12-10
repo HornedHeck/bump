@@ -1,30 +1,27 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Bump.Auth;
-using Bump.Models;
 using Bump.Services;
+using Bump.VM;
 using Data.Repo;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting.Internal;
 
-namespace Bump.Controllers
-{
-    public class ThemeController : Controller
-    {
-        private readonly ThemeRepo _repo;
+namespace Bump.Controllers {
+
+    public class ThemeController : Controller {
+
         private readonly FileManager _fileManager;
-        private readonly UserManager<BumpUser> _userManager;
 
-        public ThemeController(ThemeRepo repo, FileManager fileManager, UserManager<BumpUser> userManager)
-        {
+        private readonly ThemeRepo _repo;
+        private readonly UserManager< BumpUser > _userManager;
+
+        public ThemeController( ThemeRepo repo , FileManager fileManager , UserManager< BumpUser > userManager ) {
             _repo = repo;
             _fileManager = fileManager;
             _userManager = userManager;
@@ -32,83 +29,79 @@ namespace Bump.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult CreateTheme(long subcategory)
-        {
-            var model = new ThemeVm
-            {
-                Subcategory = new ThemeSubcategory {Id = subcategory},
-                Media = new List<long>(),
+        public IActionResult CreateTheme( long subcategory ) {
+            var model = new ThemeVm {
+                Subcategory = new ThemeSubcategory {Id = subcategory} ,
+                Media = new List< long >() ,
                 Method = "CreateTheme"
             };
-            return View("Theme", model);
+
+            return View( "Theme" , model );
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateTheme(ThemeVm vm, IFormFile uploadingMedia, long? deleteMedia = null)
-        {
-            return await UpdateTheme(vm, uploadingMedia, deleteMedia, theme =>
-            {
-                var author = new User(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        public async Task< IActionResult > CreateTheme( ThemeVm vm , IFormFile uploadingMedia , long? deleteMedia = null ) {
+            return await UpdateTheme( vm , uploadingMedia , deleteMedia , theme => {
+                var author = new User( HttpContext.User.FindFirstValue( ClaimTypes.NameIdentifier ) );
                 var entity = new Theme(
-                    id: 0,
-                    author: author,
-                    name: vm.Title,
-                    content: vm.Content,
-                    messages: new Message[0],
-                    media: vm.Media.ToArray(),
-                    creationTime: DateTime.Now,
-                    subcategory: vm.Subcategory
+                    0 ,
+                    author ,
+                    vm.Title ,
+                    vm.Content ,
+                    new Message[0] ,
+                    vm.Media.ToArray() ,
+                    DateTime.Now ,
+                    vm.Subcategory
                 );
-                _repo.CreateTheme(entity);
+                _repo.CreateTheme( entity );
                 vm.Id = entity.Id;
-            });
+            } );
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> EditTheme(long themeId)
-        {
-            var entity = _repo.GetTheme(themeId);
-            var vm = await entity.ToVm(_userManager);
+        public async Task< IActionResult > EditTheme( long themeId ) {
+            var entity = _repo.GetTheme( themeId );
+            var vm = await entity.ToVm( _userManager );
             vm.Method = "EditTheme";
-            return View("Theme", vm);
+
+            return View( "Theme" , vm );
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> EditTheme(ThemeVm vm, IFormFile uploadingMedia, long? deleteMedia = null)
-        {
-            return await UpdateTheme(vm, uploadingMedia, deleteMedia,
-                theme => { _repo.UpdateTheme(vm.Id, vm.Title, vm.Content,  vm.Media); });
+        public async Task< IActionResult > EditTheme( ThemeVm vm , IFormFile uploadingMedia , long? deleteMedia = null ) {
+            return await UpdateTheme( vm , uploadingMedia , deleteMedia ,
+                theme => { _repo.UpdateTheme( vm.Id , vm.Title , vm.Content , vm.Media ); } );
         }
 
-        private async Task<IActionResult> UpdateTheme(ThemeVm vm, IFormFile uploadingMedia, long? deleteMedia,
-            Action<ThemeVm> consumer)
-        {
-            vm.Media ??= new List<long>();
+        private async Task< IActionResult > UpdateTheme( ThemeVm vm , IFormFile uploadingMedia , long? deleteMedia ,
+            Action< ThemeVm > consumer ) {
+            vm.Media ??= new List< long >();
 
-            if (uploadingMedia != null)
-            {
-                var mediaId = await _fileManager.SaveFile(uploadingMedia);
-                vm.Media.Add(mediaId);
-                return View("Theme", vm);
+            if( uploadingMedia != null ) {
+                var mediaId = await _fileManager.SaveFile( uploadingMedia );
+                vm.Media.Add( mediaId );
+
+                return View( "Theme" , vm );
             }
 
-            if (deleteMedia != null)
-            {
-                _fileManager.RemoveMedia((long) deleteMedia);
-                vm.Media.Remove((long) deleteMedia);
-                return View("Theme", vm);
+            if( deleteMedia != null ) {
+                _fileManager.RemoveMedia( (long) deleteMedia );
+                vm.Media.Remove( (long) deleteMedia );
+
+                return View( "Theme" , vm );
             }
 
-            if (ModelState.IsValid)
-            {
-                consumer(vm);
-                return RedirectToAction("Theme", "Home", new {themeId = vm.Id});
-            }
+            if( !ModelState.IsValid ) return View( "Theme" , vm );
 
-            return View("Theme", vm);
+            consumer( vm );
+
+            return RedirectToAction( "Theme" , "Home" , new {themeId = vm.Id} );
+
         }
+
     }
+
 }

@@ -1,18 +1,17 @@
-@model UserRolesViewModel
+@model Bump.VM.UserRolesViewModel
 
 <h4>Изменение ролей для пользователя @Model.Name</h4>
 <hr/>
 <form asp-action="UserRoles" method="post">
     <input type="hidden" name="id" value="@Model.UserId"/>
     <div style="margin-left: 20px">
-        @foreach (var role in Model.Roles)
-        {
+        @foreach( var role in Model.Roles ) {
             <div class="custom-control custom-checkbox">
                 <input
                     type="radio"
                     name="roles"
                     value="@role.Name"
-                    @(Model.EnabledRoles.Contains(role.Name) ? "checked=\"checked\"" : "")
+                    @( Model.EnabledRoles.Contains( role.Name ) ? "checked=\"checked\"" : "" )
                     class="custom-control-input"
                     id="@role.Id">
                 <label class="custom-control-label" for="@role.Id">@role.Name</label>

@@ -1,7 +1,7 @@
-@using Bump.Components
 @using System.Security.Claims
-@using Microsoft.AspNetCore.Mvc.Localization
-@model MessageVM
+@using Common
+@using Bump.Components
+@model Bump.VM.MessageVM
 @inject IViewLocalizer Localizer
 
 <div id="@Model.Id" class="row bump-container-s">
@@ -14,11 +14,10 @@
     <div class="col-md-10">
         <p>@Model.Content</p>
         <div style="margin-top: 10px; margin-left: 5px" class="row">
-            @foreach (var media in Model.Media)
-            {
+            @foreach( var media in Model.Media ) {
                 <div class="image-column">
                     <div style="height: 100%; width: auto; border: 1px #ccc;">
-                        @await Component.InvokeAsync(typeof(Media), new {id = media})
+                        @await Component.InvokeAsync( typeof( Media ) , new {id = media} )
                     </div>
                 </div>
             }
@@ -27,13 +26,12 @@
 </div>
 <div class="row bump-container-m">
     <div>
-        @Localizer["Votes"] @Model.Votes.Count
+        @Localizer[ "Votes" ] @Model.Votes.Count
     </div>
-    @if (!Model.Votes.Select(it => it.UserId).Contains(User.FindFirstValue(ClaimTypes.NameIdentifier)))
-    {
-        <input type="image" src="/add.png" style="margin: auto 4px;height: 20px; width: 20px" alt="" onclick="VoteMessage(@Model.Id , '@Url.Action("VoteMessage", "Message")')">
+    @if( !Model.Votes.Select( it => it.UserId ).Contains( User.FindFirstValue( ClaimTypes.NameIdentifier ) ) ) {
+        <input type="image" src="/add.png" style="margin: auto 4px;height: 20px; width: 20px" alt="" onclick="VoteMessage(@Model.Id , '@Url.Action( "VoteMessage" , "Message" )')">
     }
     <div style="margin-left: auto">
-        @Model.CreationTime.Format(Localizer["Created"].Value)
+        @Model.CreationTime.Format( Localizer [ "Created" ].Value )
     </div>
 </div>

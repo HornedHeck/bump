@@ -1,4 +1,4 @@
-@model SubcategoryVM
+@model Bump.VM.SubcategoryVM
 @inject IViewLocalizer Localizer
 
 
@@ -27,17 +27,16 @@
 }
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData [ "Title" ] = "Home Page";
 }
 
 <form asp-controller="Theme" method="get" asp-action="CreateTheme">
     <input type="hidden" name="subcategory" value="@Model.Id">
-    <button type="submit" class="btn btn-outline-primary">@Localizer["Add"]</button>
+    <button type="submit" class="btn btn-outline-primary">@Localizer[ "Add" ]</button>
 </form>
 <div id="themes">
-    @foreach (var item in Model.Themes)
-    {
-        <a style="height: 100px; margin-left: 30px" href="@Url.Action("Theme", "Home", new {themeId = item.Id})">
+    @foreach( var item in Model.Themes ) {
+        <a style="height: 100px; margin-left: 30px" href="@Url.Action( "Theme" , "Home" , new {themeId = item.Id} )">
             <div>@item.Name</div>
         </a>
     }

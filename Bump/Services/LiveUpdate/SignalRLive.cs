@@ -1,17 +1,15 @@
-using Bump.Utils;
 using Data.Api.Live;
 using Entities;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Bump.Features.LiveUpdate
-{
-    public class SignalRLive : ILiveUpdate
-    {
+namespace Bump.Services.LiveUpdate {
+
+    public class SignalRLive : ILiveUpdate {
+
         public SignalRLive(
-            IHubContext<ThemeHub> themeContext,
-            IHubContext<MessageHub> messageContext
-        )
-        {
+            IHubContext< ThemeHub > themeContext ,
+            IHubContext< MessageHub > messageContext
+        ) {
             ThemeClients = themeContext.Clients;
             MessageClients = messageContext.Clients;
         }
@@ -20,19 +18,18 @@ namespace Bump.Features.LiveUpdate
 
         private IHubClients MessageClients { get; }
 
-        public void NotifyThemeCreated(Theme theme)
-        {
+        public void NotifyThemeCreated( Theme theme ) {
             ThemeClients
-                .Group(ThemeHub.GetThemeGroup(theme.Subcategory.Id))
-                .SendAsync("Created" , theme.Id.ToString());
+                .Group( ThemeHub.GetThemeGroup( theme.Subcategory.Id ) )
+                .SendAsync( "Created" , theme.Id.ToString() );
         }
 
-        public void NotifyMessageCreated(Message message)
-        {
+        public void NotifyMessageCreated( Message message ) {
             MessageClients
-                .Group(MessageHub.GetMessageGroup(message.Theme))
-                .SendAsync("Created", message.Id.ToString());
+                .Group( MessageHub.GetMessageGroup( message.Theme ) )
+                .SendAsync( "Created" , message.Id.ToString() );
         }
 
     }
+
 }

@@ -1,7 +1,5 @@
-namespace Bump.Localization.Strings
-{
-    public class CommonStrings
-    {
-        
-    }
+namespace Bump.Localization.Strings {
+
+    public class CommonStrings { }
+
 }

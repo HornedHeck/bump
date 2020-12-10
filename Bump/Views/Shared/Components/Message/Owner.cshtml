@@ -1,7 +1,6 @@
-@using Microsoft.Extensions.Localization
 @using Bump.Localization
-@model Bump.Models.MessageVM
-@inject IStringLocalizer<Shared> Localizer
+@model Bump.VM.MessageVM
+@inject IStringLocalizer< Shared > Localizer
 
 @{
     Layout = "Components/Message/BaseMessage";
@@ -9,9 +8,9 @@
 
 <form method="get" asp-controller="Message" asp-action="UpdateMessage">
     <div class="bump-container-xs">
-        <button class="btn btn-outline-primary btn-sm" type="submit" name="id" value="@Model.Id">@Localizer["Edit"]</button>
+        <button class="btn btn-outline-primary btn-sm" type="submit" name="id" value="@Model.Id">@Localizer[ "Edit" ]</button>
     </div>
 </form>
 <div class="bump-container-xs">
-    <button class="btn btn-outline-danger btn-sm" onclick="deleteMessage(@Model.Id , '@Url.Action("DeleteMessage", "Message")')">@Localizer["Delete"]</button>
+    <button class="btn btn-outline-danger btn-sm" onclick="deleteMessage(@Model.Id , '@Url.Action( "DeleteMessage" , "Message" )')">@Localizer[ "Delete" ]</button>
 </div>

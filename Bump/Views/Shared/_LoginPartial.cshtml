@@ -1,28 +1,26 @@
 @using Microsoft.AspNetCore.Identity
 @using Bump.Auth
-@inject SignInManager<BumpUser> SignInManager
-@inject UserManager<BumpUser> UserManager
+@inject SignInManager< BumpUser > SignInManager
+@inject UserManager< BumpUser > UserManager
 @inject IViewLocalizer Localizer
 @* ReSharper disable Mvc.AreaNotResolved *@
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
+    @if( SignInManager.IsSignedIn( User ) ) {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["Hello"] @User.Identity.VisibleName()!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer[ "Hello" ] @User.Identity.VisibleName()!</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
-                <button type="submit" class="nav-link btn btn-link text-dark">@Strings["Logout"]</button>
+                <button type="submit" class="nav-link btn btn-link text-dark">@Strings[ "Logout" ]</button>
             </form>
         </li>
     }
-    else
-    {
+    else {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@Strings["RegisterTitle"]</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@Strings[ "RegisterTitle" ]</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@Strings["LoginTitle"]</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@Strings[ "LoginTitle" ]</a>
         </li>
     }
 </ul>

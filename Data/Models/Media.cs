@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Data.Models
 {

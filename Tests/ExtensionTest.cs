@@ -1,7 +1,6 @@
-using Bump;
 using Entities;
 using NUnit.Framework;
-using static Bump.Extensions;
+using static Common.Extensions;
 
 namespace Tests
 {

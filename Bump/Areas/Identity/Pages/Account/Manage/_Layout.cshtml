@@ -1,25 +1,22 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
+﻿@inject IViewLocalizer Localizer
 
 @{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
-    {
-        Layout = (string)parentLayout;
+    if( ViewData.TryGetValue( "ParentLayout" , out var parentLayout ) ) {
+        Layout = (string) parentLayout;
     }
-    else
-    {
+    else {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 }
 
-<h2>@Localizer["Title"]</h2>
+<h2>@Localizer[ "Title" ]</h2>
 
 <div>
-    <h4>@Localizer["Description"]</h4>
-    <hr />
+    <h4>@Localizer[ "Description" ]</h4>
+    <hr/>
     <div class="row">
         <div class="col-md-3">
-            <partial name="_ManageNav" />
+            <partial name="_ManageNav"/>
         </div>
         <div class="col-md-9">
             @RenderBody()
@@ -28,5 +25,5 @@
 </div>
 
 @section Scripts {
-    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync( "Scripts" , false )
 }

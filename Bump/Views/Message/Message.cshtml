@@ -1,5 +1,5 @@
 @using Bump.Components
-@model MessageVM
+@model Bump.VM.MessageVM
 
 <script>
 
@@ -21,22 +21,21 @@
 <div>
     <form id="message_form" method="post" enctype="multipart/form-data" asp-controller="Message" asp-action="@Model.Method">
         <div class="form-group">
-            <label asp-for="Content"></label><br/>
-            <input asp-for="Content" value="@Model.Content" class="form-control"/>
-            <span class="text-danger" asp-validation-for="Content"></span>
+            <label asp-for="Content "></label><br/>
+            <input asp-for="Content " value="@Model.Content" class="form-control"/>
+            <span class="text-danger" asp-validation-for="Content "></span>
         </div>
-        <input type="hidden" asp-for="Theme">
-        <input type="hidden" asp-for="Id">
-        <input type="hidden" asp-for="Method">
+        <input type="hidden" asp-for="Theme ">
+        <input type="hidden" asp-for="Id ">
+        <input type="hidden" asp-for="Method ">
 
         <div style="margin-top: 10px; margin-left: 5px" class="row">
-            @foreach (var media in Model.Media)
-            {
+            @foreach( var media in Model.Media ) {
                 <div style="position: relative">
                     <input type="hidden" name="Media" value="@media">
                     <div class="image-column">
                         <div style="height: 100%; width: auto; border: 1px #ccc;">
-                            @await Component.InvokeAsync(typeof(Media), new {id = media})
+                            @await Component.InvokeAsync( typeof( Media ) , new {id = media} )
                         </div>
                     </div>
                     <button
@@ -49,8 +48,7 @@
                     </button>
                 </div>
             }
-            @if (Model.Media.Count < 10)
-            {
+            @if( Model.Media.Count < 10 ) {
                 <div class="col-md-1">
                     <div class="centered_cont">
                         <div class="upload-button">
@@ -63,7 +61,7 @@
         </div>
 
         <div style="margin-top: 10px">
-            <button name="action" class="btn btn-primary" type="submit" value="submit">@Strings["Submit"]</button>
+            <button name="action" class="btn btn-primary" type="submit" value="submit">@Strings[ "Submit" ]</button>
         </div>
 
     </form>

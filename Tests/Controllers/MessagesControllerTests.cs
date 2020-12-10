@@ -1,6 +1,6 @@
 using Bump.Auth;
 using Bump.Controllers;
-using Bump.Models;
+using Bump.VM;
 using Data.Repo;
 using Entities;
 using Microsoft.AspNetCore.Identity;

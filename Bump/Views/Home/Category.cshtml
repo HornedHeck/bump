@@ -1,12 +1,11 @@
-@model List<Entities.ThemeSubcategory>
+@model List< Entities.ThemeSubcategory >
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData [ "Title" ] = "Home Page";
 }
 
-@foreach (var item in Model)
-{
-    <a style="height: 100px; margin-left: 30px" href="@Url.Action("Subcategory", "Home", new {subcategory = item.Id})">
+@foreach( var item in Model ) {
+    <a style="height: 100px; margin-left: 30px" href="@Url.Action( "Subcategory" , "Home" , new {subcategory = item.Id} )">
         <div>@item.Name</div>
     </a>
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+// ReSharper disable UnusedMember.Global
 
 namespace Data.Models
 {

@@ -1,25 +1,24 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.Localization
 @model PersonalDataModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer["Title"];
-    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+    ViewData [ "Title" ] = Localizer [ "Title" ];
+    ViewData [ "ActivePage" ] = ManageNavPages.PersonalData;
 }
 
-<h4>@ViewData["Title"]</h4>
+<h4>@ViewData[ "Title" ]</h4>
 
 <div class="row">
     <div class="col-md-6">
-        <p>@Localizer["Details"]</p>
+        <p>@Localizer[ "Details" ]</p>
         <p>
-            <strong>@Localizer["Disclaimer"]</strong>
+            <strong>@Localizer[ "Disclaimer" ]</strong>
         </p>
         <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-primary" type="submit">@Localizer["Download"]</button>
+            <button class="btn btn-primary" type="submit">@Localizer[ "Download" ]</button>
         </form>
         <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">@Localizer["Delete"]</a>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">@Localizer[ "Delete" ]</a>
         </p>
     </div>
 </div>

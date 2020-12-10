@@ -13,14 +13,14 @@ namespace Data.Mappers
         internal static Theme Map(this LTheme item)
         {
             return new Theme(
-                id: item.Id,
-                author: item.Author.Map(),
-                name: item.Title,
-                content: item.Content,
-                messages: item.Messages.Map().OrderBy(it => it.CreationTime).Reverse().ToArray(),
-                media: item.Media.Select(it => it.Id).ToArray(),
-                creationTime: item.CreationTime,
-                subcategory: item.Subcategory.Map()
+                item.Id,
+                item.Author.Map(),
+                item.Title,
+                item.Content,
+                item.Messages.Map().OrderBy(it => it.CreationTime).Reverse().ToArray(),
+                item.Media.Select(it => it.Id).ToArray(),
+                item.CreationTime,
+                item.Subcategory.Map()
             );
         }
 
@@ -36,7 +36,7 @@ namespace Data.Mappers
                 Title = entity.Name,
                 Subcategory = subcategory,
                 CreationTime = entity.CreationTime,
-                Media = entity.Media.Select(it => mediaSet.Find(it)).ToList(),
+                Media = entity.Media.Select(it => mediaSet.Find(it)).ToList()
             };
             theme.Messages = entity.Messages.Map(theme, mediaSet).ToList();
             return theme;

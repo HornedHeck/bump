@@ -1,12 +1,13 @@
 ﻿@using Bump.Auth
 @using Bump.Components
+@using Common
 @using Microsoft.AspNetCore.Identity
-@model ThemeVm
+@model Bump.VM.ThemeVm
 @inject IViewLocalizer Localizer
-@inject UserManager<BumpUser> UserManager
+@inject UserManager< BumpUser > UserManager
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData [ "Title" ] = Model.Title;
 }
 
 @section Scripts
@@ -48,7 +49,7 @@
                     type="submit"
                     name="themeId"
                     value="@Model.Id">
-                    @Strings["Edit"]
+                    @Strings[ "Edit" ]
                 </button>
             </form>
         </centered-vertical>
@@ -61,28 +62,27 @@
         <p>@Model.Content</p>
     </div>
     <div class="row">
-        @foreach (var media in Model.Media)
-        {
+        @foreach( var media in Model.Media ) {
             <input type="hidden" name="Media" value="@media">
             <div class="image-column">
                 <div style="height: 100%; width: auto; border: 1px #ccc;">
-                    @await Component.InvokeAsync(typeof(Media), new {id = media})
+                    @await Component.InvokeAsync( typeof( Media ) , new {id = media} )
                 </div>
             </div>
         }
     </div>
     <div class="row">
         <div>
-            @Localizer["Participants"] @Model.Messages.Select(it => it.Author.Id).Distinct().Count()
+            @Localizer[ "Participants" ] @Model.Messages.Select( it => it.Author.Id ).Distinct().Count()
         </div>
         <div style="width: max-content; margin-left: auto">
-            @Model.StartTime.Format(Localizer["Started"].Value)
+            @Model.StartTime.Format( Localizer [ "Started" ].Value )
         </div>
     </div>
 </div>
 <hr/>
 <div class="bump-container-m row">
-    <h4>@Localizer["Discussion"]</h4>
+    <h4>@Localizer[ "Discussion" ]</h4>
     <form
         style="margin-left: auto; margin-right: 10px"
         method="get"
@@ -104,19 +104,16 @@
     </form>
 </div>
 <hr/>
-@if (Model.Messages.Count > 0)
-{
+@if( Model.Messages.Count > 0 ) {
     <div id="messages">
-        @foreach (var message in Model.Messages.SkipLast(1))
-        {
-            @await Component.InvokeAsync(typeof(Message), new {message})
+        @foreach( var message in Model.Messages.SkipLast( 1 ) ) {
+            @await Component.InvokeAsync( typeof( Message ) , new {message} )
             <hr/>
         }
-        @await Component.InvokeAsync(typeof(Message), new {message = Model.Messages.Last()})
+        @await Component.InvokeAsync( typeof( Message ) , new {message = Model.Messages.Last()} )
     </div>
 }
-else
-{
+else {
     <div class="bump-container-m">
         <p>No messages yet</p>
     </div>

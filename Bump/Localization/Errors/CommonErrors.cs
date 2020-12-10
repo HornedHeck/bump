@@ -1,7 +1,5 @@
-namespace Bump.Localization.Errors
-{
-    public class CommonErrors
-    {
-        
-    }
+namespace Bump.Localization.Errors {
+
+    public class CommonErrors { }
+
 }

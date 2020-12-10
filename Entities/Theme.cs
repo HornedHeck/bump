@@ -1,5 +1,6 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Entities
 {
@@ -40,7 +41,5 @@ namespace Entities
         public DateTime CreationTime { get; set; }
 
         public ThemeSubcategory Subcategory { get; set; }
-
-        public ThemeCategory Category => Subcategory?.Category;
     }
 }

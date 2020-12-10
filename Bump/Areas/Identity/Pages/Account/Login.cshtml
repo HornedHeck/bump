@@ -3,44 +3,44 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = Localizer["Title"];
+    ViewData [ "Title" ] = Localizer [ "Title" ];
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData[ "Title" ]</h1>
 <div class="row">
     <div class="col-md-6">
         <section>
             <form id="account" method="post">
-                <h4>@Localizer["Local"]</h4>
+                <h4>@Localizer[ "Local" ]</h4>
                 <hr/>
-                <div asp-validation-summary="All" class="text-danger"></div>
+                <div asp-validation-summary="All " class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.Login"></label>
-                    <input asp-for="Input.Login" class="form-control"/>
-                    <span asp-validation-for="Input.Login" class="text-danger"></span>
+                    <label asp-for="Input.Login "></label>
+                    <input asp-for="Input.Login " class="form-control"/>
+                    <span asp-validation-for="Input.Login " class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control"/>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <label asp-for="Input.Password "></label>
+                    <input asp-for="Input.Password " class="form-control"/>
+                    <span asp-validation-for="Input.Password " class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe"/>
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        <label asp-for="Input.RememberMe ">
+                            <input asp-for="Input.RememberMe "/>
+                            @Html.DisplayNameFor( m => m.Input.RememberMe )
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">@Strings["Login"]</button>
+                    <button type="submit" class="btn btn-primary">@Strings[ "Login" ]</button>
                 </div>
                 <div class="form-group">
                     <p>
-                        <a id="forgot-password" @*asp-page="./ForgotPassword"*@>@Localizer["ForgotPassword"]</a>
+                        <a id="forgot-password" @*asp-page="./ForgotPassword"*@>@Localizer[ "ForgotPassword" ]</a>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["RegisterPrompt"]</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer[ "RegisterPrompt" ]</a>
                     </p>
                 </div>
             </form>
@@ -48,19 +48,15 @@
     </div>
     <div class="col-md-6">
         <section>
-            <h4>@Strings["ExternalProviderLogin"]</h4>
+            <h4>@Strings[ "ExternalProviderLogin" ]</h4>
             <hr/>
             @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                }
-                else
-                {
+                if( ( Model.ExternalLogins?.Count ?? 0 ) == 0 ) { }
+                else {
                     <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
+                                @foreach( var provider in Model.ExternalLogins ) {
                                     <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                                 }
                             </p>

@@ -1,7 +1,5 @@
-namespace Bump.Localization.Messages
-{
-    public class Identity
-    {
-        
-    }
+namespace Bump.Localization.Messages {
+
+    public class Identity { }
+
 }

@@ -1,12 +1,11 @@
-@using Microsoft.Extensions.Localization
 @using Bump.Localization
-@model Bump.Models.MessageVM
-@inject IStringLocalizer<Shared> Localizer
+@model Bump.VM.MessageVM
+@inject IStringLocalizer< Shared > Localizer
 
 @{
     Layout = "Components/Message/BaseMessage";
 }
 
 <div class="bump-container-xs">
-    <button class="btn btn-outline-danger btn-sm" onclick="deleteMessage(@Model.Id , '@Url.Action("DeleteMessage", "Message")')">@Localizer["Delete"]</button>
+    <button class="btn btn-outline-danger btn-sm" onclick="deleteMessage(@Model.Id , '@Url.Action( "DeleteMessage" , "Message" )')">@Localizer[ "Delete" ]</button>
 </div>

@@ -1,24 +1,13 @@
-using Bump.Services;
-using Entities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace Bump.Models
-{
-    public class MediaVm
-    {
+namespace Bump.VM {
+
+    public class MediaVm {
+
         public string Name { get; set; }
 
         public string Path { get; set; }
+
     }
 
-    public static class MediaVmMapper
-    {
-        public static MediaVm ToVm(this Media entity)
-        {
-            return new MediaVm
-            {
-                Name = entity.Name,
-                Path = FileManager.GetPath(entity),
-            };
-        }
-    }
 }

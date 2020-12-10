@@ -1,11 +1,8 @@
-using System.Linq;
-using Data;
 using Data.Api.Local;
 using Entities;
-using Moq;
 using NUnit.Framework;
 
-namespace Tests.data
+namespace Tests.Data
 {
     public class LocalApiTests
     {

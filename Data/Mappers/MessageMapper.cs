@@ -14,13 +14,13 @@ namespace Data.Mappers
         internal static Message Map(this LMessage item)
         {
             return new Message(
-                id: item.Id,
-                author: item.Author.Map(),
-                content: item.Content,
-                media: item.Media.Select(it => it.Id).ToArray(),
-                theme: item.Theme.Id,
-                creationTime: item.CreationTime,
-                votes: item.Votes?.Map()?.ToList() ?? new List<Vote>()
+                item.Id,
+                item.Author.Map(),
+                item.Content,
+                item.Media.Select(it => it.Id).ToArray(),
+                item.Theme.Id,
+                item.CreationTime,
+                item.Votes?.Map()?.ToList() ?? new List<Vote>()
             );
         }
 

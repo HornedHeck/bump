@@ -16,7 +16,6 @@ namespace Data
         private static void RegisterRepos(this IServiceCollection services)
         {
             services.AddSingleton<ThemeRepo>();
-            services.AddSingleton<UserRepo>();
             services.AddSingleton<MediaRepo>();
             services.AddSingleton<MessageRepo>();
         }

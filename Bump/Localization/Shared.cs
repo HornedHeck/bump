@@ -1,6 +1,5 @@
-namespace Bump.Localization
-{
-    public class Shared
-    {
-    }
+namespace Bump.Localization {
+
+    public class Shared { }
+
 }
