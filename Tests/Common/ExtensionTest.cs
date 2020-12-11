@@ -39,7 +39,7 @@ namespace Tests.Common {
 
             var res = Date.Format( Pattern );
             
-            Assert.AreEqual( "01.01.2020 1:10" , res );
+            Assert.AreEqual( "01.01.2020 01:10" , res );
         }
 
     }

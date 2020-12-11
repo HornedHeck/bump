@@ -1,0 +1,18 @@
+@model Bump.VM.AdminSubcategoriesVm
+
+@{
+    ViewBag.Title = Strings["Subcategories"];
+    Layout = "_Layout";
+}
+
+<h2>@Strings["Subcategories"]</h2>
+<form asp-controller="Admin" method="post" asp-action="Subcategory">
+    <input type="text" name="name" value="">
+    <input type="hidden" name="category" value="@Model.Category">
+    <button type="submit" class="btn btn-outline-primary">@Strings["Add"]</button>
+</form>
+@foreach( var item in Model.Subcategories ) {
+    <a style="height: 100px; margin-left: 30px" href="@Url.Action( "Subcategory" , "Home" , new {subcategory = item.Id} )">
+        <div>@item.Name</div>
+    </a>
+}

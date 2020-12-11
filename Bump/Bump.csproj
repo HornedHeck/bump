@@ -195,6 +195,10 @@
       <LastGenOutput>Subcategory.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Update="Resources\Views\Home\AdminNavigation.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AdminNavigation.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Views\Home\Theme.ru.Designer.cs">
@@ -373,6 +377,11 @@
       <DependentUpon>Subcategory.resx</DependentUpon>
     </Compile>
     <Compile Remove="Migrations\**" />
+    <Compile Update="Resources\Views\Home\AdminNavigation.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AdminNavigatio.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\Localization\Auth\CommonErrors.resx" />

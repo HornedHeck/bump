@@ -53,4 +53,19 @@
     <data name="Email" xml:space="preserve">
         <value>Email</value>
     </data>
+    <data name="Categories" xml:space="preserve">
+        <value>Категории</value>
+    </data>
+    <data name="Subcategories" xml:space="preserve">
+        <value>Подгатегории</value>
+    </data>
+    <data name="Roles" xml:space="preserve">
+        <value>Роли</value>
+    </data>
+    <data name="Actions" xml:space="preserve">
+        <value>Действия</value>
+    </data>
+    <data name="Add" xml:space="preserve">
+        <value>Добавить</value>
+    </data>
 </root>

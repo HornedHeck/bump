@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Common;
 using Data.Api.Live;
 using Data.Api.Local;
 using Entities;
@@ -21,6 +23,29 @@ namespace Data.Repo
         public List<Theme> GetThemes(long subcategory) => _local.GetThemes(subcategory);
 
         public List<ThemeCategory> GetCategories() => _local.GetCategories();
+
+        public void CreateCategory(string name)
+        {
+            if (_local.GetCategories().All(c => c.Name != name))
+            {
+                _local.AddCategory(new ThemeCategory {Name = name});
+            }
+        }
+
+        public void CreateSubcategory(string name, int categoryId) =>
+            _local.GetCategories().FirstOrDefault(it => it.Id == categoryId)?.Also(
+                category =>
+                {
+                    if (_local.GetSubcategories(categoryId).All(s => s.Name != name))
+                    {
+                        _local.AddSubcategory(new ThemeSubcategory
+                        {
+                            Category = category,
+                            Name = name
+                        });
+                    }
+                }
+            );
 
         public List<ThemeSubcategory> GetSubcategories(long category) => _local.GetSubcategories(category);
 

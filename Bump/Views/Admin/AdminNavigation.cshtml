@@ -1,0 +1,18 @@
+@inject IViewLocalizer Localizer
+
+@{
+    ViewBag.Title = Strings["Actions"];
+    Layout = "_Layout";
+}
+
+<h2>@Strings["Actions"]</h2>
+
+<hr/>
+<a style="height: 100px; margin-left: 30px" href="@Url.Action("Categories", "Admin")">
+    <div>@Strings["Categories"]</div>
+</a>
+<hr/>
+<a style="height: 100px; margin-left: 30px" href="@Url.Action("Users", "Roles")">
+    <div>@Strings["Roles"]</div>
+</a>
+<hr/>

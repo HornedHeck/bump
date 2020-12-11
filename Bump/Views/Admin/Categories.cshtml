@@ -1,0 +1,18 @@
+@model List<Entities.ThemeCategory>
+@{
+    ViewBag.Title = Strings["Categories"];
+    Layout = "_Layout";
+}
+
+<h2>@Strings["Categories"]</h2>
+<form asp-controller="Admin" method="post" asp-action="Category">
+    <input type="text" name="name" value="">
+    <button type="submit" class="btn btn-outline-primary">@Strings["Add"]</button>
+</form>
+
+@foreach (var item in Model)
+{
+    <a style="height: 100px; margin-left: 30px" href="@Url.Action("Subcategories", "Admin", new {category = item.Id})">
+        <div>@item.Name</div>
+    </a>
+}

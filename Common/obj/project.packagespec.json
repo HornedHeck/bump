@@ -1,14 +1,11 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\Common.csproj",
+    "projectUniqueName": "/home/hornedheck/RiderProjects/Bump/Common/Common.csproj",
     "projectName": "Common",
-    "projectPath": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\Common.csproj",
-    "outputPath": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\obj\\",
+    "projectPath": "/home/hornedheck/RiderProjects/Bump/Common/Common.csproj",
+    "outputPath": "/home/hornedheck/RiderProjects/Bump/Common/obj/",
     "projectStyle": "PackageReference",
-    "fallbackFolders": [
-      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-    ],
     "originalTargetFrameworks": [
       "netcoreapp3.1"
     ],
@@ -38,12 +35,18 @@
       ],
       "assetTargetFallback": true,
       "warn": true,
+      "downloadDependencies": [
+        {
+          "name": "Microsoft.AspNetCore.App.Ref",
+          "version": "[3.1.8, 3.1.8]"
+        }
+      ],
       "frameworkReferences": {
         "Microsoft.NETCore.App": {
           "privateAssets": "all"
         }
       },
-      "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.404\\RuntimeIdentifierGraph.json"
+      "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.402/RuntimeIdentifierGraph.json"
     }
   }
 }

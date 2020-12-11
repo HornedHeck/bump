@@ -60,4 +60,19 @@
     <data name="Email" xml:space="preserve">
         <value />
     </data>
+    <data name="Categories" xml:space="preserve">
+        <value />
+    </data>
+    <data name="Subcategories" xml:space="preserve">
+        <value />
+    </data>
+    <data name="Roles" xml:space="preserve">
+        <value />
+    </data>
+    <data name="Add" xml:space="preserve">
+        <value />
+    </data>
+    <data name="Actions" xml:space="preserve">
+        <value />
+    </data>
 </root>

@@ -8,23 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\holit\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/hornedheck/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\Common.csproj",
+      "projectUniqueName": "/home/hornedheck/RiderProjects/Bump/Common/Common.csproj",
       "projectName": "Common",
-      "projectPath": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\Common.csproj",
-      "packagesPath": "C:\\Users\\holit\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\holit\\RiderProjects\\bump\\Common\\obj\\",
+      "projectPath": "/home/hornedheck/RiderProjects/Bump/Common/Common.csproj",
+      "packagesPath": "/home/hornedheck/.nuget/packages/",
+      "outputPath": "/home/hornedheck/RiderProjects/Bump/Common/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\holit\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/hornedheck/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -55,12 +51,18 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.8, 3.1.8]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.404\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.402/RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -8,8 +8,9 @@
 //------------------------------------------------------------------------------
 
 namespace Bump.Resources.Localization.Strings {
-
-
+    using System;
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -125,6 +126,36 @@ namespace Bump.Resources.Localization.Strings {
         public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        public static string Categories {
+            get {
+                return ResourceManager.GetString("Categories", resourceCulture);
+            }
+        }
+        
+        public static string Subcategories {
+            get {
+                return ResourceManager.GetString("Subcategories", resourceCulture);
+            }
+        }
+        
+        public static string Roles {
+            get {
+                return ResourceManager.GetString("Roles", resourceCulture);
+            }
+        }
+        
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
             }
         }
     }
