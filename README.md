@@ -10,3 +10,5 @@ Bump admins and moderators has an ability to:
 - Delete suspicious and extremely offensive files and media
 
 For mode development info see [docs](Docs)
+
+https://bump-app.azurewebsites.net/Home
