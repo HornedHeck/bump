@@ -39,5 +39,8 @@ namespace Data.Api.Local
         void VoteUp(int message, Vote vote);
 
         public void UpdateTheme(long theme, string title, string content, IEnumerable<long> media);
+
+        public List<Theme> SearchThemes(string query);
+
     }
 }

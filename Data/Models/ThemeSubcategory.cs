@@ -13,6 +13,6 @@ namespace Data.Models
         [MinLength(3)]
         public string Name { get; set; }
 
-        public ThemeCategory Category { get; set; }
+        public virtual ThemeCategory Category { get; set; }
     }
 }

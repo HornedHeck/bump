@@ -68,4 +68,10 @@
     <data name="Actions" xml:space="preserve">
         <value>Actions</value>
     </data>
+    <data name="Search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="SearchHint" xml:space="preserve">
+        <value>Input theme title part</value>
+    </data>
 </root>

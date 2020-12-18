@@ -35,7 +35,6 @@ namespace Bump.Controllers {
                 Media = new List< long >() ,
                 Method = "CreateTheme"
             };
-
             return View( "Theme" , model );
         }
 
@@ -43,7 +42,7 @@ namespace Bump.Controllers {
         [HttpPost]
         public async Task< IActionResult > CreateTheme( ThemeVm vm , IFormFile uploadingMedia , long? deleteMedia = null ) {
             return await UpdateTheme( vm , uploadingMedia , deleteMedia , theme => {
-                var author = new User( HttpContext.User.FindFirstValue( ClaimTypes.NameIdentifier ) );
+                var author = new User( HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value );
                 var entity = new Theme(
                     0 ,
                     author ,

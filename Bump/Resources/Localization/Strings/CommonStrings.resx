@@ -75,4 +75,10 @@
     <data name="Actions" xml:space="preserve">
         <value />
     </data>
+    <data name="Search" xml:space="preserve">
+        <value />
+    </data>
+    <data name="SearchHint" xml:space="preserve">
+        <value />
+    </data>
 </root>

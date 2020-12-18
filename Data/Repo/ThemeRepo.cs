@@ -57,5 +57,8 @@ namespace Data.Repo
 
         public void UpdateTheme(long theme, string title, string content, IEnumerable<long> media) =>
             _local.UpdateTheme(theme, title, content, media);
+
+        public List<Theme> SearchThemes(string query) => _local.SearchThemes(query);
+
     }
 }

@@ -68,4 +68,10 @@
     <data name="Add" xml:space="preserve">
         <value>Добавить</value>
     </data>
+    <data name="Search" xml:space="preserve">
+        <value>Поиск</value>
+    </data>
+    <data name="SearchHint" xml:space="preserve">
+        <value>Введите название темы</value>
+    </data>
 </root>

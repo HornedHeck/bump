@@ -17,16 +17,15 @@ namespace Data.Models
 
         [Required]
         public string Content { get; set; }
-
-        [Required]
-        public BumpUser Author { get; set; }
-
-        public List<Message> Messages { get; set; }
         
-        public List<Media> Media { get; set; }
+        public virtual BumpUser Author { get; set; }
+        
+        public virtual List<Message> Messages { get; set; }
+        
+        public virtual List<Media> Media { get; set; }
         
         [Required]
-        public ThemeSubcategory Subcategory { get; set; }
+        public virtual ThemeSubcategory Subcategory { get; set; }
         
         [Required]
         public DateTime CreationTime { get; set; }

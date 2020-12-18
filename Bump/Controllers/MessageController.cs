@@ -91,7 +91,7 @@ namespace Bump.Controllers {
             return await UpdateMessage( vm , uploadingMedia , deleteMedia , message => {
                 var entity = new Message(
                     0 ,
-                    new User( HttpContext.User.FindFirstValue( ClaimTypes.NameIdentifier ) ) ,
+                    new User( HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value ) ,
                     message.Content ,
                     message.Media.ToArray() ,
                     message.Theme ,

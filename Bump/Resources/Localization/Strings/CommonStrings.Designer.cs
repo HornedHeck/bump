@@ -158,5 +158,17 @@ namespace Bump.Resources.Localization.Strings {
                 return ResourceManager.GetString("Actions", resourceCulture);
             }
         }
+        
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        public static string SearchHint {
+            get {
+                return ResourceManager.GetString("SearchHint", resourceCulture);
+            }
+        }
     }
 }
